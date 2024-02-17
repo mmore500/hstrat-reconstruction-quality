@@ -77,10 +77,13 @@ python3 -m venv "${VENV}"
 source "${VENV}/bin/activate"
 
 ################################################################################
-# Install dependencies
+echo Install dependencies
 ################################################################################
 python3 -m pip install "papermill==2.5.0" "ipykernel==6.23.3" "jupyter==1.0.0" "notebook==6.4.10" "ipywidgets==7.8.1"
 
+################################################################################
+echo Set up parameters and environment
+################################################################################
 export annotation_size_bits="{{annotation_size_bits}}"
 export differentia_width_bits="{{differentia_width_bits}}"
 export stratum_retention_algo="{{stratum_retention_algo}}"
@@ -99,4 +102,13 @@ echo "NAME ${NAME}"
 
 mkdir -p "${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/"
 
+################################################################################
+echo Run experiment
+################################################################################
 python3 -m papermill "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/fb4405c0ee829c547579d72a41cfeefe43fa1d0a/reconstruction-quality-experiment.ipynb" "${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/${NAME}-${replicate}.ipynb"
+
+################################################################################
+echo Finished
+################################################################################
+date
+echo "SECONDS ${SECONDS}"
