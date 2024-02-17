@@ -94,7 +94,7 @@ export tournament_size="{{tournament_size}}"
 
 export replicate="{{replicate}}"
 
-NAME="evo=island${num_islands}-niche${num_niches}-ngen${num_generations}-popsize${population_size}-tournsize${tournament_size}+instrument=${stratum_retention_algo}-new-bits${annotation_size_bits}-diff${differentia_width_bits}"
+NAME="evo=island${num_islands}-niche${num_niches}-ngen${num_generations}-popsize${population_size}-tournsize${tournament_size}+instrument=${stratum_retention_algo}-bits${annotation_size_bits}-diff${differentia_width_bits}"
 echo "NAME ${NAME}"
 
 mkdir -p "${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/"
