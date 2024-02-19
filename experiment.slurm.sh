@@ -100,14 +100,14 @@ export replicate="{{replicate}}"
 NAME="evo=island${num_islands}-niche${num_niches}-ngen${num_generations}-popsize${population_size}-tournsize${tournament_size}+instrument=${stratum_retention_algo}-bits${annotation_size_bits}-diff${differentia_width_bits}"
 echo "NAME ${NAME}"
 
-WORKDIR="${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/"
+WORKDIR="${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}"
 echo "WORKDIR ${WORKDIR}"
 mkdir -p "${WORKDIR}"
 
 ################################################################################
 echo Run experiment
 ################################################################################
-python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/f95dbc8d372da8877b13d21b66e1d5073c8cdc4a/reconstruction-quality-experiment.ipynb" "${NAME}+replicate=${replicate}+ext=.ipynb"
+python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/f95dbc8d372da8877b13d21b66e1d5073c8cdc4a/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
