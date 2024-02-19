@@ -105,7 +105,7 @@ mkdir -p "${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/"
 ################################################################################
 echo Run experiment
 ################################################################################
-python3 -m papermill "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/fb4405c0ee829c547579d72a41cfeefe43fa1d0a/reconstruction-quality-experiment.ipynb" "${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/${NAME}-${replicate}.ipynb"
+python3 -m papermill "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/62084646583b0659a5ff74c6006c0d419701a594/reconstruction-quality-experiment.ipynb" "${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}/${NAME}-${replicate}.ipynb"
 
 ################################################################################
 echo Finished
