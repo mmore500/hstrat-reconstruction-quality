@@ -107,7 +107,7 @@ mkdir -p "${WORKDIR}"
 ################################################################################
 echo Run experiment
 ################################################################################
-python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/62084646583b0659a5ff74c6006c0d419701a594/reconstruction-quality-experiment.ipynb" "${NAME}+replicate=${replicate}+ext=.ipynb"
+python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/f95dbc8d372da8877b13d21b66e1d5073c8cdc4a/reconstruction-quality-experiment.ipynb" "${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
