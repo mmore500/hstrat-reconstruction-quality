@@ -5,4 +5,4 @@ set -u
 
 cd "$(dirname "$0")"
 
-./kickoff.sh "$1" "new-steady" "new-tilted" "new-hybrid"
+./kickoff.sh "$1" "export population_size=65536 num_generations=100000"
