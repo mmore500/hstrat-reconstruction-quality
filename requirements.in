@@ -1,0 +1,27 @@
+# notebooks
+alifedata_phyloinformatics_convert==0.16.2
+biopython==1.83
+dendropy==4.6.1
+git+https://github.com/mmore500/hstrat-surface-concept.git@v0.2.1#egg=hsurf
+hstrat==1.10.0
+matplotlib==3.8.2
+pandas==1.5.3
+pecking==0.2.0
+pyarrow==15.0.0
+seaborn==0.13.2
+teeplot==1.0.1
+tqdist==1.0
+tqdm==4.66.1
+typing_extensions>=4.9.0
+watermark==2.4.3
+
+# qa
+black==22.10.0
+pytest
+ruff
+tqdm
+
+# binder
+ipykernel
+nb-clean
+jupyter
