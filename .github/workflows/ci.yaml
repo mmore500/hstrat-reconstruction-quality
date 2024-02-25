@@ -32,44 +32,20 @@ jobs:
           branch: binder # The branch the action should deploy to.
           folder: "${{ github.workspace }}" # The folder the action should deploy.
 
-  docker-teximage-build:
-    name: Docker Tex Image Build
-    runs-on: ubuntu-20.04
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0 # fetch all history for all branches and tags
-      - name: Build and Push to GitHub Container Registry
-        uses: docker/build-push-action@v1
-        with:
-          push: true
-          tags: "GITHUB_ACTION_${{ github.run_number }}_TEXIMAGE"
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          repository: mmore500/${{ github.event.repository.name }}
-          registry: ghcr.io
-          path: ./tex/
-          add_git_labels: true
   latex:
     name: Latex Build
     runs-on: ubuntu-20.04
-    needs:
-      - docker-teximage-build
     container:
-      image: ghcr.io/mmore500/${{ github.event.repository.name }}:GITHUB_ACTION_${{ github.run_number }}_TEXIMAGE
+      image: ghcr.io/mmore500/teximage:sha-77b8179
       # github actions requires root to access mounted volumes
       options: --user root
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-      - run: make -C /opt/${{ github.event.repository.name }}/tex
+      - run: make -C tex/
       - name: Upload output as artifact
         uses: actions/upload-artifact@v2
         with:
           name: manuscript
-          path: /opt/${{ github.event.repository.name }}/tex/${{ github.event.repository.name }}-draft.pdf
+          path: tex/${{ github.event.repository.name }}-draft.pdf
