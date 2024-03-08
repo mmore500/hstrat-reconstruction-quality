@@ -120,7 +120,7 @@ gitpython==3.1.42
     # via lyncs-setuptools
 h11==0.14.0
     # via httpcore
-hstrat==1.10.0
+hstrat==1.11.2
     # via
     #   -r requirements.in
     #   hsurf
