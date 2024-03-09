@@ -10,30 +10,20 @@ alifedata-phyloinformatics-convert==0.16.2
     #   hstrat
 annotated-types==0.6.0
     # via pydantic
-anyio==4.3.0
-    # via
-    #   httpx
-    #   jupyter-server
 anytree==2.12.1
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
 argon2-cffi==23.1.0
-    # via jupyter-server
+    # via notebook
 argon2-cffi-bindings==21.2.0
     # via argon2-cffi
-arrow==1.3.0
-    # via isoduration
 asttokens==2.4.1
     # via stack-data
-async-lru==2.0.4
-    # via jupyterlab
 attrs==23.2.0
     # via
     #   jsonschema
     #   referencing
-babel==2.14.0
-    # via jupyterlab-server
 backstrip==0.2.4
     # via pecking
 beautifulsoup4==4.12.3
@@ -54,10 +44,7 @@ black==22.10.0
 bleach==6.1.0
     # via nbconvert
 certifi==2024.2.2
-    # via
-    #   httpcore
-    #   httpx
-    #   requests
+    # via requests
 cffi==1.16.0
     # via argon2-cffi-bindings
 charset-normalizer==3.3.2
@@ -67,6 +54,7 @@ click==8.1.7
     #   alifedata-phyloinformatics-convert
     #   black
     #   keyname
+    #   papermill
 comm==0.2.1
     # via
     #   ipykernel
@@ -97,11 +85,12 @@ deprecated==1.2.14
     #   hsurf
 distutils-strtobool==0.1.0
     # via teeplot
+entrypoints==0.4
+    # via papermill
 ete3==3.1.3
     # via alifedata-phyloinformatics-convert
 exceptiongroup==1.2.0
     # via
-    #   anyio
     #   ipython
     #   pytest
 executing==2.0.1
@@ -110,31 +99,20 @@ fastjsonschema==2.19.1
     # via nbformat
 fonttools==4.49.0
     # via matplotlib
-fqdn==1.5.1
-    # via jsonschema
 frozendict==2.4.0
     # via backstrip
 gitdb==4.0.11
     # via gitpython
 gitpython==3.1.42
     # via lyncs-setuptools
-h11==0.14.0
-    # via httpcore
 hstrat==1.11.2
     # via
     #   -r requirements.in
     #   hsurf
-hsurf @ git+https://github.com/mmore500/hstrat-surface-concept.git@v0.2.1
+hsurf @ git+https://github.com/mmore500/hstrat-surface-concept.git@v0.3.0
     # via -r requirements.in
-httpcore==1.0.4
-    # via httpx
-httpx==0.27.0
-    # via jupyterlab
 idna==3.6
     # via
-    #   anyio
-    #   httpx
-    #   jsonschema
     #   requests
     #   yarl
 importlib-metadata==7.0.1
@@ -145,23 +123,28 @@ interval-search==0.5.2
     # via
     #   hstrat
     #   hsurf
-ipykernel==6.29.2
+ipykernel==6.23.3
     # via
     #   -r requirements.in
     #   jupyter
     #   jupyter-console
-    #   jupyterlab
+    #   notebook
     #   qtconsole
 ipython==8.22.1
     # via
+    #   hsurf
     #   ipykernel
     #   ipywidgets
     #   jupyter-console
     #   watermark
-ipywidgets==8.1.2
-    # via jupyter
-isoduration==20.11.0
-    # via jsonschema
+ipython-genutils==0.2.0
+    # via
+    #   ipywidgets
+    #   notebook
+ipywidgets==7.8.1
+    # via
+    #   -r requirements.in
+    #   jupyter
 iterpop==0.4.1
     # via
     #   alifedata-phyloinformatics-convert
@@ -170,19 +153,10 @@ jedi==0.19.1
     # via ipython
 jinja2==3.1.3
     # via
-    #   jupyter-server
-    #   jupyterlab
-    #   jupyterlab-server
     #   nbconvert
-json5==0.9.17
-    # via jupyterlab-server
-jsonpointer==2.4
-    # via jsonschema
-jsonschema[format-nongpl]==4.21.1
-    # via
-    #   jupyter-events
-    #   jupyterlab-server
-    #   nbformat
+    #   notebook
+jsonschema==4.21.1
+    # via nbformat
 jsonschema-specifications==2023.12.1
     # via jsonschema
 jupyter==1.0.0
@@ -191,8 +165,8 @@ jupyter-client==8.6.0
     # via
     #   ipykernel
     #   jupyter-console
-    #   jupyter-server
     #   nbclient
+    #   notebook
     #   qtconsole
 jupyter-console==6.6.3
     # via jupyter
@@ -201,34 +175,14 @@ jupyter-core==5.7.1
     #   ipykernel
     #   jupyter-client
     #   jupyter-console
-    #   jupyter-server
-    #   jupyterlab
     #   nbclient
     #   nbconvert
     #   nbformat
-    #   qtconsole
-jupyter-events==0.9.0
-    # via jupyter-server
-jupyter-lsp==2.2.2
-    # via jupyterlab
-jupyter-server==2.12.5
-    # via
-    #   jupyter-lsp
-    #   jupyterlab
-    #   jupyterlab-server
     #   notebook
-    #   notebook-shim
-jupyter-server-terminals==0.5.2
-    # via jupyter-server
-jupyterlab==4.1.2
-    # via notebook
+    #   qtconsole
 jupyterlab-pygments==0.3.0
     # via nbconvert
-jupyterlab-server==2.25.3
-    # via
-    #   jupyterlab
-    #   notebook
-jupyterlab-widgets==3.0.10
+jupyterlab-widgets==1.1.7
     # via ipywidgets
 keyname==0.6.0
     # via
@@ -282,29 +236,33 @@ nanto==0.1.1
 nb-clean==3.2.0
     # via -r requirements.in
 nbclient==0.9.0
-    # via nbconvert
+    # via
+    #   nbconvert
+    #   papermill
 nbconvert==7.16.1
     # via
     #   jupyter
-    #   jupyter-server
+    #   notebook
 nbformat==5.9.2
     # via
-    #   jupyter-server
     #   nb-clean
     #   nbclient
     #   nbconvert
+    #   notebook
+    #   papermill
 nest-asyncio==1.6.0
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   notebook
 networkx==3.2.1
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
-notebook==7.1.0
-    # via jupyter
-notebook-shim==0.2.4
+notebook==6.4.10
     # via
-    #   jupyterlab
-    #   notebook
+    #   -r requirements.in
+    #   jupyter
+    #   widgetsnbextension
 numpy==1.26.4
     # via
     #   alifedata-phyloinformatics-convert
@@ -330,15 +288,10 @@ opytional==0.1.0
     #   hsurf
 ordered-set==4.1.0
     # via hstrat
-overrides==7.7.0
-    # via jupyter-server
 packaging==23.2
     # via
     #   hstrat
     #   ipykernel
-    #   jupyter-server
-    #   jupyterlab
-    #   jupyterlab-server
     #   lyncs-setuptools
     #   matplotlib
     #   nbconvert
@@ -362,6 +315,8 @@ pandera==0.18.0
     # via hstrat
 pandocfilters==1.5.1
     # via nbconvert
+papermill==2.5.0
+    # via -r requirements.in
 parso==0.8.3
     # via jedi
 pathspec==0.12.1
@@ -385,7 +340,7 @@ pluggy==1.4.0
 prettytable==3.10.0
     # via hstrat
 prometheus-client==0.20.0
-    # via jupyter-server
+    # via notebook
 prompt-toolkit==3.0.43
     # via
     #   ipython
@@ -420,12 +375,9 @@ pytest==8.0.2
     # via -r requirements.in
 python-dateutil==2.8.2
     # via
-    #   arrow
     #   jupyter-client
     #   matplotlib
     #   pandas
-python-json-logger==2.0.7
-    # via jupyter-events
 python-slugify==8.0.4
     # via
     #   hstrat
@@ -433,13 +385,13 @@ python-slugify==8.0.4
 pytz==2024.1
     # via pandas
 pyyaml==6.0.1
-    # via jupyter-events
+    # via papermill
 pyzmq==25.1.2
     # via
     #   ipykernel
     #   jupyter-client
     #   jupyter-console
-    #   jupyter-server
+    #   notebook
     #   qtconsole
 qtconsole==5.5.1
     # via jupyter
@@ -449,19 +401,10 @@ referencing==0.33.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-    #   jupyter-events
 requests==2.31.0
-    # via jupyterlab-server
+    # via papermill
 retry==0.9.2
     # via keyname
-rfc3339-validator==0.1.4
-    # via
-    #   jsonschema
-    #   jupyter-events
-rfc3986-validator==0.1.1
-    # via
-    #   jsonschema
-    #   jupyter-events
 rpds-py==0.18.0
     # via
     #   jsonschema
@@ -483,7 +426,7 @@ seaborn==0.13.2
     #   hsurf
     #   pecking
 send2trash==1.8.2
-    # via jupyter-server
+    # via notebook
 six==1.16.0
     # via
     #   anytree
@@ -491,13 +434,8 @@ six==1.16.0
     #   bleach
     #   patsy
     #   python-dateutil
-    #   rfc3339-validator
 smmap==5.0.1
     # via gitdb
-sniffio==1.3.0
-    # via
-    #   anyio
-    #   httpx
 sortedcontainers==2.4.0
     # via
     #   alifedata-phyloinformatics-convert
@@ -512,10 +450,10 @@ teeplot==1.0.1
     # via
     #   -r requirements.in
     #   hsurf
+tenacity==8.2.3
+    # via papermill
 terminado==0.18.0
-    # via
-    #   jupyter-server
-    #   jupyter-server-terminals
+    # via notebook
 text-unidecode==1.3
     # via python-slugify
 tinycss2==1.2.1
@@ -523,14 +461,11 @@ tinycss2==1.2.1
 tomli==2.0.1
     # via
     #   black
-    #   jupyterlab
     #   pytest
 tornado==6.4
     # via
     #   ipykernel
     #   jupyter-client
-    #   jupyter-server
-    #   jupyterlab
     #   notebook
     #   terminado
 tqdist==1.0
@@ -539,6 +474,7 @@ tqdm==4.66.1
     # via
     #   -r requirements.in
     #   hstrat
+    #   papermill
 traitlets==5.14.1
     # via
     #   comm
@@ -548,24 +484,18 @@ traitlets==5.14.1
     #   jupyter-client
     #   jupyter-console
     #   jupyter-core
-    #   jupyter-events
-    #   jupyter-server
-    #   jupyterlab
     #   matplotlib-inline
     #   nbclient
     #   nbconvert
     #   nbformat
+    #   notebook
     #   qtconsole
 typeguard==4.1.5
     # via pandera
-types-python-dateutil==2.8.19.20240106
-    # via arrow
 typing-extensions==4.9.0
     # via
     #   -r requirements.in
     #   alifedata-phyloinformatics-convert
-    #   anyio
-    #   async-lru
     #   hstrat
     #   pydantic
     #   pydantic-core
@@ -574,8 +504,6 @@ typing-extensions==4.9.0
     #   typing-inspect
 typing-inspect==0.9.0
     # via pandera
-uri-template==1.3.0
-    # via jsonschema
 urllib3==2.2.1
     # via requests
 validators==0.22.0
@@ -586,15 +514,11 @@ wcwidth==0.2.13
     # via
     #   prettytable
     #   prompt-toolkit
-webcolors==1.13
-    # via jsonschema
 webencodings==0.5.1
     # via
     #   bleach
     #   tinycss2
-websocket-client==1.7.0
-    # via jupyter-server
-widgetsnbextension==4.0.10
+widgetsnbextension==3.6.6
     # via ipywidgets
 wrapt==1.16.0
     # via
