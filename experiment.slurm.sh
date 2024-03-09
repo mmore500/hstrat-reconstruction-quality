@@ -86,6 +86,7 @@ echo Set up parameters and environment
 ################################################################################
 export annotation_size_bits="{{annotation_size_bits}}"
 export differentia_width_bits="{{differentia_width_bits}}"
+export downsample="{{downsample}}"
 export stratum_retention_algo="{{stratum_retention_algo}}"
 
 export population_size="{{population_size}}"
@@ -97,7 +98,7 @@ export tournament_size="{{tournament_size}}"
 
 export replicate="{{replicate}}"
 
-NAME="evo=island${num_islands}-niche${num_niches}-ngen${num_generations}-popsize${population_size}-tournsize${tournament_size}+instrument=${stratum_retention_algo}-bits${annotation_size_bits}-diff${differentia_width_bits}"
+NAME="evo=island${num_islands}-niche${num_niches}-ngen${num_generations}-popsize${population_size}-tournsize${tournament_size}+instrument=${stratum_retention_algo}-bits${annotation_size_bits}-diff${differentia_width_bits}-dsamp${downsample}"
 echo "NAME ${NAME}"
 
 WORKDIR="${HOME}/scratch/hstrat-reconstruction-quality/{{runmode}}/${NAME}"
@@ -107,7 +108,7 @@ mkdir -p "${WORKDIR}"
 ################################################################################
 echo Run experiment
 ################################################################################
-python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/340be66dfa44a66f645f1db1fa974e5e9060e542/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
+python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/4c4d1cd579d008e123e0c8cb2ef677e37e2ad8bf/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
