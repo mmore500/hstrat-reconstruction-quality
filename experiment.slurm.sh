@@ -79,7 +79,7 @@ source "${VENV}/bin/activate"
 ################################################################################
 echo Install dependencies
 ################################################################################
-python3 -m pip install "papermill==2.5.0" "ipykernel==6.23.3" "jupyter==1.0.0" "notebook==6.4.10" "ipywidgets==7.8.1"
+python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/497644c8fd9ef467ffb73d58d38ef266a5327177/requirements.txt"
 
 ################################################################################
 echo Set up parameters and environment
@@ -108,7 +108,7 @@ mkdir -p "${WORKDIR}"
 ################################################################################
 echo Run experiment
 ################################################################################
-python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/4c4d1cd579d008e123e0c8cb2ef677e37e2ad8bf/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
+python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/497644c8fd9ef467ffb73d58d38ef266a5327177/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
