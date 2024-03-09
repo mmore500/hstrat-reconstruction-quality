@@ -8,7 +8,7 @@ echo "runmode ${runmode}"
 
 shift
 
-QSPOOL="$(tmpfile="$(mktemp)"; curl -s https://raw.githubusercontent.com/mmore500/qspool/v0.4.2/qspool.py > "${tmpfile}"; echo "${tmpfile}")"
+QSPOOL="$(tmpfile="$(mktemp)"; curl -s https://raw.githubusercontent.com/mmore500/qspool/v0.5.0/qspool.py > "${tmpfile}"; echo "${tmpfile}")"
 echo "QSPOOL ${QSPOOL}"
 
 SBATCH_DIR="$(mktemp -d)"
