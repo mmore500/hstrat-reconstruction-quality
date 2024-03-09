@@ -28,3 +28,6 @@ ipywidgets==7.8.1
 nb-clean
 notebook==6.4.10
 jupyter==1.0.0
+
+# workflow
+joinem==0.1.5
