@@ -14,11 +14,10 @@ echo "QSPOOL ${QSPOOL}"
 SBATCH_DIR="$(mktemp -d)"
 echo "SBATCH_DIR ${SBATCH_DIR}"
 
-for downsample in 0 500; do
 for num_generations in 10000 100000; do
-for population_size in 4096 65536; do
+for scope in "export population_size=4096 downsample=500" "export population_size=65536 downsample=500" "export population_size=65536 downsample=8000"; do
 for instrumentation in "export annotation_size_bits=32 differentia_width_bits=1" "export annotation_size_bits=64 differentia_width_bits=1" "export annotation_size_bits=256 differentia_width_bits=1" "export annotation_size_bits=256 differentia_width_bits=8"; do
-for stratum_retention_algo in "new-steady" "new-tilted" "new-hybrid" "old-steady" "old-tilted"; do
+for stratum_retention_algo in "surf-steady" "surf-tilted" "surf-hybrid" "col-steady" "col-tilted"; do
 
 for condition in "export num_islands=1 num_niches=1 tournament_size=2" "export num_islands=1 num_niches=1 tournament_size=1" "export num_islands=4 num_niches=2 tournament_size=2" "export num_islands=64 num_niches=8 tournament_size=2"; do
 
@@ -26,6 +25,7 @@ for replicate in {0..19}; do
 
 eval $condition
 eval $instrumentation
+eval $scope
 
 SBATCH_FILE="$(mktemp --tmpdir="${SBATCH_DIR}")"
 echo "SBATCH_FILE ${SBATCH_FILE}"
@@ -36,7 +36,6 @@ head "${SBATCH_FILE}"
 
 done
 
-done
 done
 done
 done
