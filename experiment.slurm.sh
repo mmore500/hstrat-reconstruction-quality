@@ -81,7 +81,7 @@ export VENV="${HOME}/scratch/tmp/venv-{{revision}}"
 mkdir -p "${HOME}/scratch/tmp/"
 echo "VENV ${VENV}"
 if [[ ! -d "${VENV}" ]]; then
-  ech "Creating virtual environment"
+  echo "Creating virtual environment"
   tmpdir="$(mktemp -d)"
   python3 -m venv "${tmpdir}"
   python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/requirements.txt"
