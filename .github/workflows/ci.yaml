@@ -20,7 +20,7 @@ jobs:
         uses: docker/build-push-action@v1
         with:
           push: true
-          tags: "latest"
+          tags: "latest,${{ github.sha }}"
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           repository: mmore500/hstrat-reconstruction-quality
