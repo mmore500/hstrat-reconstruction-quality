@@ -71,16 +71,23 @@ on_exit() {
 }
 trap on_exit EXIT
 
-module purge || :
-module load GCCcore/12.2.0 Python/3.10.8 || :
-export VENV="$(mktemp -d)"
-python3 -m venv "${VENV}"
-source "${VENV}/bin/activate"
-
 ################################################################################
 echo Install dependencies
 ################################################################################
-python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/3fc88fc792cc76abb6e2da2af00d5074e162b212/requirements.txt"
+
+module purge || :
+module load GCCcore/12.2.0 Python/3.10.8 || :
+export VENV="${HOME}/scratch/tmp/venv-{{revision}}"
+mkdir -p "${VENV}"
+echo "VENV ${VENV}"
+if [[ ! -d "${VENV}" ]]; then
+  ech "Creating virtual environment"
+  tmpdir="$(mktemp -d)"
+  python3 -m venv "${tmpdir}"
+  python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/requirements.txt"
+  mv "${tmpdir}" "${VENV}"
+fi
+source "${VENV}/bin/activate"
 
 ################################################################################
 echo Set up parameters and environment
