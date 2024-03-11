@@ -78,7 +78,7 @@ echo Install dependencies
 module purge || :
 module load GCCcore/12.2.0 Python/3.10.8 || :
 export VENV="${HOME}/scratch/tmp/venv-{{revision}}"
-mkdir -p "${VENV}"
+mkdir -p "${HOME}/scratch/tmp/"
 echo "VENV ${VENV}"
 if [[ ! -d "${VENV}" ]]; then
   ech "Creating virtual environment"
