@@ -14,6 +14,9 @@ echo "QSPOOL ${QSPOOL}"
 SBATCH_DIR="$(mktemp -d)"
 echo "SBATCH_DIR ${SBATCH_DIR}"
 
+REVISION="$(git rev-parse HEAD)"
+echo "REVISION ${REVISION}"
+
 for num_generations in 10000 100000; do
 for scope in "export population_size=4096 downsample=500" "export population_size=65536 downsample=500" "export population_size=65536 downsample=8000"; do
 for instrumentation in "export annotation_size_bits=32 differentia_width_bits=1" "export annotation_size_bits=64 differentia_width_bits=1" "export annotation_size_bits=256 differentia_width_bits=1" "export annotation_size_bits=256 differentia_width_bits=8"; do
@@ -30,7 +33,7 @@ eval $scope
 SBATCH_FILE="$(mktemp --tmpdir="${SBATCH_DIR}")"
 echo "SBATCH_FILE ${SBATCH_FILE}"
 
-cat experiment.slurm.sh | sed -e "s/{{annotation_size_bits}}/${annotation_size_bits}/g" | sed -e "s/{{differentia_width_bits}}/${differentia_width_bits}/g" | sed -e "s/{{downsample}}/${downsample}/g" | sed -e "s/{{stratum_retention_algo}}/${stratum_retention_algo}/g" | sed -e "s/{{replicate}}/${replicate}/g" | sed -e "s/{{num_islands}}/${num_islands}/g" | sed -e "s/{{num_niches}}/${num_niches}/g" | sed -e "s/{{population_size}}/${population_size}/g" | sed -e "s/{{num_generations}}/${num_generations}/g" | sed -e "s/{{runmode}}/${runmode}/g" | sed -e "s/{{tournament_size}}/${tournament_size}/g"  > "${SBATCH_FILE}"
+cat experiment.slurm.sh | sed -e "s/{{annotation_size_bits}}/${annotation_size_bits}/g" | sed -e "s/{{differentia_width_bits}}/${differentia_width_bits}/g" | sed -e "s/{{downsample}}/${downsample}/g" | sed -e "s/{{stratum_retention_algo}}/${stratum_retention_algo}/g" | sed -e "s/{{replicate}}/${replicate}/g" | sed -e "s/{{num_islands}}/${num_islands}/g" | sed -e "s/{{num_niches}}/${num_niches}/g" | sed -e "s/{{population_size}}/${population_size}/g" | sed -e "s/{{num_generations}}/${num_generations}/g" | sed -e "s/{{runmode}}/${runmode}/g" | sed -e "s/{{tournament_size}}/${tournament_size}/g" | sed -e "s/{{revision}}/${REVISION}/g"  > "${SBATCH_FILE}"
 
 head "${SBATCH_FILE}"
 
