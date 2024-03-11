@@ -11,6 +11,7 @@
 #SBATCH --exclude=csn-002,amr-250
 # Job may be requeued after node failure.
 #SBATCH --requeue
+#SBATCH --qos=scavenger
 
 set -e
 set -o nounset
