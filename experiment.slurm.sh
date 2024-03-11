@@ -72,30 +72,6 @@ on_exit() {
 trap on_exit EXIT
 
 ################################################################################
-echo Install dependencies
-################################################################################
-
-module purge || :
-module load GCCcore/12.2.0 Python/3.10.8 || :
-export VENV="${HOME}/scratch/tmp/venv-{{revision}}"
-mkdir -p "${HOME}/scratch/tmp/"
-echo "VENV ${VENV}"
-if [[ ! -d "${VENV}" ]]; then
-  echo "Creating virtual environment"
-  tmpdir="$(mktemp -d)"
-  python3.10 -m venv "${tmpdir}"
-  export PYTHONPATH="${tmpdir}/lib/site-packages"
-  source "${tmpdir}/bin/activate"
-  python3.10 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/requirements.txt"
-  mv "${tmpdir}" "${VENV}"
-  deactivate
-fi
-source "${VENV}/bin/activate"
-# https://docs.icer.msu.edu/Using_Python_in_HPCC_with_virtualenv/
-export PYTHONPATH="${VENV}/lib/site-packages"
-echo "PYTHONPATH ${PYTHONPATH}"
-
-################################################################################
 echo Set up parameters and environment
 ################################################################################
 export annotation_size_bits="{{annotation_size_bits}}"
@@ -122,7 +98,7 @@ mkdir -p "${WORKDIR}"
 ################################################################################
 echo Run experiment
 ################################################################################
-python3.10 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
+singularity run docker://ghcr.io/mmore500/hstrat-reconstruction-quality:794ab4f9376502f9c6b057d0983af6d840f437de python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
