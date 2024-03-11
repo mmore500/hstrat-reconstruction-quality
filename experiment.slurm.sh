@@ -88,6 +88,7 @@ if [[ ! -d "${VENV}" ]]; then
   source "${tmpdir}/bin/activate"
   python3.10 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/requirements.txt"
   mv "${tmpdir}" "${VENV}"
+  deactivate
 fi
 source "${VENV}/bin/activate"
 # https://docs.icer.msu.edu/Using_Python_in_HPCC_with_virtualenv/
@@ -121,7 +122,7 @@ mkdir -p "${WORKDIR}"
 ################################################################################
 echo Run experiment
 ################################################################################
-python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
+python3.10 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
