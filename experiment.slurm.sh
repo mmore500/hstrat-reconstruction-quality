@@ -80,7 +80,7 @@ source "${VENV}/bin/activate"
 ################################################################################
 echo Install dependencies
 ################################################################################
-python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/d082f818d1fb2716c49b12c36370e1f10ebeb784/requirements.txt"
+python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/3fc88fc792cc76abb6e2da2af00d5074e162b212/requirements.txt"
 
 ################################################################################
 echo Set up parameters and environment
