@@ -89,6 +89,9 @@ if [[ ! -d "${VENV}" ]]; then
   mv "${tmpdir}" "${VENV}"
 fi
 source "${VENV}/bin/activate"
+# https://docs.icer.msu.edu/Using_Python_in_HPCC_with_virtualenv/
+export PYTHONPATH="${VENV}/lib/site-packages"
+echo "PYTHONPATH ${PYTHONPATH}"
 
 ################################################################################
 echo Set up parameters and environment
