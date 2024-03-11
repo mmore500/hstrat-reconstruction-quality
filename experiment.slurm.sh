@@ -84,6 +84,7 @@ if [[ ! -d "${VENV}" ]]; then
   echo "Creating virtual environment"
   tmpdir="$(mktemp -d)"
   python3 -m venv "${tmpdir}"
+  source "${tmpdir}/bin/activate"
   python3 -m pip install -r "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/requirements.txt"
   mv "${tmpdir}" "${VENV}"
 fi
