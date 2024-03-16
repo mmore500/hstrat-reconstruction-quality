@@ -25,7 +25,7 @@ echo Do collation
 singularity exec docker://ghcr.io/mmore500/hstrat-reconstruction-quality:794ab4f9376502f9c6b057d0983af6d840f437de /bin/bash << 'EOF'
 set -e
 set -o nounset
-find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=stats*ext=.csv' | python3 -m joinem ~/scratch/hstrat-reconstruction-quality/a=stats+ext=.pqt
+find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=stats*ext=.csv' | python3 -m joinem --progress "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}/a=stats+ext=.pqt"
 EOF
 
 ################################################################################
