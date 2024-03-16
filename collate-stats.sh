@@ -3,7 +3,7 @@
 set -e
 set -o nounset
 
-RUNMODE="${1}"
+export RUNMODE="${1}"
 echo "RUNMODE ${RUNMODE}"
 
 ################################################################################
