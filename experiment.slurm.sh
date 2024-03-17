@@ -97,7 +97,7 @@ mkdir -p "${WORKDIR}"
 ################################################################################
 echo Run experiment
 ################################################################################
-singularity run docker://ghcr.io/mmore500/hstrat-reconstruction-quality:794ab4f9376502f9c6b057d0983af6d840f437de python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
+singularity run docker://ghcr.io/mmore500/hstrat-reconstruction-quality:4a037849287dc258e92354aa09b7b2c13441c4f5 python3 -m papermill --cwd "${WORKDIR}" "https://raw.githubusercontent.com/mmore500/hstrat-reconstruction-quality/{{revision}}/reconstruction-quality-experiment.ipynb" "${WORKDIR}/${NAME}+replicate=${replicate}+ext=.ipynb"
 
 ################################################################################
 echo Finished
