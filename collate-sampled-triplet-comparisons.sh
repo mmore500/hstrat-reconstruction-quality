@@ -22,7 +22,7 @@ find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=sampled
 ################################################################################
 echo Do collation
 ################################################################################
-singularity exec docker://ghcr.io/mmore500/hstrat-reconstruction-quality:794ab4f9376502f9c6b057d0983af6d840f437de /bin/bash << 'EOF'
+singularity exec docker://ghcr.io/mmore500/hstrat-reconstruction-quality:4a037849287dc258e92354aa09b7b2c13441c4f5 /bin/bash << 'EOF'
 set -e
 set -o nounset
 find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=sampled-triplet-comparisons*ext=.pqt' | python3 -m joinem --progress "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}/a=sampled-triplet-comparisons+ext=.pqt"
