@@ -3,7 +3,7 @@ alifedata_phyloinformatics_convert==0.16.2
 biopython==1.83
 dendropy==4.6.1
 git+https://github.com/mmore500/hstrat-surface-concept.git@v0.3.0#egg=hsurf
-hstrat==1.11.4
+hstrat==1.11.5
 matplotlib==3.8.2
 pandas==1.5.3
 papermill==2.5.0
