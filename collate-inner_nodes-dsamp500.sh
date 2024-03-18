@@ -17,7 +17,7 @@ echo "user ${USER}"
 ln -s "${HOME}/scratch" "/mnt/scratch/${USER}/" || :
 
 echo "num data files?"
-find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=inner_nodes+*ext=.pqt' | grep -v "dsamp0" | wc -l
+find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=inner_nodes+*ext=.pqt' | grep "dsamp500" | wc -l
 
 ################################################################################
 echo Do collation
@@ -25,7 +25,7 @@ echo Do collation
 singularity exec docker://ghcr.io/mmore500/hstrat-reconstruction-quality:4a037849287dc258e92354aa09b7b2c13441c4f5 /bin/bash << 'EOF'
 set -e
 set -o nounset
-find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=inner_nodes*ext=.pqt' | grep -v 'dsamp0' | python3 -m joinem --progress "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}/a=inner_nodes+dsamp=true+ext=.pqt"
+find "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}" -name 'a=inner_nodes*ext=.pqt' | grep 'dsamp500' | python3 -m joinem --progress "${HOME}/scratch/hstrat-reconstruction-quality/${RUNMODE}/a=inner_nodes+dsamp=true+ext=.pqt"
 EOF
 
 ################################################################################
