@@ -8,7 +8,7 @@ NOTE: this section might move to the wafer scale digital evolution manuscript
     \item surf tilted better than col tilted
 \end{itemize}
 
-From this point onwards, only surf algorithms.
+From this point onwards, only surf algorithms!!!
 
 \subsection{Steady vs. Tilted} \label{sec:steady-vs-tilted}
 \begin{itemize}
@@ -19,16 +19,22 @@ From this point onwards, only surf algorithms.
 \subsection{Why is Steady Bad? What Type of Error is Made?} \label{sec:error-analysis}
 \begin{itemize}
     \item inner node loss from boxplot
-    \item then, it's coming from recent nodes: node density vs. time
-    \item then, and that causes error: show error vs. time
+    \item then, it's coming from recent nodes: node density vs. time histogram joyplot
+    \item then, and that causes error: show error category (correct/wrong/unsure) vs. time stacked bar plot
 \end{itemize}
 
-sidebar: we can use differentia size to trade off between error and reconstruction accuracy
+From this point onwards, only surface-tilted (maybe also tilted-hybrid?) algorithm(s)!!!!
+
+\subsection{Why are we seeing error? What can we do about it?} \label{sec:error-uncertainty}
+
+mechanism of error: you have a lineage that diverges three ways between checkpoints (maybe make a figure of this); the two LEAST related happen to collide at the next checkpoint --- therefore, it looks like they're most related even though they're not.
+
+sidebar: we can use differentia size to trade off between error and reconstruction accuracy; using 1 byte differentia essentially drives error to zero (but introduces uncertainty i.e., more polytomies in reconstruction)
 
 \subsection{Does it Scale?} \label{sec:scaling}
 \begin{itemize}
-    \item show reconstruction error and inner node count vs. pop size
-    \item show reconst error/inner node count vs. time
-    \item show reconst error/inner node count vs. sample size
-    \item show reconst error/inner node count vs. bit size at large sample
+    \item show reconstruction error and inner node count vs. pop size (error does not increase with pop size at fixed sample size)
+    \item show reconst error/inner node count vs. time (error does not increase with time at fixed sample size)
+    \item show reconst error/inner node count vs. sample size (error increases with sample size)
+    \item show reconst error/inner node count vs. bit size at large sample (we can reduce the error for large sample size by increasing bit size)
 \end{itemize}
