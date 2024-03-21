@@ -1,1 +1,32 @@
 \section{Results and Discussion} \label{sec:results}
+
+\subsection{Surface vs. Column} \label{sec:surface-vs-column}
+\begin{itemize}
+    \item surf steady worse than col steady
+    \item surf tilted better than col tilted
+\end{itemize}
+
+From this point onwards, only surf algorithms.
+
+\subsection{Steady vs. Tilted} \label{sec:steady-vs-tilted}
+\begin{itemize}
+    \item steady worse than tilted
+    \item hybrid similar to tilted
+\end{itemize}
+
+\subsection{Why is Steady Bad? What Type of Error is Made?} \label{sec:error-analysis}
+\begin{itemize}
+    \item inner node loss from boxplot
+    \item then, it's coming from recent nodes: node density vs. time
+    \item then, and that causes error: show error vs. time
+\end{itemize}
+
+sidebar: we can use differentia size to trade off between error and reconstruction accuracy
+
+\subsection{Does it Scale?} \label{sec:scaling}
+\begin{itemize}
+    \item show reconstruction error and inner node count vs. pop size
+    \item show reconst error/inner node count vs. time
+    \item show reconst error/inner node count vs. sample size
+    \item show reconst error/inner node count vs. bit size at large sample
+\end{itemize}
