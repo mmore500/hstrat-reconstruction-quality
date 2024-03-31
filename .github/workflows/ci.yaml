@@ -10,23 +10,6 @@ on:
 
 jobs:
 
-  docker-build:
-    name: Docker Image Build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build and Push to GitHub Container Registry
-        uses: docker/build-push-action@v1
-        with:
-          push: true
-          tags: "latest,${{ github.sha }}"
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          repository: mmore500/hstrat-reconstruction-quality
-          registry: ghcr.io
-          add_git_labels: true
-
   binder:
     runs-on: ubuntu-latest
     steps:
