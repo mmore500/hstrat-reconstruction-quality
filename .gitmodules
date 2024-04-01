@@ -1,0 +1,4 @@
+[submodule "tex/binder"]
+	path = tex/binder
+	url = https://github.com/mmore500/hstrat-reconstruction-quality.git
+	branch = binder
