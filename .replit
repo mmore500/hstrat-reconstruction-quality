@@ -1,0 +1,8 @@
+run = "make -C tex fresh"
+hidden = [".config"]
+
+[nix]
+channel = "stable-23_05"
+
+[env]
+GIT_EDITOR = "vim"
