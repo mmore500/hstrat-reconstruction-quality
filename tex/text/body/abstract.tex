@@ -4,11 +4,11 @@ In particular, in silico work provides an opportunity to collect high-quality re
 Such phylogenies can provide insight into evolutionary dynamics within these simulations.
 Existing approaches track lineages directly, yielding an exact phylogenetic record of evolutionary history.
 However, direct tracking can be inefficient for large-scale, many-processor evolutionary simulations.
-An alternate approach to extracting phylogenetic information from simulation that scales more favorably is post-hoc estimation, akin to how bioinformaticians build phylogenies by assessing genetic similarities between organisms.
-Recent work has introduced ``hereditary stratigraphy''' algorithms, which allow efficient inference of phylogenetic history from small non-coding portions of simulated organisms’ genomes.
-However, we need to assess the accuracy of these conditions in order to determine which algorithm is the most efficient on a single processor.
+An alternate approach to extracting phylogenetic information from simulation that scales more favorably is \textit{post hoc} estimation, akin to how bioinformaticians build phylogenies by assessing genetic similarities between organisms.
+Recent work has introduced ``hereditary stratigraphy''' algorithms, which allow efficient inference of phylogenetic history from small non-coding portions of simulated organisms' genomes.
+However, we need to assess the accuracy of these conditions to determine which algorithm is the most efficient on a single processor.
 To address this question, we tested the phylogenetic reconstruction accuracy of five hereditary stratigraphy algorithms across a matrix of evolutionary conditions varying in selection pressure, spatial structure, and ecological dynamics.
-Surveyed algorithms differed in the composition of ancestry timepoints stored in genome annotations, as well as the inclusion of runtime optimizations that sacrifice some control over which timepoints are stored.
+Surveyed algorithms differed in the composition of ancestry time points stored in genome annotations, as well as the inclusion of runtime optimizations that sacrifice some control over which time points are stored.
 To assess the quality of phylogenetic reconstructions, we measured reconstruction accuracy via triplet distance (percentage of three-node groupings arranged correctly) and reconstruction resolution by comparing node counts.
 The type and amount of estimation error associated with hereditary stratigraphy across a variety of evolutionary conditions will allow researchers to choose appropriate instrumentation for large-scale simulation studies.
 Ultimately, such work will help improve our understanding of evolutionary dynamics involved in infectious diseases, antibiotic resistance, and conservation biology.
