@@ -7,6 +7,7 @@
 alifedata-phyloinformatics-convert==0.16.2
     # via
     #   -r requirements.in
+    #   colorclade
     #   hstrat
 annotated-types==0.6.0
     # via pydantic
@@ -32,6 +33,7 @@ biopython==1.83
     # via
     #   -r requirements.in
     #   alifedata-phyloinformatics-convert
+    #   colorclade
     #   hstrat
 bitarray==2.9.2
     # via
@@ -60,6 +62,8 @@ click==8.1.7
     #   keyname
     #   papermill
 cliffs-delta==1.0.0
+    # via -r requirements.in
+colorclade==0.2.0
     # via -r requirements.in
 comm==0.2.1
     # via
@@ -218,6 +222,7 @@ matplotlib==3.8.2
     # via
     #   -r requirements.in
     #   backstrip
+    #   colorclade
     #   hstrat
     #   hsurf
     #   seaborn
@@ -282,6 +287,7 @@ numpy==1.26.4
     #   alifedata-phyloinformatics-convert
     #   backstrip
     #   biopython
+    #   colorclade
     #   contourpy
     #   hstrat
     #   hsurf
@@ -298,6 +304,7 @@ opytional==0.1.0
     # via
     #   alifedata-phyloinformatics-convert
     #   backstrip
+    #   colorclade
     #   hstrat
     #   hsurf
 ordered-set==4.1.0
@@ -445,6 +452,7 @@ seaborn==0.13.2
     # via
     #   -r requirements.in
     #   backstrip
+    #   colorclade
     #   hstrat
     #   hsurf
     #   pecking
