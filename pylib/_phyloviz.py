@@ -102,14 +102,15 @@ def make_reconstructed_rosettatree(
 def prune_100(tree, seed):
     df = tree.as_alife.copy()
     leaf_ids = hstrat_aux.alifestd_find_leaf_ids(df)
-    downsample_ids = np.random.default_rng(seed).choice(
-        sorted(leaf_ids),
+    leaf_taxa = df.loc[leaf_ids, "taxon_label"].tolist()
+    downsample_taxa = np.random.default_rng(seed).choice(
+        sorted(leaf_taxa, key=str),
         100,
         replace=False,
     )
     df["extant"] = False
     df.loc[
-        df["id"].isin(downsample_ids),
+        df["taxon_label"].isin(downsample_taxa),
         "extant",
     ] = True
     df = hstrat_aux.alifestd_prune_extinct_lineages_asexual(
