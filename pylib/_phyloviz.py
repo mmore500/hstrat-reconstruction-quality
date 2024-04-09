@@ -103,7 +103,7 @@ def prune_100(tree, seed):
     df = tree.as_alife.copy()
     leaf_ids = hstrat_aux.alifestd_find_leaf_ids(df)
     downsample_ids = np.random.default_rng(seed).choice(
-        leaf_ids,
+        sorted(leaf_ids),
         100,
         replace=False,
     )
