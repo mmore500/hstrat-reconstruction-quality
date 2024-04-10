@@ -105,7 +105,7 @@ def prune_100(tree, seed):
     leaf_taxa = df.loc[leaf_ids, "taxon_label"].tolist()
     downsample_taxa = np.random.default_rng(seed).choice(
         sorted(leaf_taxa, key=str),
-        100,
+        50,
         replace=False,
     )
     df["extant"] = False
@@ -128,7 +128,7 @@ def plot2(tree_a, tree_b, seed, ax=None):
     biopython_sort_tree(bp.root)
     for clade in bp.find_clades():
         clade.color = "orange"
-    with plt.rc_context({"lines.linewidth": 2.2}):
+    with plt.rc_context({"lines.linewidth": 3}):
         Phylo.draw(
             bp,
             do_show=False,
@@ -142,7 +142,7 @@ def plot2(tree_a, tree_b, seed, ax=None):
     for clade in bp.find_clades():
         clade.color = "blue"
 
-    with plt.rc_context({"lines.linewidth": 0.75}):
+    with plt.rc_context({"lines.linewidth": 1.25}):
         Phylo.draw(
             bp,
             do_show=False,
