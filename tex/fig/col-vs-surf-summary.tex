@@ -3,13 +3,22 @@
   \begin{subfigure}[b]{0.5\textwidth}
     \centering
     \includegraphics[width=\textwidth]{binder/binder/surf-vs-col/teeplots/annotation-size-bits=64+col=policy+differentia-width-bits=1+downsample=500+hue=impl+num-generations=100000+population-size=65536+post=teed-figure-subplots-adjust-right-0-72-teed-set-titles-row-templat.../e-row-name+row=variable+score=value+viz=peckplot+x=scenario+x-group=outer+y=value+ext=}
-    \caption{TODO}
+    \caption{Example reconstruction quality measure distributions. Lower is better.}
+    \label{fig:col-vs-surf-example}
   \end{subfigure}%
   \begin{subfigure}[b]{0.5\textwidth}
     \centering
     \includegraphics[width=\textwidth]{binder/binder/surf-vs-col/teeplots/col=metric+hue=relative-grade+kind=strip+post=teed-set-titles-col-template-col-name-row-template-row-name+row=policy+viz=catplot+x=cliff-s-delta+y=scenario+ext=}
-    \caption{TODO}
+    \caption{Reconstruction quality comparison outcomes.}
+  \label{fig:col-vs-surf-overview}
   \end{subfigure}
-  \caption{Column versus surface.}
+  \caption{%
+    \textbf{Does column- or surface-based instrumentation give higher-quality reconstruction?}
+    Subpanel \ref{fig:col-vs-surf-overview} shows effect sizes of column-vs-surface comparisons for triplet distance and inner node loss metrics.
+    Color coding indicates a significant outcome (Mann-Whitney U).
+    Surface tends to outperform column under tilted policy and vice versa under steady policy.
+    Subpanel \ref{fig:col-vs-surf-example} shows reconstruction quality effects for 64-bit size, bit-differentia annotations wit population size 65,536, downsample size 500, and 100k generations.
+    Background hatching indicates significant outcome.
+  }
   \label{fig:col-vs-surf-summary}
 \end{figure*}
