@@ -2,9 +2,14 @@
 
 \input{fig/hstrat-failure-modes.tex}
 
+\input{fig/examplepanel}
+
+\input{fig/recency-structure}
+
 \subsection{Surface vs. Column} \label{sec:surface-vs-column}
 
-\input{fig/col-vs-surf}
+\input{fig/col-vs-surf-summary}
+
 \begin{itemize}
     \item surf steady worse than col steady
     \item surf tilted better than col tilted
@@ -18,7 +23,7 @@ From this point onwards, only surf algorithms!!!
     \item hybrid similar to tilted
 \end{itemize}
 
-\input{fig/steady-vs-tilted}
+\input{fig/steady-vs-tilted-summary}
 
 \subsection{Why is Steady Bad? What Type of Error is Made?} \label{sec:error-analysis}
 \begin{itemize}
@@ -46,5 +51,3 @@ sidebar: we can use differentia size to trade off between error and reconstructi
     \item show reconst error/inner node count vs. sample size (error increases with sample size)
     \item show reconst error/inner node count vs. bit size at large sample (we can reduce the error for large sample size by increasing bit size)
 \end{itemize}
-
-\input{fig/recency-structure}
