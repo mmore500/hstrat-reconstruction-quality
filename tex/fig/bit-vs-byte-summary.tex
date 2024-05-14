@@ -5,12 +5,14 @@
 \begin{subfigure}[b]{0.4\textwidth}
 \centering
 \includegraphics[height=1.2in,trim={0 0 5cm 0},clip]{binder/binder/teeplots/annotation-size-bits=256+col=scenario+differentia-width-bits=8+hue=outcome+kind=hist+multiple=fill+row=algo+scale=npop65536-ngen100000+viz=displot+x=time-ago+ext=}
-\caption{256-bit annotation, byte differentia}
+\footnotesize
+\caption{byte differentia outcomes; 256-bit annotation}
 \end{subfigure}%
 \begin{subfigure}[b]{0.6\textwidth}
 \centering
 \includegraphics[height=1.2in]{binder/binder/teeplots/annotation-size-bits=256+col=scenario+differentia-width-bits=1+hue=outcome+kind=hist+multiple=fill+row=algo+scale=npop65536-ngen100000+viz=displot+x=time-ago+ext=}
-\caption{256-bit annotation, bit differentia}
+\footnotesize
+\caption{bit differentia outcomes; 256-bit annotation}
 \end{subfigure}
 % \begin{subfigure}[b]{0.6\textwidth}
 % \centering
@@ -26,11 +28,17 @@
   \begin{subfigure}[b]{\textwidth}
     \centering
     \includegraphics[width=0.8\linewidth]{binder/binder/bit-vs-byte/teeplots/col=metric+hue=relative-grade+kind=strip+row=policy+viz=catplot+x=cliff-s-delta+y=scenario+ext=}
-    \caption{TODO}
+    \footnotesize
+    \caption{Reconstruction quality of byte differentia, relative to bit differentia; 256-bit size annotation}
   \end{subfigure}%
 \caption{%
-  \textbf{Differentia width TODO?}
-  TODO
+  \textbf{How does differentia width affect reconstruction quality?}
+   Top panels show reconstruction outcomes for phylogenetic branching events (Figure \ref{fig:hstrat-failure-modes}) under bit- and byte-width differentiae, respectively.
+   Outcomes are binned by time ago (ranging from most recent to most ancient).
+   Bottom panel compares reconstruction quality metrics between reconstructions from annotations with bit- and byte-width differentiae.
+   Color coding indicates significance, with red indicating better bit-width differentia performance and green indicating better byte-width differentia performance
+   Byte-width differentia annotation consistently underperforms bit-width differentia in inner node loss and strict triplet distance measures.
+   However, byte-width differentia outperform bit-width differentia in the lax triplet distance measure, which does not penalize polytomy triplets, i.e., isolating incorrect reconstruction from unresolved reconstruction (Figure \ref{fig:hstrat-failure-modes}).
   See Supplementary Figure \ref{fig:bit-vs-byte} for listing of effects by sensitivity analysis condition.
 }
   \label{fig:bit-vs-byte-summary}
