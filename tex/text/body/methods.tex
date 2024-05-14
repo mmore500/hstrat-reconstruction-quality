@@ -126,7 +126,7 @@ Islands were arranged in a one-dimensional closed ring and 1\% of population mem
 The niche model, used to induce ecological structure, also applies a simple approach.
 Organisms were arbitrarily assigned to a niche at simulation startup, with a fixed, equally-portioned population slots assigned to each niche.
 In the selection procedure, individuals exclusively compete with members of their own niche.
-Every generation, individuals swapped niches with probability $3.0517578125 \times 10^{-8}$ (chosen so one niche swap would be expected every 500 generations at the larger population size and 4,000 generations at the smaller). 
+Every generation, individuals swapped niches with probability $3.0517578125 \times 10^{-8}$ (chosen so one niche swap would be expected every 500 generations at the larger population size and 4,000 generations at the smaller).
 
 We also included a drift treatment, where selection was performed in a fully neutral manner.
 Drift conditions also enhance phylogenetic richness, but supplements other treatments by operating through an entirely alternate mechanism.
@@ -219,10 +219,10 @@ and (2) taxa correspond one-to-one between reconstruction and reference.
 Both conditions are satisfied; note that hereditary stratigraphy inherently produces rooted trees, a benefit of differentia time points being assigned relative to an explicit generation 0.
 
 To discern error arising from unresolved (as opposed to incorrect) reconstruction, we included a second reconstruciton quality measure: inner node loss.
-This metric quantifies the difference between the number of inner nodes present in the reference tree versus the reconstruction. 
+This metric quantifies the difference between the number of inner nodes present in the reference tree versus the reconstruction.
 It serves as a sort of precision measure, designed to assess the amount of phylogenetic detail lost due to artifactual polytomization.
 Inner node loss ranges from 0.0 (for reconstruction with as many inner nodes as reference) to a maximum of 1.0 (reconstruction is a pathological star phylogeny with only one inner node).
-Note that a negative inner node loss might be measured if the reconstruction contains more inner nodes than the reference, owing to erroneous overresolution. 
+Note that a negative inner node loss might be measured if the reconstruction contains more inner nodes than the reference, owing to erroneous overresolution.
 This might occur, for instance, due to the inherent inability of bit-width differentia to represent higher degree than bifurcation.
 For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
@@ -244,14 +244,13 @@ As our goal was to screen for possible effects, rather than establish the veraci
 
 \subsection{Software and Data Availability}
 
-Software, configuration files, and executable notebooks for this work are available at \url{https://doi.org/10.5281/zenodo.11178607}.
+Software, configuration files, and executable notebooks for this work are available via Zenodo at \url{https://doi.org/10.5281/zenodo.11178607}.
 Data and supplemental materials are available via the Open Science Framework \url{https://osf.io/n4b2g/} \citep{foster2017open}.
 
-All hereditary stratigraph annotation, reference phylogeny generation, and phylogenetic reconstruction tools used in this work are published in the \textit{hstrat} Python package \citep{moreno2022hstrat}.
+Core hereditary stratigraphy annotation, reference phylogeny generation, and phylogenetic reconstruction tools used in this work are published in the \textit{hstrat} Python package \citep{moreno2022hstrat}.
 This project can be visited at \url{https://github.com/mmore500/hstrat}.
-For interchangeability/consistency, and owing to the recent creation of the surface-based herediitary stratigraphy, and the underlying downstream curation algorithms behind it, all experiments used the \texttt{HereditaryStratigraphicColumn} impelementation from \texttt{hsttrat}.
-We used a shim to convert the retention patterns that would occur under surface site selection algorithms to column retention policies.
-The site selection algorithms and shim used are provided here \citep{moreno2024hsurf}.
-In the medium-term future, we anticipating publishing the surface as a first-class data structure within \texttt{hstrat} and we plan to release the downstream stream curation site selection algorithms in a standalone Python library.
+On account of recent development of surface-based hereditary stratigraphy algorithms, their source code is currently hosted separately at \url{https://github.com/mmore500/hstrat-surface-concept} \citep{moreno2024hsurf}.
+To streamline treatment interoperation, all experiments used underlying \texttt{HereditaryStratigraphicColumn} impelementation from \textit{hstrat} and a shim class (available with the surface algorithms) was convert the retention patterns that would occur under surface site selection algorithms to column retention policies.
+In the medium-term future, we anticipating publishing the surface as a first-class data structure within \textit{hstrat} Python library.
 
-This project uses data formats and tools associated with the ALife Data Standards project \citep{lalejini2019data} and benefited from many pieces of open-source scientific software \citep{ofria2020empirical,sand2014tqdist,2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,sukumaran2010dendropy,cock2009biopython,dolson2024phylotrackpy,torchiano2016effsize,waskom2021seaborn,hunter2007matplotlib,moreno2024apc,moreno2024qspool,moreno2023teeplot,hagen2021gen3sis,ofria2004avida,torchiano2016effsize}. % TODO check this
+This project uses data formats and tools associated with the ALife Data Standards project \citep{lalejini2019data} and benefited from many pieces of open-source scientific software \citep{ofria2020empirical,sand2014tqdist,2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,sukumaran2010dendropy,cock2009biopython,torchiano2016effsize,waskom2021seaborn,hunter2007matplotlib,moreno2024apc,moreno2024qspool,moreno2023teeplot,hagen2021gen3sis,torchiano2016effsize}.
