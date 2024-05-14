@@ -228,6 +228,13 @@ This might occur, for instance, due to the inherent inability of bit-width diffe
 For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
 
+To further discern error from unresolved versus incorrect reconstruction, we occasionally distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
+Lax triplet distance differs from strict triplet distance in that it does not penalize triplets that mismatch on account of polytomy.
+This measure is useful in isolating incorrect reconstruction from unresolved reconstruction.
+However, care should be taken in interpreting lax triplet distance, as the pathological ``star'' tree case where all leaves descend directly from the root in one large polytomy would measure zero reconstruction error under the lax triplet distance measure.
+As such, where used strict triplet distance is also reported.
+Where not specified, triplet distance refers to the strict measure.
+
 \input{fig/examplepanel}
 
 Figure \ref{fig:examplepanel} shows example reference phylogenies, corresponding reconstructions, and quality metrics in practice.
@@ -239,7 +246,7 @@ Correspondlingly, many large polytomies can be seen in the example steady-retent
 Under the plain treatment, steady retention leads to particularly high (almost complete) inner node loss and, correspondingly, triplet distance similarity (purple dots) is very poor.
 Despite high inner node loss under the drift treatment, however, triplet distance remains low under steady retention.
 Across example cases shown, tilted retention enjoys triplet distance and inner node loss comparable or better to that of steady retention.
-The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth. 
+The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth.
 
 \subsection{Statistical Methods}
 
