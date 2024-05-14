@@ -49,123 +49,45 @@ sidebar: we can use differentia size to trade off between error and reconstructi
     \item show reconst error/inner node count vs. bit size at large sample (we can reduce the error for large sample size by increasing bit size)
 \end{itemize}
 
-\subsection{Synthesis} \label{sec:synthesis}
+Note that inner node loss will likely be less of an issue for asynchronous generations on account of leaves being generationally dispersed.
 
-\textbf{Algorithm Configuration}
-\begin{itemize}
-\item \textbf{Direct tracking or reconstruction-based approach?}
-  In highly parallel and distributed experiments, reconstruction-based approach (hereditary stratigraphy) provide simpler implementation, lower runtime overhead costs, and greater robustness to data loss.
-  In serial or centralized simulations, direct phylogenetic tracking should usually be preferred due to its capability for perfect record-keeping.
-  However, reconstruction-based tracking may have certain advantages in some circumstances: under requirements for hard limits on memory use, hard real time operation, or where agents are frequently serialized/stored between different experiments and being able to retain their phylogenetic histories without keepin a global phylogenetic record is desirable.
-\item \textbf{Retention policy: steady or tilted?} 
-  If you suspect \textit{very weak} phylodiversity-enhancing factors (ecology, spatial structure, low seletion pressure), use a steady policy.
-  If you expect strong phylodiversity-enhancing factors or are unsure, use a hybrid policy or a tilted policy.
-  In rare cases where phylodiversity-enhancing factors are very strong (e.g., pure drift conditions), a tilted policy may be appropriate.
-  Suggested default choice: hybrid policy.
-\item \textbf{Differentia size: bit or byte?}
-  Bit-size differentia maximize the fraction of correct reconstruction outcomes, but can also introduce incorrect reconstruction outcomes.
-  Byte-size differentia have very low incorrect reconstruction outcome rates, but have a larger incidence of unresolved reconstruction oucomes (false polytomies).
-  If you need very strong guarantees against incorrect reconstruction outcomes, an even larger differentia size (32 or even 64 bits) may be appropriate. 
-  Suggested default choice: bit-size differentia.
-\item \textbf{Annotation size: constant or dynamic?}
-  In most scenarios, a constant-size annotation will be more computationally efficient and ensure fuller use of available memory resources.
-  However, if you need hard guarantees on recency-proportional inference quality, use a annotation size that scales $\mathcal{O}log(n)$ with generational depth.
-  Suggested default choice: constant-size annotations.
-\item \textbf{Annotation size: how many bits?}
-  This factor trades off between memory-use and communication-bandwidth overhead for annotations and quality of reconstructed phylogenies.
-  In cases where annotation size is not a limiting factor, when using single-bit differentia 256 bit annotations will discern phylogenetic events with about 13\% recency-relative precision (tilted) or 1\% depth-relative precision (steady) through 1 billion generations.
-  For full-byte differentia, an annotation size on the order of kilobits would be very robust.
-  Where annotation resource use is a limiting factor, a 64 bit annotation can give good results.
+\subsection{Reconstruction Quality of New Surface Algorithms}
 
-  Current implementations of surface algorithms are limited to buffer sizes that are even powers of two (32, 64, 128, etc.).
-  Where finer gradations are desired, intermediate differentia sizes (e.g., storing 3 bit differentia over 32 surface sites would occupy 96 bits) or alternating depositions onto amalgamated surfaces might be considered (e.g., a 32 bit tilted surface and a 16 bit steady surface) --- although the latter would require some minor algorithm implementaiton customizations akin to those conducted for the hybrid surface.
-  Column algorithms are more flexible in buffer sizing, but make less full use of available buffer space.
+\input{fig/col-vs-surf.tex}
 
-  According to results here, simulation scale does not appear to be a major factor in considering annotation size, because at the same absolute sample sizes samples from differently sized populations have no clear trend in reconstruction quality characteristics.
-  However, sample size may play into decision of annotation size (see below).
+Figure \ref{fig:col-vs-surf} compares reconstruction quality for surface algorithms against their corresponding column implementation.
+We did this by using a simple simulation to generate phylogenies under different conditions with perfect tracking, then simulating heritage of hstrat annotations down the perfect tree and subsequent reconstruction.
+We could then compare the reconstruction that would have been obtained under approximate tracking to the underlying ground truth.
 
-  Note that in addition to differentia values, a generation counter will also need to be stored in genomes (for most use cases, a 32- or 64-bit value).
+To ensure generalizable results, we tested over a large number of evolutionary regimes, population sizes, instrumentation sizes, and instrumentation fingerprint sizes.
+Each row in Figure \ref{fig:col-vs-surf} represents a distinct combination of surveyed conditions.
 
-  In scenarios where explicitly differentiating between founding clades is paramount, 
-  \footnote{One possible exception is cases where a global monotonic counter is available and it is desirable to demarcate phylogenetic history in terms of simulation time rather than generations.}
-\item \textbf{Implementation: column or surface?}
-  If you are using dynamic annotation size, you will need a column-based implementation to allow differentia count fluxuations.
-  Otherwise, for constant annotation size, surface implementations are much more efficient \citep{TODOOTHERPAPER}.
-  In the case of tilted retention policy, they also give higher-quality reconstructions.
-  If using steady policy, column implementation gives higher-quality reconstructions and is preferable if computational performance is not a concern.
-  Another factor that might influence this decision is the software platform being designed for.
-  If packages providing hereditary stratigraphy are not available, surface algorithms are easier to implement owing to greater orthogonality between the algorithm implementaiton (site selection) and data structure (simple buffer).
-  Suggested default choice: surface implementation.
-\item \textbf{Administration: update frequency?}
-  For most applications, hereditary stratigraph updates should correspond directly to generations elapsed.
-  However, in cases with expected very high generation counts that outstrip the capacity of on-genome counter size and fine-resolution visibility over recent history is not necessary.
-  In other circumstances, where time-indexed resolution is preferred or ultrametricity (even branch lengths from root) is paramount, it may be preferred to update annotations on the basis of simulation update cycles rather than generations.
-  Under this approach, annotations on all genomes
-  Suggested default choice: every-generation updates.
-\item \textbf{Simulation content: sexual or asexual?}
-  The core of existing hereditary stratigraphy is designed around asexual lineages and that makes it very straightforward and simple to apply to evolution simulations with asexual reproduction.
-  Although there has been some preliminary work demonstrating applications of hereditary stratigraphy to sexual populations, operating procedures are not as well developed for this mode of evolution.
-  One possibility includes tracking asexual lineages of individual genes (``gene trees'').
-  Organism-level annotation could be used to track the emergence of new independently-breeding subpopulations (``species trees''').
-  This approach relies on distinct annotation values reaching fixation within independent subpopulations.
-  This can be accomplished through drift where offspring inherit the differentia record of a randomly-selected parent or, alternatively, through a gene drive mechanism where, for many-bit differentia, large-magnitude values are favored for inheritance and thereby rapdily sweep through interbreeding subpopulations. 
-  Refer to \citep{moreno2024methods} for additional discussion.
-\item \textbf{Sampling strategies}
-Care will need to be taken to account for sample size and sample size relative to the whole population in analyses.
-Triplet distance appears to be largely stable under surveyed increases in sample size.
-However, loss of inner nodes occuring near the tips is observed when increasing sampling size.
-Where this is a problem, differentia count and/or size should be increased.
+We took three measures of reconstruction quality.
+The first measure, triplet distance, is a measure of accuracy --- it is the fraction of triplet tips that are correctly arranged in the reconstruction.
+Whereas this metric considers polytomies as distinct from separate branching events, our second measure is a lax variant of triplet distance that does not penalize penalties introduced into the reconstruction (i.e., due to uncertainty about branching order) or over-resolution of true polytomies into more nodes in the reconstruction.
+Finally, we also include inner node count, which provides a measure of the amount of detail achieved by reconstructions.
+Higher inner node count indicates that fewer branching events are being lumped together into polytomies due to insufficient information to differentiate them.
+This metric is only applicable to scenarios with fingerprint sizes larger than one bit (i.e., a byte), which are capable of generating non-bifurcating trees.
 
-Note that reconstruction techniques are fully compatible to stitch together across widely-varying time points.
-Indeed, these taxa can provide valuable information about extincted lineages.
-Intermediate taxa can sould serve a role akin to ``fossils'' in studies of natural history.
+The data tell two clear stories:
+\begin{enumerate}
+\item surface tilted algorithms create higher-quality reconstructions than column-based tilted algorithms and
+\item surface column algorithms create lower-quality reconstructions than column-based column algorithms.
+\end{enumerate}
 
-For more advanced analyses, it may be desirable to associate sampled strata with trait data \citep{TODOMODES,TODOCITEFROMJACOB}
+The surface tilted performs significantly best in 14 / 48 scenarios for triplet distance, 9 / 48 for lax triplet distance, and all scenarios where inner node count is applicable.
+It performs significantly worse in no scenarios.
 
-\end{itemize}
+The surface steady performs significantly worse in 11 / 48 scenarios for triplet distance, in 1/48 scenarios for lax triplet distance, and 4/12 scenarios for inner node loss.
+The surface steady performs significantly better than the column in no scenarios.
 
-\textbf{Simulation Integration}
+The performance advantage of surface-tilted is likely because the surface-based algorithms can make better use of available space --- every site is always in use to store a fingerprint.
+In contrast, under the column-based approach, some fraction of the available space is typically unused because of difficulty predicting the order with which sites will need to be eliminated \textit{a priori} and thus eliminating them based on a heuristic (TODO rewrite this sentence).
 
-Three major steps will be necessary to be implemented to run the hereditary stratigraphy pipeline: (1) integration of instrumentation into the simulation runtime genome model, (2) serialization of evolved agents' markers from simulation, (3) loading data into the Python \textit{hstrat} library in order to analyze it.
+The performance detriment of column-steady likely stems from precise control of the column approach to sequence eliminations.
+The surface approach guarantees adherence to the fixed resolution qualities provided by the column approach, but the process of degrading from one spacing to the next double-width spacing is slightly more irregular on account of the additional consideration of being mapped onto the surface.
+Unlike the tilted algorithm, the steady column algorithm does not have difficulty filling available space.
 
-\begin{itemize}
-\item \textbf{Runtime Annotations}: 
-You will need to augment the Genome data structure in your simulation code in two ways: (1) to store hereditary stratigraphic annotation data and (2) add a call to the copy/reproduce or mutate function to update the differentia store and bump the generation counter.
-
-For sufaces, two components are required: a fixed-buffer differentia store and a generation counter.
-The differentia store can be implemented as an array of integer data types (e.g., \texttt{uint8}), but for bit differentia you will likely want to use a raw memory array or an abstraction around it if available (e.g., \texttt{std::bitset}).
-
-Surfaces also have a simple update procedure.
-Call \texttt{pick\_deposition\_site} and randomize the differentia element at the returned nth position.
-
-Software implementing column-based approaches is available for Python \citep{moreno2022hstrat} and surface-based approaches are available for Python \citep{TODO}, and Zig/Cerebras Software Language \citep{TODO}.
-Based on community feedback, C/C++ and Rust are priority targets to port hstrat surface implementations to.
-
-If you are using another software language, porting core algorithms should be doable with moderate effort.
-Are implemented primarily as a library of small functions ($\approx<30$ LOC) with accompanying tests, making them amenable to stepping-stone piece by piece transliteration.
-We found LLM assistance to be highly effective in translating the surface algorithms from Python to Zig \citep{TODO}.
-Feel free to get in touch --- we would be happy to furnish these algorithms in other languages if you have a use case.
-\item \textbf{Serialization}
-In order to transfer marker data for postprocessing, you will need to save it to file.
-For best compatibility with the analysis pipeline, extract annotations and save them together in a conventional format separate from other genome components (e.g., JSON, CSV).
-For each annotaiton, you will need to store the generation counter and the differentia data.
-One convenient plain text way to encode differentia data is as a hex string.
-
-In order to conduct postprocessing, you will need to use tools in the \textit{hstrat} library.
-When reserializing the data, you will need to know the 11¡retention policy and differentia width used so make sure these are recorded somewhere.
-Functions to convert raw data into intantiated \texttt{Column} objects are described in package documentation and examples, with a variety of entry points compatible with JSON, YAML, and CSV formats. 
-
-Note that, while the hstrat library also provides support to deserialize from compact binary formats in many circumstances, storage in plain text format with zipping (e.g., gzip) will provide competitive --- if not better --- space efficiency to binary representations and can be considerably easier to work with.
-
-\item \textbf{Analysis}
-Reconstruction algorithms are currently implemented in the \textit{hstrat} library.
-This algorithm takes a list of deserialized column objects and produces a phylogeny.
-Optionally, a list of taxa identifiers may also be provided if desired.
-A variety of tools for estimation of MRCA between marker pairs or groups are also provided.
-Reconstructions are reported in alife community data standard format \citep{TODO}.
-Tools are provided that can convert these formats to standard bioinformatics formats for interoperation with the rich existing software ecosystem for phylogenetic visualization and analysis \citep{TODOalifedataphyloinformaticsconvert}.
-\end{itemize}
-
-Our goal in building the software for hereditary stratigraphy is to provide sufficient documentation and convenient APIs to constitute a plug-and-play add-on that can be taken off the shelf with minimal effort.
-Building a user base is a key priority for the project, and we would be very interested in collaborating to integrate hereditary stratigraphy instrumentation into your system or provide algorithm implementations for your particular runtime.
-
+Recent work indicates that tilted policies should be preferred for better reconstruction accuracy in most cases, except where there are extreme factors promoting phylogenetic richness.
+Thus, degraded reconstruction performance from the steady surface is not much of a concern because the steady policy is not expected to be used frequently in practice.
+So, in addition to being capable of being implemented in a broader range of device contexts (not needing memory allocation or rich data structures) and being faster to calculate (discussed next), the surface-based approach can provide higher-quality phylogenetic reconstructions.
