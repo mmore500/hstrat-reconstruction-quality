@@ -15,6 +15,43 @@
 
 From this point onwards, only surf algorithms!!!
 
+Figure \ref{fig:col-vs-surf-summary} compares reconstruction quality for surface algorithms against their corresponding column implementation.
+We did this by using a simple simulation to generate phylogenies under different conditions with perfect tracking, then simulating heritage of hstrat annotations down the perfect tree and subsequent reconstruction.
+We could then compare the reconstruction that would have been obtained under approximate tracking to the underlying ground truth.
+
+To ensure generalizable results, we tested over a large number of evolutionary regimes, population sizes, instrumentation sizes, and instrumentation fingerprint sizes.
+Each row in Figure \ref{fig:col-vs-surf} represents a distinct combination of surveyed conditions.
+
+We took three measures of reconstruction quality.
+The first measure, triplet distance, is a measure of accuracy --- it is the fraction of triplet tips that are correctly arranged in the reconstruction.
+Whereas this metric considers polytomies as distinct from separate branching events, our second measure is a lax variant of triplet distance that does not penalize penalties introduced into the reconstruction (i.e., due to uncertainty about branching order) or over-resolution of true polytomies into more nodes in the reconstruction.
+Finally, we also include inner node count, which provides a measure of the amount of detail achieved by reconstructions.
+Higher inner node count indicates that fewer branching events are being lumped together into polytomies due to insufficient information to differentiate them.
+This metric is only applicable to scenarios with fingerprint sizes larger than one bit (i.e., a byte), which are capable of generating non-bifurcating trees.
+
+The data tell two clear stories:
+\begin{enumerate}
+\item surface tilted algorithms create higher-quality reconstructions than column-based tilted algorithms and
+\item surface column algorithms create lower-quality reconstructions than column-based column algorithms.
+\end{enumerate}
+
+The surface tilted performs significantly best in 14 / 48 scenarios for triplet distance, 9 / 48 for lax triplet distance, and all scenarios where inner node count is applicable.
+It performs significantly worse in no scenarios.
+
+The surface steady performs significantly worse in 11 / 48 scenarios for triplet distance, in 1/48 scenarios for lax triplet distance, and 4/12 scenarios for inner node loss.
+The surface steady performs significantly better than the column in no scenarios.
+
+The performance advantage of surface-tilted is likely because the surface-based algorithms can make better use of available space --- every site is always in use to store a fingerprint.
+In contrast, under the column-based approach, some fraction of the available space is typically unused because of difficulty predicting the order with which sites will need to be eliminated \textit{a priori} and thus eliminating them based on a heuristic (TODO rewrite this sentence).
+
+The performance detriment of column-steady likely stems from precise control of the column approach to sequence eliminations.
+The surface approach guarantees adherence to the fixed resolution qualities provided by the column approach, but the process of degrading from one spacing to the next double-width spacing is slightly more irregular on account of the additional consideration of being mapped onto the surface.
+Unlike the tilted algorithm, the steady column algorithm does not have difficulty filling available space.
+
+Recent work indicates that tilted policies should be preferred for better reconstruction accuracy in most cases, except where there are extreme factors promoting phylogenetic richness.
+Thus, degraded reconstruction performance from the steady surface is not much of a concern because the steady policy is not expected to be used frequently in practice.
+So, in addition to being capable of being implemented in a broader range of device contexts (not needing memory allocation or rich data structures) and being faster to calculate (discussed next), the surface-based approach can provide higher-quality phylogenetic reconstructions.
+
 \subsection{Steady vs. Tilted} \label{sec:steady-vs-tilted}
 \begin{itemize}
     \item steady worse than tilted
@@ -54,44 +91,3 @@ sidebar: we can use differentia size to trade off between error and reconstructi
 \end{itemize}
 
 Note that inner node loss will likely be less of an issue for asynchronous generations on account of leaves being generationally dispersed.
-
-\subsection{Reconstruction Quality of New Surface Algorithms}
-
-\input{fig/col-vs-surf.tex}
-
-Figure \ref{fig:col-vs-surf} compares reconstruction quality for surface algorithms against their corresponding column implementation.
-We did this by using a simple simulation to generate phylogenies under different conditions with perfect tracking, then simulating heritage of hstrat annotations down the perfect tree and subsequent reconstruction.
-We could then compare the reconstruction that would have been obtained under approximate tracking to the underlying ground truth.
-
-To ensure generalizable results, we tested over a large number of evolutionary regimes, population sizes, instrumentation sizes, and instrumentation fingerprint sizes.
-Each row in Figure \ref{fig:col-vs-surf} represents a distinct combination of surveyed conditions.
-
-We took three measures of reconstruction quality.
-The first measure, triplet distance, is a measure of accuracy --- it is the fraction of triplet tips that are correctly arranged in the reconstruction.
-Whereas this metric considers polytomies as distinct from separate branching events, our second measure is a lax variant of triplet distance that does not penalize penalties introduced into the reconstruction (i.e., due to uncertainty about branching order) or over-resolution of true polytomies into more nodes in the reconstruction.
-Finally, we also include inner node count, which provides a measure of the amount of detail achieved by reconstructions.
-Higher inner node count indicates that fewer branching events are being lumped together into polytomies due to insufficient information to differentiate them.
-This metric is only applicable to scenarios with fingerprint sizes larger than one bit (i.e., a byte), which are capable of generating non-bifurcating trees.
-
-The data tell two clear stories:
-\begin{enumerate}
-\item surface tilted algorithms create higher-quality reconstructions than column-based tilted algorithms and
-\item surface column algorithms create lower-quality reconstructions than column-based column algorithms.
-\end{enumerate}
-
-The surface tilted performs significantly best in 14 / 48 scenarios for triplet distance, 9 / 48 for lax triplet distance, and all scenarios where inner node count is applicable.
-It performs significantly worse in no scenarios.
-
-The surface steady performs significantly worse in 11 / 48 scenarios for triplet distance, in 1/48 scenarios for lax triplet distance, and 4/12 scenarios for inner node loss.
-The surface steady performs significantly better than the column in no scenarios.
-
-The performance advantage of surface-tilted is likely because the surface-based algorithms can make better use of available space --- every site is always in use to store a fingerprint.
-In contrast, under the column-based approach, some fraction of the available space is typically unused because of difficulty predicting the order with which sites will need to be eliminated \textit{a priori} and thus eliminating them based on a heuristic (TODO rewrite this sentence).
-
-The performance detriment of column-steady likely stems from precise control of the column approach to sequence eliminations.
-The surface approach guarantees adherence to the fixed resolution qualities provided by the column approach, but the process of degrading from one spacing to the next double-width spacing is slightly more irregular on account of the additional consideration of being mapped onto the surface.
-Unlike the tilted algorithm, the steady column algorithm does not have difficulty filling available space.
-
-Recent work indicates that tilted policies should be preferred for better reconstruction accuracy in most cases, except where there are extreme factors promoting phylogenetic richness.
-Thus, degraded reconstruction performance from the steady surface is not much of a concern because the steady policy is not expected to be used frequently in practice.
-So, in addition to being capable of being implemented in a broader range of device contexts (not needing memory allocation or rich data structures) and being faster to calculate (discussed next), the surface-based approach can provide higher-quality phylogenetic reconstructions.
