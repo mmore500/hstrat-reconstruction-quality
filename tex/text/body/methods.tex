@@ -185,7 +185,7 @@ Thus, each reconstruction replicate has a directly-corresponding reference tree 
 
 Reconstruction was fast, taking less than a second for the 500 leaf tree with the 256-bit annotation and,
 in optimized mode, about 5 seconds to build the 8,000 leaf tree.
-We then a postprocessing step, \texttt{hstrat.PeelBackConjoinedLeavesTriePostprocessor} which accounts for the fact that entirely identical annotations may only arise due to spurious differentia collision because distinct leaf taxa by definition cannot have shared ancestry in their penultimate generation.
+We then a postprocessing step, \texttt{hstrat.{\allowbreak}Peel{\allowbreak}Back{\allowbreak}Conjoined{\allowbreak}Leave{\allowbreak}sTrie{\allowbreak}Postprocessor} which accounts for the fact that entirely identical annotations may only arise due to spurious differentia collision because distinct leaf taxa by definition cannot have shared ancestry in their penultimate generation.
 This took about 20 seconds for the larger tree.
 Additional postprocessing options, including methods to assign timestamps to reconstructed inner nodes, are documented with the library.
 
