@@ -217,7 +217,7 @@ Triplet distance ranges from 0.0 (between identical trees) to 0.5 (between rando
 This measure requires two conditions to be satisfied, that (1) phylogenies are rooted%
 \footnote{Quartet distance, which consideres topologies of four-leaf subsets, is required in the unrooted case \citep{estabrook1985comparison}.}
 and (2) taxa correspond one-to-one between reconstruction and reference.
-Both conditions are satisfied; note that hereditary stratigraphy inherently produces rooted trees, a benefit of differentia time points being assigned relative to an explicit generation 0.
+Both conditions are satisfied; note that hereditary stratigraphy inherently produces rooted trees, a benefit of differentia time points being assigned relative to an explicit generation zero.
 
 To discern error arising from unresolved (as opposed to incorrect) reconstruction, we included a second reconstruciton quality measure: inner node loss.
 This metric quantifies the difference between the number of inner nodes present in the reference tree versus the reconstruction.
@@ -227,6 +227,19 @@ Note that a negative inner node loss might be measured if the reconstruction con
 This might occur, for instance, due to the inherent inability of bit-width differentia to represent higher degree than bifurcation.
 For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
+
+\input{fig/examplepanel}
+
+Figure \ref{fig:examplepanel} shows example reference phylogenies, corresponding reconstructions, and quality metrics in practice.
+The top panel shows trials from the drift treatment, which exhibits high phylogenetic rihness, and the bottom panel shows trials from the plain treatment, which exhibits low phylogenetic richness.
+(Note that, for legibility, time axes of phylogenies are log-scaled, which somewhat reduces the apparent visual distinction of high-versus-low phylogenetic richness.)
+Each panel compares reconstruction results under steady (left) and recency-proportional (right) instrumentation.
+Particularly high incidence of node loss (green triangle) can be seen under steady retention.
+Correspondlingly, many large polytomies can be seen in the example steady-retention reconstructions (blue overlaid dendrogram) compared to the corresponding reference phylogeny (orange underlaid dendrogram).
+Under the plain treatment, steady retention leads to particularly high (almost complete) inner node loss and, correspondingly, triplet distance similarity (purple dots) is very poor.
+Despite high inner node loss under the drift treatment, however, triplet distance remains low under steady retention.
+Across example cases shown, tilted retention enjoys triplet distance and inner node loss comparable or better to that of steady retention.
+The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth. 
 
 \subsection{Statistical Methods}
 
@@ -241,7 +254,7 @@ Note that the Cliff's delta statistic tops/bottoms out entirely once two distrib
 Where appropriate, we additionally report efffects directly in terms of the underlying quality metrics.
 
 We pair effect-size analysis with Mann-Whitney U testing in order to assess evidence that significant differences exist between reconstruction quality under different conditions \citep{mann1947on}.
-As our goal was to screen for possible effects, rather than establish the veracity of any one effext, we did not correct for multiple comparisons in assessing statistical significance.
+As our goal was to screen for possible effects, rather than establish the veracity of any one effect, we did not correct for multiple comparisons in assessing statistical significance.
 
 \subsection{Software and Data Availability}
 
