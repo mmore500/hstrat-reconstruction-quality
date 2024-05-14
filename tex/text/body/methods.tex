@@ -227,19 +227,20 @@ This might occur, for instance, due to the inherent inability of bit-width diffe
 For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
 
-\subsection{Effect-size Analysis}
+\subsection{Statistical Methods}
 
-To best inform practicioners, we sought to assess the consistency with which one type of instrumentation outperformed another across replicates.
-Cliff's delta provides useful nonparametric means for such effect size analysis.
-This statistic reports the proportion of distributional non-overlap between two distributions, ranging from -1/1 if two distributions share no overlap to 0 if they overlap entirely \citep{meissel2024using,cliff1993dominance}.
+Comparisons of reconstruction quality considered both statistical significance, the likelihood an observed difference between treatments might have occured by chance, and effect size, the magnitude of distinction between treatments relative to outcome variabilities.
+We used nonparametric methods for both analyses.
+By assessing effect sign, size, and significance across treatment conditions, we were able to describe the extent and consistency with which one instrumentation approach outperformed others.
+
+We used Cliff's delta to report effect size.
+This statistic describes the proportion of distributional non-overlap between two distributions, ranging from 1 (or -1) if two distributions share no overlap to 0 if they overlap entirely \citep{cliff1993dominance}.
 When reporting effect size, we use conventional thresholds of 0.147, 0.33, and 0.474 to distinguish between negligible, small, medium, and large effect sizes \citep{hess2004robust}.
-
 Note that the Cliff's delta statistic tops/bottoms out entirely once two distributions become completely separable.
-Although this property suits most analyses performed, it is occasionally useful to distinguish the extent of divergence between phylometric distributions past the point of complete separability.
-For these purposes, we perform a simple procedure to normalize phylometrics relative baseline conditions by subtracting out the baseline mean and dividing by the baseline standard deviation.
+Where appropriate, we additionally report efffects directly in terms of the underlying quality metrics.
 
-We typically pair effect-size analysis with Mann-Whitney U testing in order to assess the extent to which differences between phylometric readings under different conditions are, or are not, evidenced by available data \citep{mann1947on}.
-As a final detail, note that we typically report negated Cliff's delta values where necessary to ensure positive values correspond to larger phylometric values and vice versa.
+We pair effect-size analysis with Mann-Whitney U testing in order to assess evidence that significant differences exist between reconstruction quality under different conditions \citep{mann1947on}.
+As our goal was to screen for possible effects, rather than establish the veracity of any one effext, we did not correct for multiple comparisons in assessing statistical significance.
 
 \subsection{Software and Data Availability}
 
