@@ -103,39 +103,44 @@ To assess how, if at all, this trade-off impacts reconstruction quality, we incl
 Note that, in these experiments, we consider only fixed-size annotations.
 However, we anticipate nearly all hereditary stratigraphy use cases will apply fixed-size annotation, due to benefits from avoiding dynamic memory allocation and variable-length inter-process messaging at runtime.
 
-\subsection{Model System}  %TODO this section needs to be paraphrased
+\subsection{Model System}
 
-This section describes the used to generate reference phylogenies from
-Our goal in performing tests of reconstruction quality is to systematically alter the tree structure, with strong manipulations.
-We focused on manipulating phylogenetic richness, doing this by increasing spatial and ecological structure, which are known to increase richness \citep{moreno2024ecology,gomez2019understanding,valiente2007facilitation}.
-Tree imbalance, this is like increasing the taxa count on part of the tree.
-We manipulate taxa count as its own experimental treatment.
-Experiments testing the relationships between evolutionary dynamics, reconstruction error, and phylogenetic structure required a model system amenable to direct, interpretable tuning of ecology, spatial structure, and selection pressure.
-Finally, a parsimonious and generic model system was desired so that findings would better generalize across digital evolution systems.
-The core of this work relies on a simple agent-based model devised to fulfill these objectives.
-
-Genomes in our model comprised a single floating-point value, with higher magnitude corresponding to higher fitness.
-Extensions of hereditary stratigraphy to sexual lineages are possible \citep{moreno2024methods}.
-However, lineages used in this work were asexual in nature.
+This section describes the evolution simulations used to generate reference phylogenies for empirical annotate-and-reconstruct experiments to appraise hereditary stratigraphy methods.
+To support the large, exact-tracked phylogenies needed for this purpose, we utilized a barebones evolution model.
+Genomes comprised a single floating-point value, with higher magnitude corresponding to higher fitness.
 Selection was performed using tournament selection with synchronous generations.
 Mutation was applied after selection, with a value drawn from a unit Gaussian distribution added to all genomes.
+To ensure asexual lineages, no crossover or recombination operations were performed.
+(Extensions of hereditary stratigraphy to sexual lineages are possible \citep{moreno2024methods}, but not explored in this work.)
 Evolutionary runs lasted 100,000 generations.
-We also sought to understand the relationship between population scale and reconstruction quality.
-Population sizes of 4,096 ($2^{12}$) and 65,536 ($2^{16}$) were used for all experiments.
-We anticipate that in the majority of use cases, trees will be downsampled for tractability of phylogenetic analysis and reconstruction.
-As such, we were also interested in how the downsampling level related to reconstruction quality.
-We tested two downsampling levels: 500 taxa and 8,000 taxa (on the largest population size).
 
-Treatments incorporating spatial structure used a simple island model.
-In spatially structured treatments, individuals were evenly divided among islands and only competed in selection tournaments against sympatric population members.
+A major goal in these experiments is to assess reconstruction quality over a breadth of use case scenarios.
+To this end, we applied strong, explicit manipulations of evolutionary conditions to explore hereditary stratigtaphy methods across regimes of phylogenetic structure.
+One focus was phylogenetic richness, the amount of distinct lineage history maintained within an extant population --- also known as phylogenetic diversity \citep{tucker2017guide}.
+For a fixed population size, phylogenetic richness is increased by maintainting coexistence of deep phylogenetic branches.
+In two treatments, we applied spatial and ecological structure in concert to enhance phylogenetic richness \citep{moreno2024ecology,gomez2019understanding,valiente2007facilitation}, with spatial structure driven by a simple island population model and ecological strucutre driven by a simple niche models, respectively.
+
+The island model, used to induce spatial structure, distributed individuals evenly across islands, with selection processes taking place in isolation on each island.
 Islands were arranged in a one-dimensional closed ring and 1\% of population members migrated to a neighboring island each generation.
 
-Treatments incorporating ecology used a simple niche model.
-Population slots were split evenly between niches.
-Organisms were arbitrarily assigned to a niche at simulation startup and were only allowed to occupy population slots assigned to that niche.
-Therefore, individuals exclusively participated in selection tournaments with members of their own niche.
-In treatments also incorporating spatial structure, an even allotment of population slots was provided for every niche on every island.
+The niche model, used to induce ecological structure, also applies a simple approach.
+Organisms were arbitrarily assigned to a niche at simulation startup, with a fixed, equally-portioned population slots assigned to each niche.
+In the selection procedure, individuals exclusively compete with members of their own niche.
 Every generation, individuals swapped niches with probability $3.0517578125 \times 10^{-8}$ (chosen so one niche swap would be expected every 500 generations at the larger population size and 4,000 generations at the smaller). 
+
+We also included a drift treatment, where selection was performed in a fully neutral manner.
+Drift conditions also enhance phylogenetic richness, but supplements other treatments by operating through an entirely alternate mechanism.
+
+Another objective of employing a highly-abstracted model to generate reference phylogenies is to enhance generality, in support of developing recommendations broadly applicable across digital evolution systems.
+Other work with this simple model supports its generality, finding generally analogous (albeit less accentuated) effects of manipulating evolutionary conditions on phylogenetic structure \citep{moreno2024ecology}.
+This model system has been established in other existing work, as well \citep{moreno2023toward}.
+
+In addition to structural aspects of phylogeny composition, we also sought to understand the relationship between population scale and reconstruction quality.
+Population sizes of both 4,096 ($2^{12}$) and 65,536 ($2^{16}$) were used in experiments.
+Downsampling comprises an orthogonal dimension of phylogeny scale.
+We anticipate that that most use cases of hereditary stratigraphy will collect and analyze only a subset of extant taxa for tractability of data collection, phylogenetic reconstruction, and phylogenetic analysis.
+As such, experiments downsampled generated annotations to 500 taxa.
+In experiments using with larger population size, we also tested reconstructions over larger samples of 8,000 taxa.
 
 \subsection{Experimental Treatments}
 
@@ -154,65 +159,73 @@ For our main experiments, we defined the following ``regimes'' of evolutionary c
 
 % for condition in "export num_islands=1 num_niches=1 tournament_size=2" "export num_islands=1 num_niches=1 tournament_size=1" "export num_islands=4 num_niches=2 tournament_size=2" "export num_islands=64 num_niches=8 tournament_size=2"; do
 
-Across all experiments, each treatment comprised 20 replicates.
-
-This model system has been established to generate reference phylogenies in existing work \citep{moreno2023toward,moreno2024ecology}.
-
-We test five capacities and configurations of fingerprint retention.
+For each evolutionary regime, we tested five arrangements of annotation capacity and differentia size:
 \begin{itemize}
   \item 32-bit array,
   \item 64-bit array,
   \item 256-bit array, and
-  \item 32-byte (256-bit size) array.
+  \item 32-byte array (256-bit size).
 \end{itemize}
 
-For the column-based algorithms, this was a size cap.
-For the surfface-based algorithms, this was a buffer size.
+Differentia size controls the the probability of spurious collision, which is $1/2$ for 1 bit differentia and $1/256$ for 1 byte differentiae, while capacity limitations instead affects the time points where divergence between lineages can be compared.
 
-This work uses 1 byte differentiae, which collide with probability $1/256$, and 1 bit fingerprints, which collide with probability $1/2$.
-Greater space efficiency could be achieved using 1 bit fingerprints.
-However, this would require careful accounting for ubiquitous generation of identical fingerprints by chance and is left to future work.
+Treatments also considered \textit{steady-versus-tilted} retention policy and \textit{column-versus-surface} implementation.
+Recall that these considerations are largely orthogonal, with the former determining the overall balance of recent-versus-ancient retention and the latter determining the particulars of discard sequencing.
+Experiments using surface implementation, in addition to steady and tilted approaches, additionally considerd \textit{hybrid} retention policy where buffer space was split evenly begtween the former approaches.
 
-As a final point of clarification, r
-Orthogonal to the question of steady- and tilted-policy surface-based hereditary stratigraphy algorithms have been developed and thoroughly tested, though they have not yet been formalized.
+Across all experiments, each treatment comprised 20 replicates.
 
-\subsection{Agglomerative Reconstruction}
+\subsection{Agglomerative Phylogeny Reconstruction}
 
-In order to , it is necessary to actually build the trees.
-Implemented in the \texttt{build_tree} method in the \textit{hstrat} Python package \citep{moreno2022hstrat}.
-We devised an agglomerative tree building algorithm that works by successively adding leaf organism annotations and percolating them down from the tree root along the tree path of internal nodes consistent with their fingerprint sequence, then affixing them where common ancestry ends \citep{moreno2024analysis}.
-% @MAM did the test under drift conditions
-Building took less than a second for the 500 leaf tree with the 256-bit annotation.
-In optimized mode, the 256-bit annotation takes about 5 seconds to build the 8,000 leaf tree.
-We added a postprocessing step that takes 20 seconds.
-Part of the reason this is so fast is that we have synchronous generations.
-Asynchronous generations can run slower, owing to complications around missing differentia.
-In other work, we found that the current pure Python implementation built trees of 10,000 nodes in around an hour, at a rate slightly faster than 2 nodes per second under optimizations \citep{moreno2024trackable}.
-Optimized implementation in a compiled language is on the project roadmap, which we hope will speed this process up.
-We are also interested in exploring ways reconstruction implementation could leverage parallelization, owing to potential to rapdily sort taxa between the first n subtrees according to their initial differentia.
-
-To generate reconstructed trees in experiments, we simulated the inheritance of hereditary stratigraphic annotations along a reference phylogeny to yield the set of annotations that would be attached to extant population members at the end of a run, then used our agglomerative tree building technique.
+To assess how herediitary stratigraphy would reconstruct surveyed reference trees, we simulated the inheritance of hereditary stratigraphic annotations along each reference phylogeny.
+This yielded a set of annotations equivalent to what would be attached to extant population members at the end of a run.
+Then, we used the agglomerative tree building implementation provided as \texttt{hstrat.build\_tree} in the \textit{hstrat} Python package \citep{moreno2022hstrat}.
 Thus, each reconstruction replicate has a directly-corresponding reference tree from a perfect-tree treatment replicate.
-Figure \ref{fig:plain-perfect-and-reconstruction-phylogenies} shows a reference tree and corresponding reconstructions performed using 32-bit, 64-bit, 256-bit, and 32-byte (sized 256 bits) differentia arrays hereditary stratigraph annotations.
 
+Reconstruction was fast, taking less than a second for the 500 leaf tree with the 256-bit annotation and,
+in optimized mode, about 5 seconds to build the 8,000 leaf tree.
+We then a postprocessing step, \textttt{hstrat.PeelBackConjoinedLeavesTriePostprocessor} which accounts for the fact that entirely identical annotations may only arise due to spurious differentia collision because distinct leaf taxa by definition cannot have shared ancestry in their penultimate generation.
+This took about 20 seconds for the larger tree.
+Additional postprocessing options, including methods to assign timestamps to reconstructed inner nodes, are documented with the library.
+
+The rapid speed of agglomerative reconstructions in this experiment owes, in part, to the synchronous generation structure of reference phylogenies.
+Reconstructions over annotations varying in generation count can run slower, owing to complications around differentiae retained by some annotations but already discarded by others.
+In other work, we found that the current \textit{hstrat} pure Python \texttt{build\_tree} implementation took about an hour to reconstruct 10,000 tips, a rate slightly faster than 2 nodes per second under optimizations \citep{moreno2024trackable}.
+Optimized implementation of \texttt{build\_tree} in a compiled language is on the \textit{hstrat} project roadmap, which will provide for faster reconstructions.
+We are also interested in exploring ways to parallelize reconstruction, perhaps by sorting taxa between $n$ subtrees according to their initial differentiae then filling in those separate trees concurrently.
 
 \subsection{Reconstruction Quality Measures}
 
-There are two failure modes where reconstruction can fail.
-property of hereditary stratigraphy
-Even in single-bit differentia, more than two records can be completely identical by chance.
-These will be reconstructed as a polytomy at the leaves.
-In the first, the reconstruction gives
-We used two measures of reconstruction quality.
+\input{fig/hstrat-failure-modes.tex}
 
-The first is accuracy.
-We used triplet distance as an accuracy measure.
-This measure samples random sets of three leaf nodes and checks whether their topology matches between two trees.
-To assess the efficacy of the new agglomerative tree-building approach, we calculated all reconstructed trees' triplet distance to their respective reference.
-Triplet distance ranges from 0 (between identical trees) to 0.5 (between random trees) to a hypothetical maximum of 1.0, providing in this case a measure of reconstruction error.
+Assessment of reconstruction quality sought, in addition to  characterizing a headline error measure across hereditary stratigraphy strategies, to provide diagnostic insight into the nature of reconstruction error produced and the underlying mechanistic reasons it occurs.
+Figure \ref{fig:hstrat-failure-modes} depicts two distinct failure modes of hereditary stratigraphy-based reconstruction, which we would like to be able to distinguish.
+This example comprises three taxa, $A$, $B$, and $C$.
+In ground truth, $A$ and $B$ are most closely related and $C$ is an out group.
+We distiguish three classes of reconstruction outcomes:
+\begin{enumerate}
+\item \textbf{correct reconstruction}, where retained differentia suffice to distinguish the $(AB,C)$ branch then the subsequent $(A,B)$ branch;
+\item \textbf{incorrect reconstruction}, where spurious differentia collision makes branches appear more closely related than they actually are, e.g., $B$ and $C$ sharing differentiae values by chance resulting in reconstruction where $B$ and $C$ are inferred as most closely related; and
+\item \textbf{unresolved reconstruction}, where differentia nnecessary to distinguish branching order (i.e., between $(AB,C)$ and $(A,B)$) are not available but subsequent differentia collision does not occur, resulting in artifactual $(A,B,C)$ polytomy.
+\end{enumerate}
+An exception is the case where several single-bit differentia records are entirely identical, which results in a polytomy where their leaf nodes derive from a common internal node.
 
-To complement accuracy, we also considered a precision measure, the fraction of nodes recovered.
-This helps to zero in on the the error introduced due to imprecision.
+We used triplet distance to assess the overall quality of reconstruction \citep{critchlow1996triples}.
+This approach considers all possible three-leaf subsets of a phylogeny, and reports the fraction with topologies mismatching the corresponding triplet in a reference tree.
+Triplet distance ranges from 0.0 (between identical trees) to 0.5 (between random trees) to a hypothetical maximum of 1.0
+This measure requires two conditions to be satisfied, that (1) phylogenies are rooted%
+\footnote{Quartet distance, which consideres topologies of four-leaf subsets, is required in the unrooted case \citep{estabrook1985comparison}.}
+and (2) taxa correspond one-to-one between reconstruction and reference.
+Both conditions are satisfied; note that hereditary stratigraphy inherently produces rooted trees, a benefit of differentia time points being assigned relative to an explicit generation 0.
+
+To discern error arising from unresolved (as opposed to incorrect) reconstruction, we included a second reconstruciton quality measure: inner node loss.
+This metric quantifies the difference between the number of inner nodes present in the reference tree versus the reconstruction. 
+It serves as a sort of precision measure, designed to assess the amount of phylogenetic detail lost due to artifactual polytomization.
+Inner node loss ranges from 0.0 (for reconstruction with as many inner nodes as reference) to a maximum of 1.0 (reconstruction is a pathological star phylogeny with only one inner node).
+Note that a negative inner node loss might be measured if the reconstruction contains more inner nodes than the reference, owing to erroneous overresolution. 
+This might occur, for instance, due to the inherent inability of bit-width differentia to represent higher degree than bifurcation.
+For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
+In this case, identical annotations are polytomized as leaves of a single inner node.
 
 \subsection{Effect-size Analysis}
 
