@@ -228,6 +228,19 @@ This might occur, for instance, due to the inherent inability of bit-width diffe
 For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
 
+\input{fig/examplepanel}
+
+Figure \ref{fig:examplepanel} shows example reference phylogenies, corresponding reconstructions, and quality metrics in practice.
+The top panel shows trials from the drift treatment, which exhibits high phylogenetic rihness, and the bottom panel shows trials from the plain treatment, which exhibits low phylogenetic richness.
+(Note that, for legibility, time axes of phylogenies are log-scaled, which somewhat reduces the apparent visual distinction of high-versus-low phylogenetic richness.)
+Each panel compares reconstruction results under steady (left) and recency-proportional (right) instrumentation.
+Particularly high incidence of node loss (green triangle) can be seen under steady retention.
+Correspondlingly, many large polytomies can be seen in the example steady-retention reconstructions (blue overlaid dendrogram) compared to the corresponding reference phylogeny (orange underlaid dendrogram).
+Under the plain treatment, steady retention leads to particularly high (almost complete) inner node loss and, correspondingly, triplet distance similarity (purple dots) is very poor.
+Despite high inner node loss under the drift treatment, however, triplet distance remains low under steady retention.
+Across example cases shown, tilted retention enjoys triplet distance and inner node loss comparable or better to that of steady retention.
+The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth. 
+
 \subsection{Statistical Methods}
 
 Comparisons of reconstruction quality considered both statistical significance, the likelihood an observed difference between treatments might have occured by chance, and effect size, the magnitude of distinction between treatments relative to outcome variabilities.
