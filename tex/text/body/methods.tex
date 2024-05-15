@@ -263,6 +263,16 @@ Where appropriate, we additionally report efffects directly in terms of the unde
 We pair effect-size analysis with Mann-Whitney U testing in order to assess evidence that significant differences exist between reconstruction quality under different conditions \citep{mann1947on}.
 As our goal was to screen for possible effects, rather than establish the veracity of any one effect, we did not correct for multiple comparisons in assessing statistical significance.
 
+
+Where determining the best- and worst-performing among three or more hereditary stratigraphy approaches, we use a nonparametric skimming procedure provided by the \textit{pecking} Python library \citep{moreno2024pecking}.
+The prcedure first applies a Kruskal-Wallis H-test to determine if there is evidence for significant variation among the sample groups.
+If this test fails, the groups are no best- or worst-performing group or groups are identified.
+If a significant difference is found, observation ranks are calculated and sample groups are sorted in order of mean rank.
+To discern the lowest-ranked group(s), successive Mann-Whitney U-tests are performed between the lowest-rank group and successively higher-ranked groups, adjusting the significance level (`alpha`) for multiple comparisons according to a sequential Holm-Bonferroni program.
+The overall lowest-ranked group and subsequent groups tested before encountering the first significantly-differing group are taken as the the best-performing (given that the metric in question is an error measure).
+This approach therefore identifies the set of lowest-ranked groups that are statistically indistinguishable amongst themselves.
+A similar procedure is used to identify a set of highest-ranked groups.
+
 \subsection{Software and Data Availability}
 
 Software, configuration files, and executable notebooks for this work are available via Zenodo at \url{https://doi.org/10.5281/zenodo.11178607}.
