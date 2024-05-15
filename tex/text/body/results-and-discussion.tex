@@ -66,23 +66,46 @@ Note that in the next set of experiments, which compares steady versus tilted re
 
 \subsection{Steady vs. Tilted Retention} \label{sec:steady-vs-tilted}
 
-\begin{itemize}
-    \item steady worse than tilted
-    \item hybrid similar to tilted
-\end{itemize}
-
 \input{fig/steady-vs-tilted-summary}
 
-\subsection{Why is Steady Bad? What Type of Error is Made?} \label{sec:error-analysis}
-\begin{itemize}
-    \item inner node loss from boxplot
-    \item then, it's coming from recent nodes: node density vs. time histogram joyplot
-    \item then, and that causes error: show error category (correct/wrong/unsure) vs. time stacked bar plot
-\end{itemize}
+Steady and tilted retention differ the composition of differentia checkpoint records maintained within hereditary stratigraphy annotations.
+Recall that steady policy spaces retained differentia evenly across history, while tilted policy retains more of more recent differentia.
+The question of which gives higher quality reconstruction, boils down to where precision in discerning the timing of branching events is most useful to resolving evolutionary history.
+In the interest of even footing, we report results for each retention policy using its best performing implementation, as established above: steady policy uses column implementation and tilted policy uses surface implementation.
+We also consider a hybrid policy, which splits surface buffer space evenly between steady and tilted retention.
 
-From this point onwards, only surface-tilted (maybe also tilted-hybrid?) algorithm(s)!!!!
+Figure \ref{fig:steady-vs-tilted-summary} overviews how reconstruction quality differs by retention policy across use case scenarios.
+Across the board, steady policy yields phylogenetic reconstruction with heaviest inner node loss.
+In contrast, tilted policy exibits among the lowest inner node loss in all but six surveyed scenarios --- including all byte-differentia trials (Supplementary Figure \ref{fig:steady-vs-tilted}).
+The hybrid policy has lower inner node loss in those six scenarios, which all involve evolutionary conditions with high phylgoenetic richness.
 
-\subsection{Why are we seeing error? What can we do about it?} \label{sec:error-uncertainty}
+Steady policy also consistently produces the worst triplet distance error in lower-phylogenetic-richness plain and mild structure evolutionary scenarios.
+However, in scenarios with high phylogenetic richness, triplet distance error under steady retention fare better.
+With rich ecological/spatial structure, triplet distance reconstruction error is largely indistinguishable among retention policies.
+Further, steady policy triplet error actually significantly outperforms tilted policy in several instances under drift conditions.
+In nearly all of these instances, though, hybrid policy triplet error performs comparably to steady retention.
+In scenarios with plain and mild structure scenarios, with low phylogenetic richness, hybrid triplet error is comparable to tilted error in 9 / 24 scenarios and outperformed in 15 / 24 scenarios.
+
+Across the inner node loss and triplet error quality measures, tilted retention frequently performs best and steady retention frequently performs worst.
+However, tilted retention has worse triplet error in some scenarios with high phylogenetic richness.
+Hybrid retention performs more consistently across evolutionary scenarios.
+It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend to not be far off from tilted retention.
+Triplet error for hybrid retention is often comparable to the better-performing of steady and tilted retention, or at least intermediate between them.
+For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:col-vs-surf}.
+
+\input{fig/recency-structure}
+
+Differences in retention of recent differentia explains the substantial advantage of tilted policy in use cases with low phylogenetic richness.
+In such scenarios, frequent selective sweeps concentrate phylogenetic history over very recent history, meaning that lineage branching events giving rise to a contemporary extant population occured over a relatively short period of time.
+Discerning these events, therefore, requires densely packed differentia checkpoints over recent history --- otherwise, in the worst case, taxa would jump from all sharing the same lineage marker at one checkpoint to being independently derived and result in a catastrophic unresolved polytomy.
+Steady retention maintains a uniform gap size between retained differentiae that grows linearly with generations elapsed, meaning that very recent history is sparsely covered, if at all.
+The consequences of this deficiency can be seen in Figure \ref{fig:recency-structure}, which compares the density of reconstructed nodes to ground truth.
+Reconstructions from steady policy are entirely missing branching events over the prefatory hundred or so generations.
+Figures \clabel{fig:bit-vs-byte-summary-byte-outcomes,fig:bit-vs-byte-summary-bit-outcomes} shows reconstruction outcomes resulting under this inner node loss affect reconstruction outcome.
+Under steady policy, very high levels of unresolved reconstruction occur in scenarios with low phylogenetic richness, particularly for recent branching events.
+Example reconstructions exhibiting catastrophic comb polytomies characteristic of steady reconstruction of low-richness phylogenies can be seen in \ref{fig:examplepanel}.
+
+\subsection{Bit vs. Byte Differentia Width} \label{sec:bit-vs-byte}
 
 mechanism of error: you have a lineage that diverges three ways between checkpoints (maybe make a figure of this); the two LEAST related happen to collide at the next checkpoint --- therefore, it looks like they're most related even though they're not.
 
