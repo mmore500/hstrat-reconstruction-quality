@@ -174,24 +174,45 @@ In this case, annotation updates would be elapsed, as necessary, on parents' ann
 This may require multiple back-to-back updates if several simulation time clock cycles have elapsed.
 
 \subsection{Postprocessing and Analysis}
-\begin{itemize}
-\item \textbf{Serialization}
-In order to transfer marker data for postprocessing, you will need to save it to file.
-For best compatibility with the analysis pipeline, extract annotations and save them together in a conventional format separate from other genome components (e.g., JSON, CSV).
-For each annotaiton, you will need to store the generation counter and the differentia data.
+
+\subsubsection{Sampling strategies}
+
+A typical approach will sample end-state extant agents as taxa for phylogenetic reconstruction.
+Note that it is not necessary to exhaustively collect the entire end-state population; for many analysis use cases, a representative sample of population members will suffice.
+Such an approach, however, will not provide information on extinct lineages.
+Because hereditary stratigraphy reconstruction techniques are fully compatible to stitch together across widely-varying time points, taxa can be sampled from across evolutionary time and integrated directly into phylogenetic reconstruction also incorporating end-state extant genomes.
+Such intermediate taxa from earlier time points can serve a role akin to ``fossils'' in studies of natural history.
+For more advanced analyses, it may be desirable to associate sampled specimens with genetic and/or phenotypic trait data \citep{dolson2019modes,TODOCITEFROMJACOB}.
+
+\subsubsection{Annotation Serialization}
+
+To export annotation data for analysis, you will need to save it to file.
+Workflows that save annotations separate from other genome components using a conventional plain text format (e.g., JSON, CSV) are typically most convenient.
+The \textit{hstrat} library provides a number of plug-and-play utilities for serialization of \texttt{HereditaryStratigraphicColumnObjects}.
+Functionality to provide direct support for serializing surface data is a priority item on the \textit{hstrat} road map.
+In the meantime, this must be done manually.
+For each annotation, you will need to store the generation counter and the differentia data.
 One convenient plain text way to encode differentia data is as a hex string.
+When loading annotation data, you will need to know the retention policy and differentia width used --- so make sure these are recorded.
 
-In order to conduct postprocessing, you will need to use tools in the \textit{hstrat} library.
-When reserializing the data, you will need to know the 11¡retention policy and differentia width used so make sure these are recorded somewhere.
-Functions to convert raw data into intantiated \texttt{Column} objects are described in package documentation and examples, with a variety of entry points compatible with JSON, YAML, and CSV formats.
+Note that, while the \textit{hstrat} library also provides support to serialize/deserialize from compact binary formats, storage in plain text format with zipping (e.g., gzip) will often provide equivalent space efficiency to binary representations and can be considerably easier to work with.
 
-Note that, while the hstrat library also provides support to deserialize from compact binary formats in many circumstances, storage in plain text format with zipping (e.g., gzip) will provide competitive --- if not better --- space efficiency to binary representations and can be considerably easier to work with.
+Phylogenetic reconstruction is implemented in the \textit{hstrat} Python library, so it will typically be necessary to load serialized annotation data into this environment.
+Functions to convert raw data into \texttt{Column} object instances are described in package documentation and examples, with a variety of entry points compatible with JSON, YAML, and CSV formats.
+Functionality to provide direct support for deserializing surface data is also a priority item on the \textit{hstrat} road map.
+In the meantime, this functionality is provided separately \citep{moreno2024hsurf}.
 
-\item \textbf{Analysis}
-Reconstruction algorithms are currently implemented in the \textit{hstrat} library.
-This algorithm takes a list of deserialized column objects and produces a phylogeny.
-Optionally, a list of taxa identifiers may also be provided if desired.
-A variety of tools for estimation of MRCA between marker pairs or groups are also provided.
-Reconstructions are reported in alife community data standard format \citep{TODO}.
-Tools are provided that can convert these formats to standard bioinformatics formats for interoperation with the rich existing software ecosystem for phylogenetic visualization and analysis \citep{TODOalifedataphyloinformaticsconvert}.
-\end{itemize}
+\subsubsection{Phylogeny Reconstruction}
+
+Phylogenetic reconstruction from annotations is implemented as \textit{build\_tree} in the \textit{hstrat} Python library \citep{moreno2022hstrat}.
+This algorithm takes in a sequence of deserialized column objects and produces a phylogeny.
+Optionally,if desired, a list of taxon identifiers can be provided to label leaf nodes in the reconstructed phylogeny.
+
+A variety of utilities to directly estimate MRCA among column objects without performing full reconstruction are also provided in \textit{hstrat}.
+
+\subsubsection{Phylogeny Analysis}
+
+Phylogenetic reconstructions from \textit{hstrat} are returned as a Pandas \texttt{DataFrame} in alife community data standard format \citep{lalejini2019data,reback2020pandas}.
+Tools are available to convert alife standard data into standard bioinformatics formats, such as Newick, NeXML, and NEXUS \citep{moreno2024apc}.
+This inverconvertability allows interoperation with rich existing software ecosystems for phylogenetic visualization and analysis.
+The online tool IcyTree provides a good starting point; phylogeny data can be uploaded in Newick format to create rich, exportable tree visualizations fully in-browser \citep{vaughan2017icytree}.
