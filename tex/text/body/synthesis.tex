@@ -113,20 +113,6 @@ In scenarios where explicitly differentiating between founding clades is paramou
 This tag would then be used as a first pass to divvy end-state annotations into independent sets before feeding them into separate reconstruction processes.
 If several founding lineages persist, with single-bit differentia spurious collisions can make completely-independent clades falsely appear to share an amount of common history.
 
-\subsubsection{Special-case topic: strided updates}
-\textit{Suggested default choice: update hereditary stratigraphy annotations every generation.}
-
-For most applications, annotation updates (i.e., appending a new differentia) should correspond directly to generations elapsed.
-However, in cases where fine-resolution visibility below a certain level is not useful, annotations may be updated only that often.
-For tilted policy, in particular, this approach can help preserve ancient differentia coverage for longer.
-
-\subsubsection{Special-case topic: clock-based updates}
-\textit{Suggested default choice: update hereditary stratigraphy on a generational basis, instead.}
-
-In circumstances where time-indexed resolution is preferred or ultrametricity (tips sharing equal branch lengths from root) is important, annotations can be updated on the basis of logical simulation time or even real time rather than generations elapsed.
-In this case, annotation updates would be elapsed, as necessary, on parents' annotations to bring them up-to-date to the current simulation time whenever reproduction event occurs.
-This may require multiple back-to-back updates if several simulation time clock cycles have elapsed.
-
 \subsubsection{Special-case topic: incorporating trait data}
 \textit{Suggested default choice: collect ``fossil'' phenotypes instead.}
 
@@ -138,26 +124,54 @@ This avoids bloating annotation sizes with dozens of trait values on each genome
 
 \subsection{Runtime Integration}
 
-Three major steps will be necessary to be implemented to run the hereditary stratigraphy pipeline: (1) integration of instrumentation into the simulation runtime genome model, (2) serialization of evolved agents' markers from simulation, (3) loading data into the Python \textit{hstrat} library in order to analyze it.
+Two major steps are necessary to integrate hereditary stratigraphy into evolution simulations: (1) add instrumentation to the \texttt{Genome} data type and (2) hook annotation update procedures to the copy/reproduce or mutate routine.
 
-\begin{itemize}
-\item \textbf{Runtime Annotations}:
-You will need to augment the \texttt{Genome} data structure in your simulation code in two ways: (1) to store hereditary stratigraphic annotation data and (2) add a call to the copy/reproduce or mutate function to update the differentia store and bump the generation counter.
+Software implementing column-based approaches is available for Python \citep{moreno2022hstrat} and surface-based approaches are available for Python \citep{moreno2024hsurf} and Zig/Cerebras Software Language \citep{moreno2024wse}.
+Based on community feedback, C/C++ and Rust are priority targets to port surface-based implementations to.
+However, porting core surface algorithms to another software language should be doable with moderate effort.
+Surface algorithms are implemented via small, pure functions ($\approx<30$ LOC) with accompanying tests, making them amenable to stepping-stone transliteration.
+We found LLM assistance to be highly effective in translating the surface algorithms from Python to Zig.
+That said, we encourage interested researchers to reach out if hereditary stratigraphy implementation is not available in their chosen programming language --- we would be happy to furnish these algorithms in other languages if you have a use case.
 
-For sufaces, two components are required: a fixed-buffer differentia store and a generation counter.
+\subsubsection{Annotation Data: Asexual}
+
+For suface-based annotations, two data components are required: a fixed-buffer differentia store and a generation counter.
 The differentia store can be implemented as an array of integer data types (e.g., \texttt{uint8}), but for bit differentia you will likely want to use a raw memory array or an abstraction around it if available (e.g., \texttt{std::bitset}).
+Differentia store memory should be randomized upon initialization.
 
-Surfaces also have a simple update procedure.
-Call \texttt{pick\_deposition\_site} and randomize the differentia element at the returned nth position.
+For column-based annotations, the \textit{hstrat} Python library furnishes a prepackaged \texttt{HereditaryStratigraphicColumn} class, which encapsulates all necessary state.
 
-Software implementing column-based approaches is available for Python \citep{moreno2022hstrat} and surface-based approaches are available for Python \citep{TODO}, and Zig/Cerebras Software Language \citep{TODO}.
-Based on community feedback, C/C++ and Rust are priority targets to port hstrat surface implementations to.
+\subsubsection{Annotation Data: Sexual}
+\textit{Suggested default choice: for sexual phylogenies inherit annotation from maternal (or arbitrary) parent, akin to mtDNA.}
 
-If you are using another software language, porting core algorithms should be doable with moderate effort.
-Are implemented primarily as a library of small functions ($\approx<30$ LOC) with accompanying tests, making them amenable to stepping-stone piece by piece transliteration.
-We found LLM assistance to be highly effective in translating the surface algorithms from Python to Zig \citep{TODO}.
-Feel free to get in touch --- we would be happy to furnish these algorithms in other languages if you have a use case.
-\end{itemize}
+The core of existing hereditary stratigraphy is designed around asexual lineages and that makes it very straightforward and simple to apply to evolution simulations with asexual reproduction.
+Although there has been some preliminary work demonstrating applications of hereditary stratigraphy to sexual populations, operating procedures are not as well developed for this mode of evolution.
+One possibility includes tracking asexual lineages of individual genes (``gene trees'').
+In this scenario, annotation data would be associated to individual genetic building blocks.
+Organism-level annotation could be used to track the emergence of new independently-breeding subpopulations (``species trees''').
+This approach relies on distinct annotation values reaching fixation within independent subpopulations.
+This can be accomplished through drift where offspring inherit the differentia record of a randomly-selected parent or, alternatively, through a gene drive mechanism where, for many-bit differentia, large-magnitude values are favored for inheritance and thereby rapdily sweep through interbreeding subpopulations.
+Refer to \citet{moreno2024methods} for more detailed discussion of this topic.
+
+\subsubsection{Annotation Update}
+\textit{Suggested default choice: update hereditary stratigraphy annotations every generation.}
+
+When annotations are inherited, then should be updated to add a new differentia for that generation and elapse the annotation-associated generation counter.
+Usually, this should be acocmplished by hooking the annotaiton update routine into an existing create offspring routine.
+For genotype-level tracking (as opposed to individual-level tracking), annotation update could instead be applied as a part of a apply mutation routine.
+
+When using the \textit{hstrat} \texttt{HereditaryStratigraphicColumn} object, update logic is bundled into the \texttt{DepositStratum} method.
+
+For surface-based annotations, call the chosen retention policy's \texttt{pick\_deposition\_site} method and randomize the differentia element at the returned $n$th position.
+Then, the associated generation counter shold be incremented.
+
+For most applications, annotation updates (i.e., appending a new differentia) should correspond directly to generations elapsed.
+However, in cases where fine-resolution visibility below a certain level is not useful, annotations may be updated only that often.
+For tilted policy, in particular, this approach can help preserve ancient differentia coverage for longer.
+
+In circumstances where time-indexed resolution is preferred or ultrametricity (tips sharing equal branch lengths from root) is important, annotations can be updated on the basis of logical simulation time or even real time rather than generations elapsed.
+In this case, annotation updates would be elapsed, as necessary, on parents' annotations to bring them up-to-date to the current simulation time whenever reproduction event occurs.
+This may require multiple back-to-back updates if several simulation time clock cycles have elapsed.
 
 \subsection{Postprocessing and Analysis}
 \begin{itemize}
