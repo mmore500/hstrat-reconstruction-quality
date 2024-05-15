@@ -107,15 +107,26 @@ Example reconstructions exhibiting catastrophic comb polytomies characteristic o
 
 \subsection{Bit vs. Byte Differentia Width} \label{sec:bit-vs-byte}
 
-mechanism of error: you have a lineage that diverges three ways between checkpoints (maybe make a figure of this); the two LEAST related happen to collide at the next checkpoint --- therefore, it looks like they're most related even though they're not.
-
-sidebar: we can use differentia size to trade off between error and reconstruction accuracy; using 1 byte differentia essentially drives error to zero (but introduces uncertainty i.e., more polytomies in reconstruction)
-
-\subsection{Differentia Width} \label{sec:bit-vs-byte}
-
 \input{fig/bit-vs-byte-summary}
 
-\subsection{Does it Scale?} \label{sec:scaling}
+We now turn to consider the role of differentia size in hereditary stratigraphy reconstruction quality.
+Intuitively, tuning differentia size would seem to trade off between accuracy and precision.
+Larger differentiae reduce the probability of spurious collision, which falsely makes lineages appear more closely related than they actually are.
+Note, in particular, that reconstructions from bit-sized differentia estimate all history as bifurcating, because each checkpoint can only discern two distinct lineages.
+On the other hand, for fixed annotation size, widening differentia necessarily reduces differentia count.
+Thus, differentia size diminishes the granularity at which branching events can be dated.
+
+To ascertain the actual effects of differentia width on reconstruction quality, we performed annotate-and-reconstruct experiments across a variety of use case scenarios.
+These experiments used 256-bit sized annotations, comprised of either 256 bit-sized differentiae or 32 byte-sized differentiae.
+Figure \ref{fig:bit-vs-byte-summary-quality} overviews the relative performance of bit- and byte-width differentiae on triplet distance and inner node loss quality measures.
+(Supplementary Figure \ref{fig:bit-vs-byte} presents these results in greater detail, showing reconstruction outcomes for each treatment condition surveyed.)
+However, byte-width differentia consistently produces reconstructions with lower inaccuracy --- as measured by lax triplet distance, which does not penalize unresolved reconstruction.
+Byte-width's lower incidence of incorrect reconstruction outcomes is apparent in Figures \clabel{fig:bit-vs-byte-summary-byte-outcomes,fig:bit-vs-byte-summary-bit-outcomes}, which assess rates of correct, incorrect, and unresolved reconstruction outcomes across evolutionary history.
+Unlike bit-width annotations, byte-width methods produce almost no incorrect reconstruction outcomes.
+However, owing to unresolved byte-width outcomes, bit-width annotations nonetheless hve a higher rate of correct outcomes.
+Figure \ref{fig:bit-vs-byte-summary-quality} indeed confirms that, in nearly all cases, bit-width differentiae produce more informative depictions of phylogenetic history, as measured by strict triplet distance.
+
+\subsection{Reconstruction Quality vs. Phylogeny Scale} \label{sec:scaling}
 \input{fig/scaling-summary}
 
 
