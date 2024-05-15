@@ -1,14 +1,37 @@
 \section{A Practicioner's Guide to Hereditary Stratigraphy} \label{sec:synthesis}
 
-This section synthesizes reconstruction quality experiments reported earlier, as well as work in other places, in order to provide concrete, action-oriented advice to EFFECTIVELY employ hereditary stratigraphy in your digital evolution experiment, or other use case.
+This section shifts focus from an analytical, hypothesis-driven framing, as applied in the previous section, to discussion that is instead prescriptive and summative.
+The goal here is to synthesize results from reported annotation-and-reconstruct experiments, as well as other work testing and applying hereditary stratigraphy, to provide concrete, action-oriented advice to guide the reader in effectively applying hereditary stratigraphy in their digital evolution experiment, or other use case.
 
-\textbf{Algorithm Configuration}
+Discussion covers the following questions,
+\begin{enumerate}
+\item Should I use hereditary stratigraphy or phylogenetic direct tracking?
+\item How should I choose appropriate hereditary stratigraphy configuration for my use case?
+\item How do I integrate hereditary stratigraphy instrumentation into my digital evolution simulation?
+\item How do I work with hereditary stratigraphy annotation data once it is generated?
+
+\subsection{Hereditary Stratigraphy or Direct Tracking?}
+
+If you are not using parallel or distributed computing, direct phylogenetic tracking should usually be preferred due to its capability for perfect record-keeping; likewise, if your simulation uses a centralized controller-worker paradigm.
+A tool like Phylotrack (asexual phylogenies; Python/C++), APoGET (sexual phylogenies; C++) or MABE (C++) might be appropriate for your use case \citep{dolson2024phylotrack,bohm2017modular}.
+It is also reasonably straightforward to implement phylogeny tracking yourself \citep{moreno2024algorithms}.
+However, for serial or centralized simulations there are a few scenarios where reconstruction-based tracking may be useful,
 \begin{itemize}
-\item \textbf{Direct tracking or reconstruction-based approach?}
-  In highly parallel and distributed experiments, reconstruction-based approach (hereditary stratigraphy) provide simpler implementation, lower runtime overhead costs, and greater robustness to data loss.
-  In serial or centralized simulations, direct phylogenetic tracking should usually be preferred due to its capability for perfect record-keeping.
-  However, reconstruction-based tracking may have certain advantages in some circumstances: under requirements for hard limits on memory use, hard real time operation, or where agents are frequently serialized/stored between different experiments and being able to retain their phylogenetic histories without keepin a global phylogenetic record is desirable.
-\item \textbf{Retention policy: steady or tilted?} 
+\item resource-constrained runtime environments where memory is scarce or dynamic memory allocation is not supported (e.g., embedded);
+\item simulation objectives require hard real-time operations; or
+\item \textit{ad hoc} serialization and re-use of agents across simulation runtimes, where maintaining a cohesive global record is difficult or impractical.
+\end{itemize}
+
+In simulations employing decentralized parallel and distributed computation, a reconstruction-based approach such as hereditary stratigraphy is more likely to be appropriate.
+Compared to perfect tracking in this setting, hereditary stratigraphy provides simpler implementation, lower runtime communication overhead, and greater robustness to data loss.
+Note that, if annotation size is not a concern or a low generation count is anticipated, essentially perfect-quality reconstruction can be achieved with hereditary stratigraphy methods.
+In this case, one could simply use a retention policy that discards no differentia and a wide enough differentia width to effectively guarantee collisions will not occur (e.g., 32 or 64 bits).
+However, in most cases, a compromise between phylogeny approximation and per-genome annotation size will be necessary.
+We cover this in the next section.
+
+\subsection{Algorithm Configuration}
+\begin{itemize}
+\item \textbf{Retention policy: steady or tilted?}
   If you suspect \textit{very weak} phylodiversity-enhancing factors (ecology, spatial structure, low seletion pressure), use a steady policy.
   If you expect strong phylodiversity-enhancing factors or are unsure, use a hybrid policy or a tilted policy.
   In rare cases where phylodiversity-enhancing factors are very strong (e.g., pure drift conditions), a tilted policy may be appropriate.
@@ -16,7 +39,7 @@ This section synthesizes reconstruction quality experiments reported earlier, as
 \item \textbf{Differentia size: bit or byte?}
   Bit-size differentia maximize the fraction of correct reconstruction outcomes, but can also introduce incorrect reconstruction outcomes.
   Byte-size differentia have very low incorrect reconstruction outcome rates, but have a larger incidence of unresolved reconstruction oucomes (false polytomies).
-  If you need very strong guarantees against incorrect reconstruction outcomes, an even larger differentia size (32 or even 64 bits) may be appropriate. 
+  If you need very strong guarantees against incorrect reconstruction outcomes, an even larger differentia size (32 or even 64 bits) may be appropriate.
   Suggested default choice: bit-size differentia.
 \item \textbf{Annotation size: constant or dynamic?}
   In most scenarios, a constant-size annotation will be more computationally efficient and ensure fuller use of available memory resources.
@@ -60,7 +83,7 @@ This section synthesizes reconstruction quality experiments reported earlier, as
   One possibility includes tracking asexual lineages of individual genes (``gene trees'').
   Organism-level annotation could be used to track the emergence of new independently-breeding subpopulations (``species trees''').
   This approach relies on distinct annotation values reaching fixation within independent subpopulations.
-  This can be accomplished through drift where offspring inherit the differentia record of a randomly-selected parent or, alternatively, through a gene drive mechanism where, for many-bit differentia, large-magnitude values are favored for inheritance and thereby rapdily sweep through interbreeding subpopulations. 
+  This can be accomplished through drift where offspring inherit the differentia record of a randomly-selected parent or, alternatively, through a gene drive mechanism where, for many-bit differentia, large-magnitude values are favored for inheritance and thereby rapdily sweep through interbreeding subpopulations.
   Refer to \citep{moreno2024methods} for additional discussion.
 \item \textbf{Sampling strategies}
 Care will need to be taken to account for sample size and sample size relative to the whole population in analyses.
@@ -72,16 +95,16 @@ Note that reconstruction techniques are fully compatible to stitch together acro
 Indeed, these taxa can provide valuable information about extincted lineages.
 Intermediate taxa can sould serve a role akin to ``fossils'' in studies of natural history.
 
-For more advanced analyses, it may be desirable to associate sampled strata with trait data \citep{TODOMODES,TODOCITEFROMJACOB}
+For more advanced analyses, it may be desirable to associate sampled strata with trait data \citep{TODOMODES,TODOCITEFROMJACOB}.
 
 \end{itemize}
 
-\textbf{Simulation Integration}
+\subsection{Runtime Integration}
 
 Three major steps will be necessary to be implemented to run the hereditary stratigraphy pipeline: (1) integration of instrumentation into the simulation runtime genome model, (2) serialization of evolved agents' markers from simulation, (3) loading data into the Python \textit{hstrat} library in order to analyze it.
 
 \begin{itemize}
-\item \textbf{Runtime Annotations}: 
+\item \textbf{Runtime Annotations}:
 You will need to augment the \texttt{Genome} data structure in your simulation code in two ways: (1) to store hereditary stratigraphic annotation data and (2) add a call to the copy/reproduce or mutate function to update the differentia store and bump the generation counter.
 
 For sufaces, two components are required: a fixed-buffer differentia store and a generation counter.
@@ -97,6 +120,10 @@ If you are using another software language, porting core algorithms should be do
 Are implemented primarily as a library of small functions ($\approx<30$ LOC) with accompanying tests, making them amenable to stepping-stone piece by piece transliteration.
 We found LLM assistance to be highly effective in translating the surface algorithms from Python to Zig \citep{TODO}.
 Feel free to get in touch --- we would be happy to furnish these algorithms in other languages if you have a use case.
+\end{itemize}
+
+\subsection{Postprocessing and Analysis}
+\begin{itemize}
 \item \textbf{Serialization}
 In order to transfer marker data for postprocessing, you will need to save it to file.
 For best compatibility with the analysis pipeline, extract annotations and save them together in a conventional format separate from other genome components (e.g., JSON, CSV).
@@ -105,7 +132,7 @@ One convenient plain text way to encode differentia data is as a hex string.
 
 In order to conduct postprocessing, you will need to use tools in the \textit{hstrat} library.
 When reserializing the data, you will need to know the 11¡retention policy and differentia width used so make sure these are recorded somewhere.
-Functions to convert raw data into intantiated \texttt{Column} objects are described in package documentation and examples, with a variety of entry points compatible with JSON, YAML, and CSV formats. 
+Functions to convert raw data into intantiated \texttt{Column} objects are described in package documentation and examples, with a variety of entry points compatible with JSON, YAML, and CSV formats.
 
 Note that, while the hstrat library also provides support to deserialize from compact binary formats in many circumstances, storage in plain text format with zipping (e.g., gzip) will provide competitive --- if not better --- space efficiency to binary representations and can be considerably easier to work with.
 
@@ -116,4 +143,3 @@ Optionally, a list of taxa identifiers may also be provided if desired.
 A variety of tools for estimation of MRCA between marker pairs or groups are also provided.
 Reconstructions are reported in alife community data standard format \citep{TODO}.
 Tools are provided that can convert these formats to standard bioinformatics formats for interoperation with the rich existing software ecosystem for phylogenetic visualization and analysis \citep{TODOalifedataphyloinformaticsconvert}.
-\end{itemize}
