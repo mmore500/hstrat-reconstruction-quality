@@ -133,7 +133,7 @@ We also hope it will prove useful in future application-oriented work using mass
 Given these objectives, the scaling behavior of hereditary stratigraphy is of key concern.
 Here, we consider two aspects of potential scale-up: (1) the number of taxa sampled for phylogenetic reconstruction and (2) the size of the underlying population.
 Experiments test how reconstruction quality fares with changes in scale along both fronts, across a variety of use case scenarios.
-Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-steady,dsamp-popsize-scale-tilted} detail the use case scenarios surveyed and summarize reconstruction quality outcomes of phylogeny scale-up under each scenario.
+Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-steady,fig:dsamp-popsize-scale-tilted} detail the use case scenarios surveyed and summarize reconstruction quality outcomes of phylogeny scale-up under each scenario.
 
 Scaling results for reconstruction accuracy, measured by triplet distance, are promising.
 Under tilted and hybrid policies, triplet distance error is robust across kinds of phylogenetic scaling --- population size, sample size, and both simultaneously.
@@ -141,8 +141,8 @@ Reconstruction accuracy decreases significantly in only one case under the tilte
 Results under the steady policy are more variable, with triplet distance worsening in 7 cases but improving in 11 cases.
 
 Inner node loss, under hybrid and tilted retention, is generally also robust to population scaling.
-For these policies, inner node loss worsens only in use cases with byte-width differentiae (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,dsamp-popsize-scale-tilted}).
+For these policies, inner node loss worsens only in use cases with byte-width differentiae (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-tilted}).
 In other cases, inner node loss actually often improves with population scale.
 Sample size scaling, however, tends to aggravate inner node loss --- whether in isolation or in concert with population size scaling.
-As an exception, we do not see inner node loss worsen with larger sample size in some cases with byte-width differentia under tilted and hybrid policies (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,dsamp-popsize-scale-tilted}).
+As an exception, we do not see inner node loss worsen with larger sample size in some cases with byte-width differentia under tilted and hybrid policies (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-tilted}).
 Likewise, inner node loss remains stable for tilted retention under drift conditions (Supplementary Figure \labelcref{fig:dsamp-popsize-scale-tilted}).
