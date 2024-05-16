@@ -1,7 +1,7 @@
 \section{A Practicioner's Guide to Hereditary Stratigraphy} \label{sec:synthesis}
 
 This section shifts focus from an analytical, hypothesis-driven framing, as applied in the previous section, to discussion that is instead prescriptive and summative.
-The goal here is to synthesize results from reported annotation-and-reconstruct experiments, as well as other work testing and applying hereditary stratigraphy, to provide concrete, action-oriented advice to guide the reader in effectively applying hereditary stratigraphy in their digital evolution experiment, or other use case.
+The goal here is to synthesize results from reported annotation-and-reconstruct experiments, as well as other work testing and applying hereditary stratigraphy, to provide concrete, action-oriented advice to guide the reader in effectively applying hereditary stratigraphy in their own digital evolution work.
 
 Discussion covers the following questions,
 \begin{enumerate}
@@ -16,7 +16,7 @@ Discussion covers the following questions,
 If you are not using parallel or distributed computing, direct phylogenetic tracking should usually be preferred due to its capability for perfect record-keeping; likewise, if your simulation uses a centralized controller-worker paradigm.
 A tool like Phylotrack (asexual phylogenies; Python/C++), APoGET (sexual phylogenies; C++) or MABE (C++) might be appropriate for your use case \citep{dolson2024phylotrackpy,bohm2017mabe,godin2019apoget}.
 It is also reasonably straightforward to implement phylogeny tracking yourself \citep{moreno2024algorithms}.
-However, for serial or centralized simulations there are a few scenarios where reconstruction-based tracking may be useful,
+However, for serial or centralized simulations, there are a few scenarios where reconstruction-based tracking may be useful,
 \begin{itemize}
 \item resource-constrained runtime environments where memory is scarce or dynamic memory allocation is not supported (e.g., embedded);
 \item simulation objectives require hard real-time operations; or
@@ -25,7 +25,7 @@ However, for serial or centralized simulations there are a few scenarios where r
 
 In simulations employing decentralized parallel and distributed computation, a reconstruction-based approach such as hereditary stratigraphy is more likely to be appropriate.
 Compared to perfect tracking in this setting, hereditary stratigraphy provides simpler implementation, lower runtime communication overhead, and greater robustness to data loss.
-Note that, if annotation size is not a concern or a low generation count is anticipated, essentially perfect-quality reconstruction can be achieved with hereditary stratigraphy methods.
+Note that if annotation size is not a concern or a low generation count is anticipated, essentially perfect-quality reconstruction can be achieved with hereditary stratigraphy methods.
 In this case, one could simply use a retention policy that discards no differentia and a wide enough differentia width to effectively guarantee collisions will not occur (e.g., 32 or 64 bits).
 However, in most cases, a compromise between phylogeny approximation and per-genome annotation size will be necessary.
 We cover this in the next section.
@@ -33,7 +33,7 @@ We cover this in the next section.
 \subsection{Annotation Configuration}
 
 The following provides step-by-step instruction on selecting appropriate hereditary stratigraphy methods for a given use case.
-In order, we cover
+We cover
 \begin{enumerate}
 \item determining annotation order of growth,
 \item selecting annotation size,
@@ -42,7 +42,7 @@ In order, we cover
 \item selecting between column- or surface-based implementation.
 \end{enumerate}
 
-Disussion then turns to a handful of special-case topics.
+Discussion then turns to a handful of special-case topics.
 
 \subsubsection{Annotation Order of Growth}
 \textit{Suggested default choice: constant-size annotation.}
@@ -55,24 +55,24 @@ The \textit{hstrat} Python packge provides \texttt{fixed\_resolution\_algo} and 
 \textit{Suggested default choice: 256-bit differentia buffer with 64-bit generation counter.}
 
 Annotation size must compromise between memory-use and communication-bandwidth overhead and quality of reconstructed phylogenies.
-In cases where annotation size is not a limiting factor, when using single-bit differentia 256-bit annotation buffers will discern phylogenetic events with about 13\% recency-relative precision (tilted) or 1\% depth-relative precision (steady) through 1 billion generations.
+In cases where annotation size is not a limiting factor, using 256-bit annotation buffers with single-bit differentia will discern phylogenetic events with about 13\% recency-relative precision (tilted) or 1\% depth-relative precision (steady) through 1 billion generations.
 For full-byte differentia, discussed below, an annotation size on the order of kilobits would be very robust.
-Where annotation resource use is a limiting factor, a 64-bit annotation buffer can give good results.
+Where memory use is a limiting factor, however, A 64-bit annotation buffer with single-bit differentia can give good results.
 
-In picking annotation size, some consideration should be given to phylogenetic scale of the experimental use case.
+In picking annotation size, some consideration should be given to the phylogenetic scale of experimental use cases.
 Triplet distance (accuracy) appears to be largely stable under surveyed increases in population size and number of taxa sampled for reconstruction
 However, loss of inner node loss can increase when increasing reconstruction sample size.
 Where this is a concern, annotation size may need to be increased commensurate to intended phylogeny tip count.
 
 Current implementations of surface algorithms are limited to buffer sizes that are even powers of two (i.e., 32, 64, 128, etc.).
 Where finer gradations are desired, one possibility would be to consider intermediate differentia sizes.
-For instance, storing 3 bit differentia over 32 surface sites would occupy 96 bits.
-Alternately, alternating depositions across a collection of surfaces might be considered (e.g., a 32 bit tilted surface and a 16 bit steady surface).
-Note, though that this latter option would require some minor implementation customizations akin to those used to create the hybrid surface retention policy \citep{moreno2024hsurf}.
-Column algorithms are more flexible in buffer sizing, but in the case of tilted retention make less full use of available buffer space.
+For instance, storing 3-bit differentia over 32 surface sites would occupy 96 bits.
+Alternately, alternating depositions across a collection of surfaces might be considered (e.g., a 32-bit tilted surface and a 16-bit steady surface).
+Note, though, that the latter option would require implementation customizations akin to those used to create the hybrid surface retention policy \citep{moreno2024hsurf}.
+Column algorithms are more flexible in buffer sizing, but in the case of tilted retention, they make less full use of available buffer space.
 
 Finally, note that, in addition to differentia values, a generation counter will also need to be stored in genomes.
-Keep in mind that where working with fixed-width data types, sufficient representational range will be necessary to support the maximum-expected generational depth occuring in simulation.
+When working with fixed-width data types, sufficient representational range will be necessary to support the maximum-expected generational depth elapsed in simulation.
 For most use cases, a 32- or 64-bit counter value will be appropriate.
 % \footnote{One possible exception is cases where a global monotonic counter is available and it is desirable to demarcate phylogenetic history in terms of simulation time rather than generations.}
 
@@ -80,18 +80,18 @@ For most use cases, a 32- or 64-bit counter value will be appropriate.
 \textit{Suggested default choice: hybrid retention policy.}
 
 Hybrid retention policy is a good choice where phylodiversity-enhancing factors (ecology, spatial structure, relaxed selection pressure) are expected or expectation is unclear.
-For a given use case it often obtains competitive reconstruction quality to the better of steady and tilted policy.
-Even where it is outperformed by one of steady or tilted retention, it avoids catastrophic failure modes characteristic, in particular, of steady retention.
-On platforms where steady policy implementation (necessary as a component of hybrid policy) is not readily availabie, tilted policy should typically suffice.
-If you do not expect strong phylodiversity-enhancing factors (i.e., no ecology, no spatial structure, high seletion pressure), tilted policy can reliably outperform hybrid policy.
+Across use cases, hybrid retention often obtains competitive reconstruction quality to the better of steady and tilted policy.
+Even where it is outperformed by steady or tilted retention, hybrid retention avoids catastrophic failure modes characteristic, in particular, of steady retention.
+On platforms where steady policy implementation (necessary as a component of hybrid policy) is not readily available, tilted policy should typically suffice.
+If you do not expect strong phylodiversity-enhancing factors (i.e., no ecology, no spatial structure, high selection pressure), tilted policy can reliably outperform hybrid policy.
 In rare cases where phylodiversity-enhancing factors are very strong (e.g., pure drift conditions), a steady policy may be appropriate.
 
 \subsubsection{Differentia Width}
 \textit{Suggested default choice: use bit-size differentia.}
 
-Bit-size differentia maximize the fraction of correct reconstruction outcomes, but can also introduce incorrect reconstruction outcomes.
-Byte-size differentia have very low incorrect reconstruction outcome rates and can reconstruct true polytomies, but have a larger incidence of unresolved reconstruction oucomes (artifactual polytomies).
-This results in bit-size differentia giving more informative reconstructions, as measured by strict triplet distance error.
+Bit-size differentia maximize the fraction of correct reconstruction outcomes but can also introduce incorrect reconstruction outcomes.
+Byte-size differentia have very low incorrect reconstruction outcome rates and can reconstruct true polytomies but have a larger incidence of unresolved reconstruction outcomes (artifactual polytomies).
+This trade-off results in bit-size differentia giving more informative reconstructions, as measured by strict triplet distance error.
 If you need very strong guarantees against incorrect reconstruction outcomes, an even larger differentia size (32 or even 64 bits) may be appropriate.
 
 \subsubsection{Column vs. Surface Implementation}
@@ -100,34 +100,34 @@ If you need very strong guarantees against incorrect reconstruction outcomes, an
 If you are using dynamic annotation size, you will need a column-based implementation to allow differentia count growth.
 Otherwise, for constant annotation size, surface implementations are much more efficient \citep{moreno2024trackable}.
 In the case of tilted retention policy, they also give higher-quality reconstructions.
-If using steady policy, column implementation gives higher-quality reconstructions but use of surface implementation would be reasonable due to enhanced runtime performance.
-Finally, hybrid policy is currently only provided for surface-based implementaiton.
+If using steady policy, column implementation gives higher-quality reconstructions, but surface implementation would be reasonable to gain enhanced runtime performance.
+Finally, hybrid policy is currently only provided for surface-based implementation.
 
 Another factor that might influence this decision is the software platform being designed for.
-If packages providing hereditary stratigraphy are not available, surface algorithms are easier to implement owing to only needing to implement one update operation: site selection on the fixed-size surface buffer.
+Where packages providing hereditary stratigraphy are not available, surface algorithms are easier to implement owing to only needing to implement one update operation: site selection on the fixed-size surface buffer.
 
 \subsubsection{Special-case topic: lineage tags}
 \textit{Suggested default choice: not needed in most cases.}
 
 In scenarios where explicitly differentiating between founding clades is paramount, consider adding a systematically assigned founder ID or randomly generated fixed tag.
 This tag would then be used as a first pass to divvy end-state annotations into independent sets before feeding them into separate reconstruction processes.
-If several founding lineages persist, with single-bit differentia spurious collisions can make completely-independent clades falsely appear to share an amount of common history.
+If several founding lineages persist, when using single-bit differentia, spurious collisions can make completely independent clades falsely appear to share an amount of common history.
 
 \subsubsection{Special-case topic: incorporating trait data}
 \textit{Suggested default choice: collect ``fossil'' phenotypes instead.}
 
 It is possible to ``annotate'' differentia with information about genetic or phenotypic traits associated with corresponding ancestors.
-Conveniently, because every internal node in a hereditary stratigraphy reconstruction corresponds to a retained differentia, this approach ensures all internal nodes in a reconstructed phylogeny can be associated to a trait.
+Conveniently, because every internal node in a hereditary stratigraphy reconstruction corresponds to a retained differentia, this approach ensures all internal nodes in a reconstructed phylogeny can be associated with a trait value.
 However, a similar result can be had by saving out sample ``fossil'' specimens (with corresponding trait information) over the course of a simulation.
-Because, like extant taxa, these fossils are associated to hereditary stratigraphy annotations they can readily be incorporated into phylogenetic reconstruction to shed light on ancestral states over history.
-This avoids bloating annotation sizes with dozens of trait values on each genome.
+Because, like extant taxa, these fossils have hereditary stratigraphy annotations, they can readily be incorporated into phylogenetic reconstruction and provide information on ancestral trait states.
+This approach avoids bloating annotation sizes with dozens of trait values on each genome.
 
 \subsection{Runtime Integration}
 
 Two major steps are necessary to integrate hereditary stratigraphy into evolution simulations: (1) add instrumentation to the \texttt{Genome} data type and (2) hook annotation update procedures to the copy/reproduce or mutate routine.
 
 Software implementing column-based approaches is available for Python \citep{moreno2022hstrat} and surface-based approaches are available for Python \citep{moreno2024hsurf} and Zig/Cerebras Software Language \citep{moreno2024wse}.
-Based on community feedback, C/C++ and Rust are priority targets to port surface-based implementations to.
+Based on community feedback, C/C++ and Rust are priority targets for surface-based implementation ports.
 However, porting core surface algorithms to another software language should be doable with moderate effort.
 Surface algorithms are implemented via small, pure functions ($\approx<30$ LOC) with accompanying tests, making them amenable to stepping-stone transliteration.
 We found LLM assistance to be highly effective in translating the surface algorithms from Python to Zig.
@@ -135,43 +135,45 @@ That said, we encourage interested researchers to reach out if hereditary strati
 
 \subsubsection{Annotation Data: Asexual}
 
-For suface-based annotations, two data components are required: a fixed-buffer differentia store and a generation counter.
+For surface-based annotations, two data components are required: a fixed-buffer differentia store and a generation counter.
 The differentia store can be implemented as an array of integer data types (e.g., \texttt{uint8}), but for bit differentia you will likely want to use a raw memory array or an abstraction around it if available (e.g., \texttt{std::bitset}).
 Differentia store memory should be randomized upon initialization.
 
 For column-based annotations, the \textit{hstrat} Python library furnishes a prepackaged \texttt{HereditaryStratigraphicColumn} class, which encapsulates all necessary state.
 
 \subsubsection{Annotation Data: Sexual}
-\textit{Suggested default choice: for sexual phylogenies inherit annotation from maternal (or arbitrary) parent, akin to mtDNA.}
+\textit{Suggested default choice: for sexual phylogenies, inherit annotation from maternal (or arbitrary) parent, akin to mtDNA.}
 
-The core of existing hereditary stratigraphy is designed around asexual lineages and that makes it very straightforward and simple to apply to evolution simulations with asexual reproduction.
-Although there has been some preliminary work demonstrating applications of hereditary stratigraphy to sexual populations, operating procedures are not as well developed for this mode of evolution.
+The core of existing hereditary stratigraphy is designed around asexual lineages.
+Some preliminary work has demonstrated applications of hereditary stratigraphy to sexual populations \citep{moreno2024methods}, but canonical protocols have yet to be established.
 One possibility includes tracking asexual lineages of individual genes (``gene trees'').
 In this scenario, annotation data would be associated to individual genetic building blocks.
 Organism-level annotation could be used to track the emergence of new independently-breeding subpopulations (``species trees''').
 This approach relies on distinct annotation values reaching fixation within independent subpopulations.
-This can be accomplished through drift where offspring inherit the differentia record of a randomly-selected parent or, alternatively, through a gene drive mechanism where, for many-bit differentia, large-magnitude values are favored for inheritance and thereby rapdily sweep through interbreeding subpopulations.
+Fixation can be left to drift (where offspring inherit the differentia record of an arbitrary parent).
+Alternatively, a gene drive mechanism can be applied.
+Such a mechanism favors inheritance of large-magnitude differentia values, thereby causing them to sweep through interbreeding subpopulations.
 Refer to \citet{moreno2024methods} for more detailed discussion of this topic.
 
 \subsubsection{Annotation Update}
 \textit{Suggested default choice: update hereditary stratigraphy annotations every generation.}
 
-When annotations are inherited, then should be updated to add a new differentia for that generation and elapse the annotation-associated generation counter.
-Usually, this should be acocmplished by hooking the annotaiton update routine into an existing create offspring routine.
-For genotype-level tracking (as opposed to individual-level tracking), annotation update could instead be applied as a part of a apply mutation routine.
+When annotations are inherited, they should be updated to add a new differentia and elapse the annotation-associated generation counter.
+Usually, this should be accomplished by adding logic into an existing create offspring routine.
+For genotype-level tracking (as opposed to individual-level tracking), annotation updates could instead be conducted as a part of an apply mutation routine.
 
 When using the \textit{hstrat} \texttt{HereditaryStratigraphicColumn} object, update logic is bundled into the \texttt{DepositStratum} method.
 
 For surface-based annotations, call the chosen retention policy's \texttt{pick\_deposition\_site} method and randomize the differentia element at the returned $n$th position.
-Then, the associated generation counter shold be incremented.
+Then, the associated generation counter should be incremented.
 
 For most applications, annotation updates (i.e., appending a new differentia) should correspond directly to generations elapsed.
 However, in cases where fine-resolution visibility below a certain level is not useful, annotations may be updated only that often.
 For tilted policy, in particular, this approach can help preserve ancient differentia coverage for longer.
 
-In circumstances where time-indexed resolution is preferred or ultrametricity (tips sharing equal branch lengths from root) is important, annotations can be updated on the basis of logical simulation time or even real time rather than generations elapsed.
-In this case, annotation updates would be elapsed, as necessary, on parents' annotations to bring them up-to-date to the current simulation time whenever reproduction event occurs.
-This may require multiple back-to-back updates if several simulation time clock cycles have elapsed.
+In circumstances requiring time-indexed resolution or ultrametricity (tips sharing equal branch lengths from root) is necessary, annotations can be updated on the basis of logical simulation time or even real-time rather than generations elapsed.
+In this case, annotation updates would be elapsed, as necessary, on parents' annotations to bring them up-to-date with the current simulation time whenever a reproduction event occurs.
+Such an approach may require multiple back-to-back updates if several simulation time clock cycles have elapsed.
 An alternate approach to achieve a time-calibrated tree would be to attach simulation timestamps with annotation differentia or to record time-stamped ``fossil'' taxa --- as discussed above.
 
 \subsection{Postprocessing and Analysis}
@@ -181,8 +183,8 @@ An alternate approach to achieve a time-calibrated tree would be to attach simul
 A typical approach will sample end-state extant agents as taxa for phylogenetic reconstruction.
 Note that it is not necessary to exhaustively collect the entire end-state population; for many analysis use cases, a representative sample of population members will suffice.
 Such an approach, however, will not provide information on extinct lineages.
-Because hereditary stratigraphy reconstruction techniques are fully compatible to stitch together across widely-varying time points, taxa can be sampled from across evolutionary time and integrated directly into phylogenetic reconstruction also incorporating end-state extant genomes.
-Such intermediate taxa from earlier time points can serve a role akin to ``fossils'' in studies of natural history.
+Because hereditary stratigraphy reconstruction can stitch together taxa from across widely varying time points, specimens can be sampled during the course of an evolutionary run and be integrated directly into phylogenetic reconstruction with end-state extant genomes.
+Such intermediate taxa from earlier time points can serve a role akin to ``fossils'' in natural history.
 For more advanced analyses, it may be desirable to associate sampled specimens with genetic and/or phenotypic trait data \citep{dolson2019modes,khabbazian2016fast}.
 
 \subsubsection{Annotation Serialization}
@@ -193,13 +195,13 @@ The \textit{hstrat} library provides a number of plug-and-play utilities for ser
 Functionality to provide direct support for serializing surface data is a priority item on the \textit{hstrat} road map.
 In the meantime, this must be done manually.
 For each annotation, you will need to store the generation counter and the differentia data.
-One convenient plain text way to encode differentia data is as a hex string.
+Hex strings provide one potentially convenient approach to encode differentia data.
 When loading annotation data, you will need to know the retention policy and differentia width used --- so make sure these are recorded.
 
-Note that, while the \textit{hstrat} library also provides support to serialize/deserialize from compact binary formats, storage in plain text format with zipping (e.g., gzip) will often provide equivalent space efficiency to binary representations and can be considerably easier to work with.
+Note that while the \textit{hstrat} library also provides support to serialize/deserialize from compact binary formats, storage in plain text format with zipping (e.g., gzip) will often provide equivalent space efficiency to binary representations and can be considerably easier to work with.
 
 Phylogenetic reconstruction is implemented in the \textit{hstrat} Python library, so it will typically be necessary to load serialized annotation data into this environment.
-Functions to convert raw data into \texttt{Column} object instances are described in package documentation and examples, with a variety of entry points compatible with JSON, YAML, and CSV formats.
+Functions to convert raw data into \texttt{Column} object instances are described in package documentation and examples, including utilities compatible with JSON, YAML, and CSV formats.
 Functionality to provide direct support for deserializing surface data is also a priority item on the \textit{hstrat} road map.
 In the meantime, this functionality is provided separately \citep{moreno2024hsurf}.
 
@@ -207,13 +209,13 @@ In the meantime, this functionality is provided separately \citep{moreno2024hsur
 
 Phylogenetic reconstruction from annotations is implemented as \textit{build\_tree} in the \textit{hstrat} Python library \citep{moreno2022hstrat}.
 This algorithm takes in a sequence of deserialized column objects and produces a phylogeny.
-Optionally,if desired, a list of taxon identifiers can be provided to label leaf nodes in the reconstructed phylogeny.
+Optionally, if desired, a list of taxon identifiers can be provided to label leaf nodes in the reconstructed phylogeny.
 
-A variety of utilities to directly estimate MRCA among column objects without performing full reconstruction are also provided in \textit{hstrat}.
+Utilities to directly estimate MRCA generation between column objects without performing full reconstruction are also available in \textit{hstrat}.
 
 \subsubsection{Phylogeny Analysis}
 
 Phylogenetic reconstructions from \textit{hstrat} are returned as a Pandas \texttt{DataFrame} in alife community data standard format \citep{lalejini2019data,reback2020pandas}.
 Tools are available to convert alife standard data into standard bioinformatics formats, such as Newick, NeXML, and NEXUS \citep{moreno2024apc}.
-This inverconvertability allows interoperation with rich existing software ecosystems for phylogenetic visualization and analysis.
+This interconvertibility allows interoperation with rich existing software ecosystems for phylogenetic visualization and analysis.
 The online tool IcyTree provides a good starting point; phylogeny data can be uploaded in Newick format to create rich, exportable tree visualizations fully in-browser \citep{vaughan2017icytree}.
