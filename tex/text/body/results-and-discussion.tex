@@ -1,7 +1,7 @@
 \section{Results and Discussion} \label{sec:results}
 
 In this section, we report annotate-and-reconstruct experiments comparing phylogeny reconstruction quality obtained across possible hereditary stratigraphy approaches.
-These experiments seek to establish an holistic, evidence-driven synopsis of each approach's suitability across experimental use cases.
+These experiments seek to establish a holistic, evidence-driven synopsis of each approach's suitability across experimental use cases.
 The following section, ``A Practicioner's Guide to Hereditary Stratigraphy,'' then synthesizes findings to suggest guidelines for selecting appropriate methods to apply in practice.
 
 This section delves into three primary aspects of hereditary stratigraphy methodology:
@@ -13,14 +13,14 @@ This section delves into three primary aspects of hereditary stratigraphy method
 
 In a final set of experiments, we investigate how reconstruction quality fares with increasing phylogeny scale.
 Scale-up of subsampled tip count and of underlying population size are both considered.
-This question is crucial to application of hereditary stratigraphy for very large simulation use cases, in assessing the extent, if at all, annotation size would need to be boosted with increased experimental scale.
+This question is crucial to application of hereditary stratigraphy for very large simulation use cases --- in assessing the extent, if at all, annotation size would need to be boosted with increased experimental scale.
 
 \subsection{Surface vs. Column Implementaiton} \label{sec:surface-vs-column}
 
 \input{fig/col-vs-surf-summary}
 
 Recall that surface- and column-based annotation implementations differ in how differentia are organized within a hereditary stratigraphy annotation.
-Surface-based implementation takes a lower-level approach that simplifies acessioning of new differentia and ensure full use of available space, but sacrifices some control over the precise temporal distribution of retained differentiae.
+Surface-based implementation takes a lower-level approach that simplifies accessioning of new differentia and ensures full use of available memory space but sacrifices some control over the precise temporal distribution of retained differentiae.
 Both implementations support tilted and steady retention policies.
 
 Figure \ref{fig:col-vs-surf-summary} compares reconstruction quality for surface algorithms against their corresponding column implementation.
@@ -29,10 +29,10 @@ Outcomes differ notably between tilted and steady retention.
 Under tilted retention, triplet distance (a measure of reconstruction accuracy) is equivalent or improved (in 14 / 48 scenarios) with surface-based implementation.
 Inner node loss (a measure of reconstruction precision) improves in some scenarios and worsens in others.
 Notably, shown in Supplementary Figure \ref{fig:col-vs-surf}, inner node loss improvement is seen in all treatments with byte-width differentiae, which are mechanistically more prone to create artifactual unresolved polytomies that drive inner node loss.
-In sum, reconstruction quality of surface-based tilted retention can be considered as equivalent or superior across the board to that of column-based implementation.
+In sum, reconstruction quality of surface-based tilted retention can be considered equivalent or superior across the board to that of column-based implementation.
 
 In contrast, under steady retention, surface-based implementation achieves worse triplet distance reconstruction in 11 / 48 scenarios and better triplet distance in no scenario.
-Similarly, inner node loss is worse in in 23 / 48 scenarios, including 4 / 12 byte-differentiae scenarios, and better in no scenario.
+Similarly, inner node loss is worse in 23 / 48 scenarios, including 4 / 12 byte-differentiae scenarios, and better in no scenario.
 So, reconstruction quality of surface-based steady retention is equivalent or inferior to column-based implementation.
 
 Why does the surface-based approach benefit reconstruction under one retention policy but not the other?
@@ -66,36 +66,37 @@ Although surface-based implementation involves a trade-off between performance r
 
 \input{fig/steady-vs-tilted-summary}
 
-Steady and tilted retention differ the composition of differentia checkpoint records maintained within hereditary stratigraphy annotations.
+Steady and tilted retention differ in the composition of differentia checkpoint records maintained within hereditary stratigraphy annotations.
 Recall that steady policy spaces retained differentia evenly across history, while tilted policy retains more of more recent differentia.
-The question of which gives higher quality reconstruction, boils down to where precision in discerning the timing of branching events is most useful to resolving evolutionary history.
-In the interest of even footing, we report results for each retention policy using its best performing implementation, as established above: steady policy uses column implementation and tilted policy uses surface implementation.
+The question of which policy gives higher quality reconstruction boils down to where precision in discerning the timing of branching events is most useful to resolving evolutionary history.
+In the interest of even footing, we report results for each retention policy using its best-performing implementation, as established above: steady policy uses column implementation and tilted policy uses surface implementation.
 We also consider a hybrid policy, which splits surface buffer space evenly between steady and tilted retention.
 
 Figure \ref{fig:steady-vs-tilted-summary} overviews how reconstruction quality differs by retention policy across use case scenarios.
 Across the board, steady policy yields phylogenetic reconstruction with heaviest inner node loss.
-In contrast, tilted policy exibits among the lowest inner node loss in all but six surveyed scenarios --- including all byte-differentia trials (Supplementary Figure \ref{fig:steady-vs-tilted}).
-The hybrid policy has lower inner node loss in those six scenarios, which all involve evolutionary conditions with high phylgoenetic richness.
+In contrast, tilted policy exhibits among the lowest inner node loss in all but six surveyed scenarios --- including all byte-differentia trials (Supplementary Figure \ref{fig:steady-vs-tilted}).
+The hybrid policy has lower inner node loss in those six scenarios, which all involve evolutionary conditions with high phylogenetic richness.
 
 Steady policy also consistently produces the worst triplet distance error in lower-phylogenetic-richness plain and mild structure evolutionary scenarios.
-However, in scenarios with high phylogenetic richness, triplet distance error under steady retention fare better.
+However, in scenarios with high phylogenetic richness, triplet distance error under steady retention fares better.
 With rich ecological/spatial structure, triplet distance reconstruction error is largely indistinguishable among retention policies.
 Further, steady policy triplet error actually significantly outperforms tilted policy in several instances under drift conditions.
 In nearly all of these instances, though, hybrid policy triplet error performs comparably to steady retention.
-In scenarios with plain and mild structure scenarios, with low phylogenetic richness, hybrid triplet error is comparable to tilted error in 9 / 24 scenarios and outperformed in 15 / 24 scenarios.
+In low phylogenetic richness plain and mild-structure scenarios, hybrid triplet error is comparable to tilted error in 9 / 24 scenarios and outperformed by tilted policy in 15 / 24 scenarios.
 
 Across the inner node loss and triplet error quality measures, tilted retention frequently performs best and steady retention frequently performs worst.
 However, tilted retention has worse triplet error in some scenarios with high phylogenetic richness.
 Hybrid retention performs more consistently across evolutionary scenarios.
-It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend to not be far off from tilted retention.
+It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend not to be far off from tilted retention.
 Triplet error for hybrid retention is often comparable to the better-performing of steady and tilted retention, or at least intermediate between them.
 For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:col-vs-surf}.
 
 \input{fig/recency-structure}
 
-Differences in retention of recent differentia explains the substantial advantage of tilted policy in use cases with low phylogenetic richness.
-In such scenarios, frequent selective sweeps concentrate phylogenetic history over very recent history, meaning that lineage branching events giving rise to a contemporary extant population occured over a relatively short period of time.
-Discerning these events, therefore, requires densely packed differentia checkpoints over recent history --- otherwise, in the worst case, taxa would jump from all sharing the same lineage marker at one checkpoint to being independently derived and result in a catastrophic unresolved polytomy.
+Differences in retention of recent differentia explain the substantial advantage of tilted policy in use cases with low phylogenetic richness.
+In such scenarios, frequent selective sweeps concentrate phylogenetic history over very recent history, meaning that lineage-branching events giving rise to a contemporary extant population occurred over a relatively short period of time.
+Discerning these events, therefore, requires densely packed differentia checkpoints over recent history.
+Otherwise, in the worst case, taxa would jump from all sharing the same lineage marker at one checkpoint to all having distinct checkpoint markers --- resulting in a catastrophic unresolved polytomy.
 Steady retention maintains a uniform gap size between retained differentiae that grows linearly with generations elapsed, meaning that very recent history is sparsely covered, if at all.
 The consequences of this deficiency can be seen in Figure \ref{fig:recency-structure}, which compares the density of reconstructed nodes to ground truth.
 Reconstructions from steady policy are entirely missing branching events over the prefatory hundred or so generations.
@@ -108,20 +109,20 @@ Example reconstructions exhibiting catastrophic comb polytomies characteristic o
 \input{fig/bit-vs-byte-summary}
 
 We now turn to consider the role of differentia size in hereditary stratigraphy reconstruction quality.
-Intuitively, tuning differentia size would seem to trade off between accuracy and precision.
+Intuitively, tuning differentia size would seem to trade-off between accuracy and precision.
 Larger differentiae reduce the probability of spurious collision, which falsely makes lineages appear more closely related than they actually are.
 Note, in particular, that reconstructions from bit-sized differentia estimate all history as bifurcating, because each checkpoint can only discern two distinct lineages.
 On the other hand, for fixed annotation size, widening differentia necessarily reduces differentia count.
 Thus, differentia size diminishes the granularity at which branching events can be dated.
 
 To ascertain the actual effects of differentia width on reconstruction quality, we performed annotate-and-reconstruct experiments across a variety of use case scenarios.
-These experiments used 256-bit sized annotations, comprised of either 256 bit-sized differentiae or 32 byte-sized differentiae.
+These experiments used 256-bit-sized annotations, comprised of either 256-bit-sized differentiae or 32-byte-sized differentiae.
 Figure \ref{fig:bit-vs-byte-summary-quality} overviews the relative performance of bit- and byte-width differentiae on triplet distance and inner node loss quality measures.
 (Supplementary Figure \ref{fig:bit-vs-byte} presents these results in greater detail, showing reconstruction outcomes for each treatment condition surveyed.)
 However, byte-width differentia consistently produces reconstructions with lower inaccuracy --- as measured by lax triplet distance, which does not penalize unresolved reconstruction.
 Byte-width's lower incidence of incorrect reconstruction outcomes is apparent in Figures \labelcref{fig:bit-vs-byte-summary-byte-outcomes,fig:bit-vs-byte-summary-bit-outcomes}, which assess rates of correct, incorrect, and unresolved reconstruction outcomes across evolutionary history.
 Unlike bit-width annotations, byte-width methods produce almost no incorrect reconstruction outcomes.
-However, owing to unresolved byte-width outcomes, bit-width annotations nonetheless hve a higher rate of correct outcomes.
+However, owing to unresolved byte-width outcomes, bit-width annotations nonetheless have a higher rate of correct outcomes.
 Figure \ref{fig:bit-vs-byte-summary-quality} indeed confirms that, in nearly all cases, bit-width differentiae produce more informative depictions of phylogenetic history, as measured by strict triplet distance.
 
 \subsection{Reconstruction Quality vs. Phylogeny Scale} \label{sec:scaling}
@@ -132,16 +133,16 @@ We also hope it will prove useful in future application-oriented work using mass
 Given these objectives, the scaling behavior of hereditary stratigraphy is of key concern.
 Here, we consider two aspects of potential scale-up: (1) the number of taxa sampled for phylogenetic reconstruction and (2) the size of the underlying population.
 Experiments test how reconstruction quality fares with changes in scale along both fronts, across a variety of use case scenarios.
-Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-steady,dsamp-popsize-scale-tilted} detail the use case scenarios surveyed, and summarize reconstruction quality outcomes of phylogeny scale-up under each scenario.
+Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-steady,dsamp-popsize-scale-tilted} detail the use case scenarios surveyed and summarize reconstruction quality outcomes of phylogeny scale-up under each scenario.
 
 Scaling results for reconstruction accuracy, measured by triplet distance, are promising.
 Under tilted and hybrid policies, triplet distance error is robust across kinds of phylogenetic scaling --- population size, sample size, and both simultaneously.
-Reconstruction accuracy decreases significantly in only one cases under the tilted policy.
+Reconstruction accuracy decreases significantly in only one case under the tilted policy.
 Results under the steady policy are more variable, with triplet distance worsening in 7 cases but improving in 11 cases.
 
 Inner node loss, under hybrid and tilted retention, is generally also robust to population scaling.
-For these policies, it worsens only in use cases with byte-width differentiae (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,dsamp-popsize-scale-tilted}).
+For these policies, inner node loss worsens only in use cases with byte-width differentiae (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,dsamp-popsize-scale-tilted}).
 In other cases, inner node loss actually often improves with population scale.
-Sample size scaling, however, tends to aggrevate inner node loss --- whether alone, or in concert with population size scaling.
+Sample size scaling, however, tends to aggravate inner node loss --- whether in isolation or in concert with population size scaling.
 As an exception, we do not see inner node loss worsen with larger sample size in some cases with byte-width differentia under tilted and hybrid policies (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,dsamp-popsize-scale-tilted}).
 Likewise, inner node loss remains stable for tilted retention under drift conditions (Supplementary Figure \labelcref{fig:dsamp-popsize-scale-tilted}).
