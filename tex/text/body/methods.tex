@@ -99,7 +99,7 @@ Additionally, by design, orders of growth beyond the surface's fixed buffer size
 For a more detailed description of motivation and implementation of surface-based algorithms, see \citep{moreno2024trackable}.
 
 In sum, the question of column- versus surface-based algorithms can be characterized as a trade-off between efficiency and exactitude.
-Indeed, we have found surface-based algorithms to provide order-of-magnitude speedups, as well as good compatibility with low-level, resource-constrained programming environments (notably, the Cerebras Wafer-Scale Engine hardware accelerator) \citep{moreno2024TODO}.
+Indeed, we have found surface-based algorithms to provide order-of-magnitude speedups, as well as good compatibility with low-level, resource-constrained programming environments (notably, the Cerebras Wafer-Scale Engine hardware accelerator) \citep{moreno2024trackable}.
 To assess how, if at all, this trade-off impacts reconstruction quality, we include trials using both approaches in empirical annotate-and-reconstruct experiments, described below.
 Note that, in these experiments, we consider only fixed-size annotations.
 However, we anticipate nearly all hereditary stratigraphy use cases will apply fixed-size annotation, due to benefits from avoiding dynamic memory allocation and variable-length inter-process messaging at runtime.
@@ -284,4 +284,4 @@ On account of recent development of surface-based hereditary stratigraphy algori
 To streamline treatment interoperation, all experiments used underlying \texttt{HereditaryStratigraphicColumn} impelementation from \textit{hstrat} and a shim class (available with the surface algorithms) was convert the retention patterns that would occur under surface site selection algorithms to column retention policies.
 In the medium-term future, we anticipating publishing the surface as a first-class data structure within \textit{hstrat} Python library.
 
-This project uses data formats and tools associated with the ALife Data Standards project \citep{lalejini2019data} and benefited from many pieces of open-source scientific software \citep{ofria2020empirical,sand2014tqdist,2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,sukumaran2010dendropy,cock2009biopython,torchiano2016effsize,waskom2021seaborn,hunter2007matplotlib,moreno2024apc,moreno2024qspool,moreno2023teeplot,hagen2021gen3sis,torchiano2016effsize}.
+This project uses data formats and tools associated with the ALife Data Standards project \citep{lalejini2019data} and benefited from many pieces of open-source scientific software \citep{sand2014tqdist,2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,sukumaran2010dendropy,cock2009biopython,torchiano2016effsize,waskom2021seaborn,hunter2007matplotlib,moreno2024apc,moreno2024qspool,moreno2023teeplot,hagen2021gen3sis,torchiano2016effsize}.
