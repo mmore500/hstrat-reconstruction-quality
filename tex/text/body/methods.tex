@@ -227,8 +227,9 @@ Note that a negative inner node loss might be measured if the reconstruction con
 This might occur, for instance, due to the inherent inability of bit-width differentia to represent higher degree than bifurcation.
 For bit-differentia configurations, as remarked above, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
+% This scenario would likely be AMELIORATED under asynchronous generations on account of leaves being generationally dispersed.
 
-To further discern error from unresolved versus incorrect reconstruction, we occasionally distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
+To further discern error from unresolved versus incorrect reconstruction, we on occasion distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
 Lax triplet distance differs from strict triplet distance in that it does not penalize triplets that mismatch on account of polytomy.
 This measure is useful in isolating incorrect reconstruction from unresolved reconstruction.
 However, care should be taken in interpreting lax triplet distance, as the pathological ``star'' tree case where all leaves descend directly from the root in one large polytomy would measure zero reconstruction error under the lax triplet distance measure.
