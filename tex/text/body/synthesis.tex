@@ -14,7 +14,7 @@ Discussion covers the following questions,
 \subsection{Hereditary Stratigraphy or Direct Tracking?}
 
 If you are not using parallel or distributed computing, direct phylogenetic tracking should usually be preferred due to its capability for perfect record-keeping; likewise, if your simulation uses a centralized controller-worker paradigm.
-A tool like Phylotrack (asexual phylogenies; Python/C++), APoGET (sexual phylogenies; C++) or MABE (C++) might be appropriate for your use case \citep{dolson2024phylotrack,bohm2017modular}.
+A tool like Phylotrack (asexual phylogenies; Python/C++), APoGET (sexual phylogenies; C++) or MABE (C++) might be appropriate for your use case \citep{dolson2024phylotrackpy,bohm2017mabe,godin2019apoget}.
 It is also reasonably straightforward to implement phylogeny tracking yourself \citep{moreno2024algorithms}.
 However, for serial or centralized simulations there are a few scenarios where reconstruction-based tracking may be useful,
 \begin{itemize}
@@ -182,7 +182,7 @@ Note that it is not necessary to exhaustively collect the entire end-state popul
 Such an approach, however, will not provide information on extinct lineages.
 Because hereditary stratigraphy reconstruction techniques are fully compatible to stitch together across widely-varying time points, taxa can be sampled from across evolutionary time and integrated directly into phylogenetic reconstruction also incorporating end-state extant genomes.
 Such intermediate taxa from earlier time points can serve a role akin to ``fossils'' in studies of natural history.
-For more advanced analyses, it may be desirable to associate sampled specimens with genetic and/or phenotypic trait data \citep{dolson2019modes,TODOCITEFROMJACOB}.
+For more advanced analyses, it may be desirable to associate sampled specimens with genetic and/or phenotypic trait data \citep{dolson2019modes,khabbazian2016fast}.
 
 \subsubsection{Annotation Serialization}
 
