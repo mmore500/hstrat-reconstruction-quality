@@ -1,19 +1,45 @@
 \section{Introduction} \label{sec:introduction}
 
-Scaling up is an important thing for alife.
-There are a lot of practical considerations, one of them being familiarity with the programming model and the tools getting more complicated.
-In order to drive the field toward that direction, we need to have tools and have people know how to use them.
-Specifically, tools should support what other people want to do, not just be an off the shelf system (although Avida is like that and is a good thing.)
+Recent advances in computing hardware have untapped potential to unleash transformative, orders-of-magnitude growth in the scale and sophistication of agent-based evolution modeling and application-oriented evolutionary computation.
+For instance, emerging AI/ML accelerator hardware platforms (e.g., Cerebras Wafer-Scale Engine, Graphcore Intelligence Processing Unit) currently afford up to hundreds of thousands of processing cores within a single device \citep{TODO,TODO}.
+While these hardware platforms impose limitations characteristic of highly-distributed, many-processor computation, they are well-suited for work with agent-based models (ABM); physical constraints in the layout of processor cores mirror the locally-structured interactions typical in ABM.
+Nevertheless, significant challenges must be solved to effectively harness highly-distributed, many-processor computation for ABM workloads.
 
-One tool in this vein is hereditary stratigraphy methodology.
-It solves the problem of phylogenetic tracking at scale.
-This is important because phylogenies can help you do X, Y and Z.
+To advance on this front, we propose a fundamental re-frame of simulation that shifts from a paradigm of ``complete,'' deterministic data observability to dynamic, partial, and potentialy best-effort sampling akin to approaches traditionally used to study real-world systems (e.g., ice core samples, paleontological fossils).
+This aim of this strategy is to resolve scaling bottlenecks by economizing use of interconnect bandwidth, memory, and disk storage storage and better tolerate intermittent disruption.
+Trading a controlled amount of data precision for increased scalability and hardware accelerator compatibility would be highly worthwhile. 
 
+Historically, most research using ABM has assumed complete observability of model state.
+Indeed, the ability to measure properties \textit{in silico} that would be impossible to observe \textit{in vitro} or \textit{in vivo} is a major benefit of scientific work using ABM.
+In the context of evolutionary computation, classic work with phylogenetic information --- define it ---falls into this bucket.
+The classical approach is perfect tracking.
+In typical serial contexts with complete visibility, you do exact tracking but this doens't scale well
+But there are complications around using this approach \citep{moreno2024}
+
+One option would be to just not collect phylogenetic information.
+However, for simulations to be usable and tunable, we should keep them observable.
+Phylogenetic history plays a critical role in many evolution studies, across study domains and \textit{in vivo} and \textit{in silico} model systems alike \citep{faithConservationEvaluationPhylogenetic1992, STAMATAKIS2005phylogenetics,frenchHostPhylogenyShapes2023,kim2006discovery,lewinsohnStatedependentEvolutionaryModels2023a,lenski2003evolutionary}.
+Phylogenetic analysis can trace the history of notable evolutionary events (e.g., extinctions, evolutionary innovations), but also characterize more general questions about the underlying mode and tempo of evolution \citep{moreno2023toward,hernandez2022can,shahbandegan2022untangling,lewinsohnStatedependentEvolutionaryModels2023a}.
+Particularly notable, recent work has used comparison of observed phylogenies against those produced under differing simulation conditions to test hypotheses describing underlying dynamics within real-life evo-epidemiological systems \citep{giardina2017inference,voznica2022deep}.
+Additionally, \textit{in silico}, phylogenetic information can even serve as a mechanism to guide evolution in application-oriented domains \citep{lalejini2024phylogeny,lalejini2024runtime,murphy2008simple,burke2003increased}.
+
+But how should be collected phylogenetic information be collected from simulations?
+As is often the case in evolutionary computation, natural systems provide some inspiration.
+Natural history of biological life operates under no extrinsic provision for interpretable record-keeping, yet efforts to study it have proved immensely fruitful.
+Phylogenetic history, the structure of relatedness within and between populations of organisms, is foundational to evolutionary analysis.
+In biology, mutational drift encodes ancestry information in DNA genomes.
+
+This line of thinking led to hereditary stratigraphy methods, which work analogously.
+Hereditary stratigraphy methods for decentralized work operate analogously, with ancestry information captured within agent genomes rather than through external tracking.
+This strategy reduces runtime communication and is resilient to data loss (e.g., dropped messages, hardware crash-out).
+Hereditary stratigraphy methods for decentralized work operate analogously, with ancestry information captured within agent genomes rather than through external tracking.
+The goal of HStrat methods is to organize genetic material to maximize reconstruction quality and minimize memory footprint \citep{moreno2022hstrat, moreno2022hereditary}.
+Hstrat material can be bundled with agent genomes in a manner akin to non-coding DNA, entirely neutral with respect to agent traits and fitness.
+
+Hereditary stratigraphy has been demonstrated as a successful way to extract information about underlying evolutionary conditions \citep{moreno2024ecology}, even at scale in the 850,000 core Cerebras Wafer-Scale Engine \citep{moreno2024trackable}.
 However, it has not been known (and certainly has not been explained) the best way to configure it.
-Here, we provide a curated, action-oriented introduction to hereditary stratigraphy with scenario-specific guidance on how to set it up.
+The goal of this article is to, we provide a curated, action-oriented introduction to hereditary stratigraphy with scenario-specific guidance on how to set it up.
 We include new experiments that test which set up parameters matter and what choices are best.
-By the end of this article, the reader will: (then list some learning objectives).
-
-There is a good deal of existing software, and more on the way, so it should be fairly accessible.
-However, new algorithms are data structure free and are more easy to implement in a one-off in a custom language or framework you need.
-
+In particular, we cover three configuration options of hereditary stratigraphy (data structure implementation, temporal data retention policy, and size of stochastic lineage fingerprints), look at how it data quality holds up with phylogenetic scale.
+(The methods introduce what they mean and how they relate to hereditary stratigraphy.)
+Findings from this work, paired with the availability of open source software library utilities \citep{TODO}, are hoped to give a straightforward way to apply these methods in practice.
