@@ -17,9 +17,6 @@ find . -type d -empty -delete
 find . -type l -delete
 find -type f -name ".*" -delete; rm -f *~
 
-rm -f img/**/*nonlog*.pdf
-rm -f img/**/*.csv
-
 
 rm -f arxiv.tar.gz
 git checkout bibl.bib
@@ -28,5 +25,5 @@ make
 make clean
 mv bibl.bib main.bib
 cp bu1.bbl main.bbl
-cp bu1.blg main.blg
+rm -f main.out main.blg draft.tex
 tar -czvf arxiv.tar.gz *
