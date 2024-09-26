@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ieee
   pull_request:
     branches:
       - master
