@@ -66,6 +66,7 @@ Differentia curation for hereditary stratigraphy, indeed, turns out to be an ins
 For elaboration on this point and more on the implementation and algorithmic properties of retention policies, see \citet{moreno2024algorithms}.
 
 \subsection{Column and Surface-Based Algorithms}
+\label{sec:methods-column-vs-surface-algorithms}
 
 Having just described approaches to deciding which differentiae should be stored, we now pivot to consider approaches to actually organize and store them.
 A suitable annotation data structure for differentiae curation should:
@@ -235,18 +236,18 @@ However, care should be taken in interpreting lax triplet distance, as the patho
 As such, where used strict triplet distance is also reported.
 Where not specified, triplet distance refers to the strict measure.
 
-\input{fig/examplepanel}
+% \input{fig/examplepanel}
 
-Figure \ref{fig:examplepanel} shows example reference phylogenies, corresponding reconstructions, and quality metrics in practice.
-The top panel shows trials from the drift treatment, which exhibits high phylogenetic richness, and the bottom panel shows trials from the plain treatment, which exhibits low phylogenetic richness.
-(Note that, for legibility, time axes of phylogenies are log-scaled, which somewhat reduces the apparent visual distinction of high-versus-low phylogenetic richness.)
-Each panel compares reconstruction results under steady (left) and recency-proportional (right) instrumentation.
-Particularly high incidence of node loss (green triangle) can be seen under steady retention.
-Correspondingly, many large polytomies can be seen in the example steady-retention reconstructions (blue overlaid dendrogram) compared to the corresponding reference phylogeny (orange underlaid dendrogram).
-Under the plain treatment, steady retention leads to particularly high (almost complete) inner node loss, and --- correspondingly --- triplet distance similarity (purple dots) is very poor.
-Despite high inner node loss under the drift treatment, triplet distance remains low under steady retention.
-Across example cases shown, tilted retention enjoys triplet distance and inner node loss comparable to or better than steady retention.
-The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth.
+% Figure \ref{fig:examplepanel} shows example reference phylogenies, corresponding reconstructions, and quality metrics in practice.
+% The top panel shows trials from the drift treatment, which exhibits high phylogenetic richness, and the bottom panel shows trials from the plain treatment, which exhibits low phylogenetic richness.
+% (Note that, for legibility, time axes of phylogenies are log-scaled, which somewhat reduces the apparent visual distinction of high-versus-low phylogenetic richness.)
+% Each panel compares reconstruction results under steady (left) and recency-proportional (right) instrumentation.
+% Particularly high incidence of node loss (green triangle) can be seen under steady retention.
+% Correspondingly, many large polytomies can be seen in the example steady-retention reconstructions (blue overlaid dendrogram) compared to the corresponding reference phylogeny (orange underlaid dendrogram).
+% Under the plain treatment, steady retention leads to particularly high (almost complete) inner node loss, and --- correspondingly --- triplet distance similarity (purple dots) is very poor.
+% Despite high inner node loss under the drift treatment, triplet distance remains low under steady retention.
+% Across example cases shown, tilted retention enjoys triplet distance and inner node loss comparable to or better than steady retention.
+% The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth.
 
 \subsection{Statistical Methods}
 
