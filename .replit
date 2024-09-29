@@ -6,3 +6,7 @@ channel = "stable-23_05"
 
 [env]
 GIT_EDITOR = "vim"
+
+[[ports]]
+localPort = 8000
+externalPort = 80
