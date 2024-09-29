@@ -89,7 +89,7 @@ Hard fixed or recency-proportional bounds on differentia gap sizes require order
 }
 One disadvantage to this approach, though, is that discarding old differentia requires a shift-down operation on all subsequent elements.
 
-The ``surface'' approach, in contrast, organizes differentiae directly onto a fixed-length buffer.
+The ``surface'' approach, in contrast, organizes differentiae directly onto a fixed-length buffer \citep{moreno2024structured}.
 Rather than appending as a ``\texttt{push\_back}'' on the array, incoming differentiae are assigned an arbitrary buffer position and directly written there.
 One advantage of this approach is that separate garbage collection operations streamline away: new data simply overwrites that to be discarded.
 Another advantage is full use of available space: after the surface buffer is filled, it is guaranteed that stored differentiae fully utilize available capacity.
