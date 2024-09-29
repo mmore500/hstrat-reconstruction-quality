@@ -3,9 +3,9 @@
 In this work, we have applied empirical annotate-and-reconstruct experiments to benchmark reconstruction quality of hereditary stratigraphy approaches across use cases varying in phylogenetic structure, scale, and allocated annotation space.
 In these experiments, we consider,
 \begin{itemize}
-\item differentia retention, whether annotation space should be allocated for finer resolution in discerning recent phylogenetic events and
-\item annotation implementation, comparing existing column-based approaches to newer surface-based approaches optimized for fixed-size annotations.
-% \item differentia width, how many bits should be used per lineage checkpoint to reduce the probability of overestimating relatedness.
+\item differentia retention, whether annotation space should be allocated for finer resolution in discerning recent phylogenetic events;
+\item annotation implementation, comparing existing column-based approaches to newer surface-based approaches optimized for fixed-size annotations; and
+\item differentia width, how many bits should be used per lineage checkpoint to reduce the probability of overestimating relatedness.
 \end{itemize}
 
 Findings are then applied to develop practitioner-oriented guidelines to effectively employ hereditary stratigraphy methodology.
@@ -13,24 +13,24 @@ Principal takeaway results are,
 \begin{enumerate}
 \item tilted retention outperforms steady retention, except in scenarios with very high phylogenetic richness (e.g., drift conditions);
 \item hybrid tilted-steady retention provides good reconstruction quality across scenarios;
-\item for tilted retention, surface-based implementation provides better reconstruction quality than column-based implementation; and
-\item for steady retention, column-based implementation provides better reconstruction quality than surface-based implementation.
-% \item increased differentia size increases accuracy but reduces precision.
+\item for tilted retention, surface-based implementation provides better reconstruction quality than column-based implementation;
+\item for steady retention, column-based implementation provides better reconstruction quality than surface-based implementation; and
+\item increased differentia size increases accuracy but reduces precision.
 \end{enumerate}
 As tilted policy is likely to be preferred in practice, it is promising to see surface-based implementation improve reconstruction quality in this case.
 Because surface-based approaches were designed foremost to optimize performance and be easier to code for new platforms (particularly in low-level environments) \citep{moreno2024trackable}, additionally achieving enhanced reconstruction quality makes their adoption a win-win situation.
 
-% Owing to its inspiration from inference-based phylogenetics work in biology, hereditary stratigraphy is designed to operate in an entirely decentralized manner that is by nature efficient to scale and robust to disruptions or data loss.
-% It is therefore promising to see that reconstruction accuracy of hereditary stratigraphy is also generally robust to scale-up.
-% On the other hand, we found inner node loss --- a precision measure --- to be sensitive to increases in the number of taxa sampled for reconstruction.
-% This issue, with bit-width differentiae, arises due to increased probability for exactly identical annotations through differentia collision, resulting in clumping of tip nodes into polytomies.
-% It is possible that this problem would be abated in systems with nonsynchronous generations, where tips would be spread apart by generational depth.
-% That said, we did find inner node loss to be largely robust to scale-up of the actual population size of a simulation, with the number of taxa sampled for reconstruction held constant.
+Owing to its inspiration from inference-based phylogenetics work in biology, hereditary stratigraphy is designed to operate in an entirely decentralized manner that is by nature efficient to scale and robust to disruptions or data loss.
+It is therefore promising to see that reconstruction accuracy of hereditary stratigraphy is also generally robust to scale-up.
+On the other hand, we found inner node loss --- a precision measure --- to be sensitive to increases in the number of taxa sampled for reconstruction.
+This issue, with bit-width differentiae, arises due to increased probability for exactly identical annotations through differentia collision, resulting in clumping of tip nodes into polytomies.
+It is possible that this problem would be abated in systems with nonsynchronous generations, where tips would be spread apart by generational depth.
+That said, we did find inner node loss to be largely robust to scale-up of the actual population size of a simulation, with the number of taxa sampled for reconstruction held constant.
 
 Our goal in developing hereditary stratigraphy is to provide methodology that is sufficiently lightweight, modular, and flexible for general-purpose use across digital evolution systems.
-% Here, we have provided a comprehensive, evidence-driven foundation for effective application of hereditary stratigraphy across experimental use cases.
-% Explicitly compiling this material as a prescriptive guide maximizes its utility to this end.
-% However, we anticipate that --- most of all --- adoption hinges on success in providing a seamless, plug-and-play developer experience to those wishing to incorporate the methodology.
+Here, we have provided a comprehensive, evidence-driven foundation for effective application of hereditary stratigraphy across experimental use cases.
+Explicitly compiling this material as a prescriptive guide maximizes its utility to this end.
+However, we anticipate that --- most of all --- adoption hinges on success in providing a seamless, plug-and-play developer experience to those wishing to incorporate the methodology.
 As such, we seek to provide packaged library software with easy-to-learn API design and thorough documentation.
 Note that, beyond content presented here, the \textit{hstrat} repository includes a small library of code samples demonstrating end-to-end use of hereditary stratigraphy, useful as a starting point for new users \citep{moreno2022hstrat}.
 We would be very interested in collaborating to integrate hereditary stratigraphy instrumentation into your system or to develop algorithm implementations for your particular programming language and runtime environment.
