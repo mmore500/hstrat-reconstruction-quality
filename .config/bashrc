@@ -1,0 +1,33 @@
+function code {
+  touch $@ &> /dev/null
+  for f in $@; do
+    (timeout 1 replit-git-editor $PWD/$f & &> /dev/null)
+  done
+}
+
+export -f code
+
+git config --global user.name "Matthew Andres Moreno"
+git config --global user.email "mmore500.login@gmail.com"
+git config --global core.hooksPath /tmp/hooks
+git config --global apply.whitespace fix
+
+# Clone the repository if it doesn't already exist in the temporary directory
+if [ ! -d "/tmp/wtf" ]; then
+    git clone https://github.com/mmore500/wtf.git /tmp/wtf
+fi
+# Ensure the target directory for the symlink exists
+mkdir -p ~/.local/bin
+# Create a symlink for 'wtf', overwriting if it exists
+ln -sf /tmp/wtf/wtf ~/.local/bin/wtf
+# Prepare the hooks directory
+mkdir -p /tmp/hooks
+# Symlink the pre-commit hook, overwriting if it exists
+ln -sf /tmp/wtf/pre-commit.careful /tmp/hooks/pre-commit
+
+git config --global core.hooksPath /tmp/hooks
+
+(python3 -m http.server 8000 >> /tmp/pythonserve 2>&1 &)
+
+sleep 1
+clear
