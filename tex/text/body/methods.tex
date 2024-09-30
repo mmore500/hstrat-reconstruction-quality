@@ -12,7 +12,7 @@ A subsection is provided detailing each of these algorithmic facets.
 Having introduced the algorithmic structure of hereditary stratigraphy, attention turns to experiments conducted to evaluate which algorithmic configurations achieve best reconstruction quality.
 To be able to make general recommendations, tailored where necessary to application characteristics, we evaluated reconstruction quality across a variety of use case scenarios.
 Discussion covers the model used to generate reference phylogenies and the set of treatments evolutionary scenarios varying in scale and ground-truth phylogenetic richness explored.
-Finally, we describe metrics used to measure reconstruction quality, statistical methods, and software used for reconstruction quality experiments.
+Finally, we describe metrics used to measure reconstruction quality and statistical methods.
 % We describe the model system used, and the different treatments explored to test the effects of evolutionary conditions and evolutionary scale.
 
 \subsection{Hereditary Stratigraphy}
@@ -273,16 +273,3 @@ To discern the lowest-ranked group(s), successive Mann-Whitney U-tests are perfo
 The overall lowest-ranked group and subsequent groups tested before encountering the first significantly differing group are taken as the best-performing (given that the metric in question is an error measure).
 This approach, therefore, identifies the set of lowest-ranked groups that are statistically indistinguishable amongst themselves.
 A similar procedure is used to identify a set of highest-ranked groups.
-
-\subsection{Software and Data Availability}
-
-Software, configuration files, and executable notebooks for this work are available via Zenodo at \url{https://doi.org/10.5281/zenodo.11178607}.
-Data and supplemental materials are available via the Open Science Framework \url{https://osf.io/n4b2g/} \citep{foster2017open}.
-
-Core hereditary stratigraphy annotation, reference phylogeny generation, and phylogenetic reconstruction tools used in this work are published in the \textit{hstrat} Python package \citep{moreno2022hstrat}.
-This project can be visited at \url{https://github.com/mmore500/hstrat}.
-On account of recent development of surface-based hereditary stratigraphy algorithms, their source code is currently hosted separately at \url{https://github.com/mmore500/hstrat-surface-concept} \citep{moreno2024hsurf}.
-To streamline treatment interoperation, all experiments used underlying \texttt{HereditaryStratigraphicColumn} implementation from \textit{hstrat} and a shim class (available with the surface algorithms) converted the retention patterns that would occur under surface site selection algorithms to column retention policies.
-In the medium-term future, we anticipate publishing the surface as a first-class data structure within \textit{hstrat} Python library.
-
-This project uses data formats and tools associated with the ALife Data Standards project \citep{lalejini2019data} and benefited from many pieces of open-source scientific software \citep{sand2014tqdist,2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,sukumaran2010dendropy,cock2009biopython,torchiano2016effsize,waskom2021seaborn,hunter2007matplotlib,moreno2024apc,moreno2024qspool,moreno2023teeplot,hagen2021gen3sis,torchiano2016effsize}.
