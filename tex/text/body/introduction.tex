@@ -10,6 +10,8 @@ Bandwidth for retrieving data (accelerator-to-host) can also bottleneck performa
 One possible strategy to economize resource use within these constraints is to collect data through dynamic, partial, and potentially best-effort sampling akin to approaches traditionally used to study real-world systems (e.g., ice core samples, paleontological fossils, etc.).
 Trading a controlled amount of data detail for increased scalability and hardware accelerator compatibility would be highly worthwhile in many modeling scenarios.
 
+\subsection{Phylogenetic Tracking in Digital Evolution}
+
 % Historically, most research using ABM has assumed complete observability of model state.
 % Indeed, the ability to measure properties \textit{in silico} that would be impossible to observe \textit{in vitro} or \textit{in vivo} is a major benefit of scientific work using ABM.
 In the context of evolution experiments, phylogenetic data (i.e., the history of ancestry relationships within a population) is a powerful but data-intensive tool for understanding evolution \citep{faithConservationEvaluationPhylogenetic1992, STAMATAKIS2005phylogenetics,frenchHostPhylogenyShapes2023,kim2006discovery,lewinsohnStatedependentEvolutionaryModels2023a,lenski2003evolutionary}.
@@ -32,6 +34,8 @@ Such phylogenetic analyses are possible in biology because mutational drift enco
 Hereditary stratigraphy methods for decentralized work operate analogously, with ancestry information captured within agent genomes rather than through external tracking.
 The idea is to bundle agent genomes with special hereditary stratigraphic annotations in a manner akin to non-coding DNA (entirely neutral with respect to agent traits and fitness) and then use these annotations to perform phylogenetic reconstruction.
 The crux of hereditary stratigraphy algorithms, introduced in detail further on, is organization of genetic material to maximize reconstruction quality from a minimal memory footprint \citep{moreno2022hereditary}.
+
+\subsection{Accelerator-friendly Phylogeny Tracking Methods}
 
 Recent work has explored how this ``hereditary stratigraphy'' approach might be applied in large-scale evolution simulations employing hardware accelerator platforms, such as the Cerebras Wafer-Scale Engine \citep{moreno2024trackable}.
 One challenge encountered, however, was in adapting hereditary stratigraphy algorithms to a lower-level, more resource-constrained programming environment.
