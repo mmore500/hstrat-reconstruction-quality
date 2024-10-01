@@ -22,7 +22,7 @@ Outcomes differ notably between tilted and steady retention.
 
 Under tilted retention, triplet distance (a measure of reconstruction accuracy) is equivalent (in 34 / 48 scenarios) or improved (in 14 / 48 scenarios) under surface-based implementation.
 Inner node loss (a measure of reconstruction precision) improves in some scenarios and worsens in others.
-Notably, shown in Supplementary Figure \ref{fig:col-vs-surf}, inner node loss improvement under surface-based implementation is seen in all treatments with byte-width differentiae, which are more prone to create artifactual unresolved polytomies that drive inner node loss.
+Notably, shown in Supplementary Figure \ref{fig:col-vs-surf}, inner node loss improvement under surface-based implementation is seen in all treatments with byte-width differentiae, which are more prone to create artifactual unresolved polytomies that drive inner node loss \citep{moreno2024supplemental}.
 In sum for tilted retention, reconstruction quality of surface-based annotations can be considered equivalent or superior across the board to column-based implementation.
 
 In contrast, under steady retention, surface-based implementation achieves worse triplet distance reconstruction in 11 / 48 scenarios and better triplet distance in no scenario.
@@ -70,7 +70,7 @@ We also consider a surface-based hybrid policy, which splits buffer space evenly
 
 Figure \ref{fig:steady-vs-tilted-summary} overviews reconstruction quality by retention policy across use case scenarios.
 Across the board, steady policy yields phylogenetic reconstruction with heaviest inner node loss.
-In contrast, tilted policy exhibits among the lowest inner node loss in all but six surveyed scenarios --- including all byte-differentia trials (Supplementary Figure \ref{fig:steady-vs-tilted}).
+In contrast, tilted policy exhibits among the lowest inner node loss in all but six surveyed scenarios --- including all byte-differentia trials (Supplementary Figure \ref{fig:steady-vs-tilted}; \citep{moreno2024supplemental}).
 The hybrid policy has lower inner node loss in those six scenarios, which all involve evolutionary conditions with high phylogenetic richness.
 
 Steady policy also consistently produces the highest triplet distance error in lower-phylogenetic-richness plain and mild structure evolutionary scenarios.
@@ -85,7 +85,7 @@ However, tilted retention has worse triplet error in some scenarios with high ph
 Hybrid retention performs more consistently across evolutionary scenarios.
 It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend not to be far off from tilted retention.
 Triplet error for hybrid retention is often comparable to the better-performing of steady and tilted retention, or at least intermediate between them.
-For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:col-vs-surf}.
+For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:col-vs-surf} \citep{moreno2024supplemental}.
 
 \input{fig/recency-structure}
 
