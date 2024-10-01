@@ -297,23 +297,43 @@ FUNCTION {emphasize}
 
 INTEGERS { nameptr namesleft numnames }
 
+% adapted from https://tex.stackexchange.com/a/128501/316176
 FUNCTION {format.names}
 { 's :=
+  "" 't :=
   #1 'nameptr :=
   s num.names$ 'numnames :=
   numnames 'namesleft :=
     { namesleft #0 > }
-    { s nameptr "{vv~}{ll}{, jj}{, f.}" format.name$ 't :=   % last name first
+    { s nameptr
+      "{vv~}{ll}{, jj}{, f{.}.}"
+      format.name$
+      't :=
       nameptr #1 >
-        { namesleft #1 >
+        {
+          nameptr #1
+          #1 + =
+          numnames #3
+          > and
+            { "others" 't :=
+              #1 'namesleft := }
+            'skip$
+          if$
+          namesleft #1 >
             { ", " * t * }
-            { numnames #2 >
-                { "," * }
-                'skip$
+            {
+              s nameptr "{ll}" format.name$ duplicate$ "others" =
+                { 't := }
+                { pop$ }
               if$
               t "others" =
-                { " et~al." * }
-                { " \& " * t * }   % ampersand for apalike-ejor
+                {
+                  " et~al" *
+                }
+                {
+                  " and "
+                  * t *
+                }
               if$
             }
           if$
