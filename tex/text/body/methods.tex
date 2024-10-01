@@ -8,8 +8,8 @@ Two technical aspects of hereditary stratigraphy annotation involved in this wor
 \end{enumerate}
 A subsection is provided detailing each of these algorithmic facets.
 
-Attention next turns to experiments conducted to evaluate reconstruction quality of alternate algorithmic configurations.
-For generality, we evaluated reconstruction quality across a variety of evolutionary scenarios.
+Attention next turns to experiments conducted to evaluate the reconstruction quality obtained under alternate algorithmic configurations.
+For generality, we evaluated reconstruction quality across varied evolutionary scenarios.
 Discussion covers the model used to generate reference phylogenies and the set of treatments explored.
 Finally, we describe metrics used to measure reconstruction quality and statistical methods.
 % We describe the model system used, and the different treatments explored to test the effects of evolutionary conditions and evolutionary scale.
@@ -30,7 +30,7 @@ Conversely, insofar as two annotations share identical differentiae, they likely
 Under this framing, phylogeny reconstruction can be performed agglomeratively using a trie-based procedure \citep{moreno2024analysis}.
 % This approach successively percolates leaf taxa along the tree path of internal nodes consistent with their fingerprint sequence, affixing them where common ancestry ends \citep{moreno2024analysis}.
 
-Because differentiae are randomly generated, it is possible that they collide by chance.
+Because differentiae are randomly generated, it is possible for annotations on diverged lineages to match by chance.
 The frequency of such spurious collisions depends on the size of fingerprint values used, e.g., a single bit, a byte, a 32-bit word, etc.
 Smaller differentiae reduce annotations' memory footprint but make overestimation of relatedness more likely.
 Annotation memory use can also be reduced by discarding old differentiae as generations elapse.
@@ -47,17 +47,17 @@ In one possible strategy, retained time points would be spread evenly across his
 We term this strategy as ``steady'' \citep{han2005stream,zhao2005generalized}.
 Such an approach ensures that last common ancestor (LCA) events can be discerned with consistent absolute precision, no matter when they occurred.
 
-Although the steady approach minimizes worst-case imprecision, there is reason to believe it may fail to allocate precision where it is most useful to discern phylogenetic history.
-In most evolutionary scenarios, there is a general tendency for phylogenetic events concerning extant taxa to be more tightly packed in the near past \citep{zhaxybayeva2004cladogenesis}.
+Although the steady approach minimizes worst-case imprecision, there is reason to believe it may fail to allocate precision where it would be most useful for discerning phylogenetic history.
+In most evolutionary scenarios, there is a general tendency for phylogenetic events concerning extant taxa to have occurred relatively recently \citep{zhaxybayeva2004cladogenesis}.
 A strategy accounting for this fact would retain newer time points at higher density than older time points.
 We refer to such an approach, where differentiae are retained in a recency-proportional manner, as ``tilted'' \citep{han2005stream,zhao2005generalized}.
 
-Preliminary experiments have indicated that, at least in some scenarios, annotations using tilted retention can yield higher quality phylogenetic reconstructions than with steady retention \citep{moreno2022hereditary}.
-Experiments in this work address this question more thoroughly, to assess the relative performance over a variety of evolutionary scenarios, including those expected to maintain greater amounts of ancient history.
+Preliminary experiments have indicated that, in some scenarios, annotations using tilted retention can yield higher quality phylogenetic reconstructions than those using steady retention \citep{moreno2022hereditary}.
+Experiments here address this question more thoroughly; we assess the relative performance over a variety of evolutionary scenarios, including those expected to maintain greater amounts of ancient history.
 In addition, to assess whether benefits of these two approaches can be combined, some experiments consider a third, ``hybrid''' strategy, where annotations are split half-and-half between steady and tilted strategies.
 
 Figure \ref{fig:steady-vs-tilted-schematic} provides a visual comparison of steady and tilted retention strategies.
-The steady history spaces retained differentia at regular intervals, while gap sizes decrease with recency under the tilted policy.
+The steady history spaces retained differentia at regular intervals, while the tilted policy retains differentia in proportion to their recency.
 Note that these policies must handle continual accrual of new differentia as generations elapse.
 At each step, a new differentia is appended, and --- as required --- old differentia are discarded.
 Throughout, constraints on time point coverage and annotation size must be respected.
@@ -66,7 +66,7 @@ For more detail on algorithmic aspects of this process, see \citet{moreno2024alg
 \subsection{Column and Surface-Based Algorithms}
 \label{sec:methods-column-vs-surface-algorithms}
 
-Having just described approaches to deciding which differentiae should be stored, we now pivot to consider implementation-level approaches to organize and store them in practice.
+Having just described approaches to deciding which differentiae should be stored, we next consider implementation-level approaches to organize and store them in practice.
 A suitable annotation data structure for differentiae curation should:
 \begin{enumerate}
 \item support efficient update operations (to append new differentia and discard old differentiae),
@@ -82,18 +82,18 @@ Note that for such data to be readily legible, retention policies' curated time 
 The ``column''' approach arranges differentia in chronological order, with newest differentia stored last.
 This approach suits use of a dynamic array data structure (e.g., Python \texttt{list}/C++ \texttt{std::vector}), as new additions can be accessioned through an append (e.g., ``\texttt{push\_back}'') operation.
 Accordingly, the ``column'' approach supports arbitrary growth in curated collection size.
-This allows for retention policies that provide hard guarantees for inference precision.
+This property allows for retention policies that provide hard guarantees on inference precision.
 \footnote{%
 Hard fixed or recency-proportional bounds on differentia gap sizes require orders of growth in retention that are linear and logarithmic, respectively \citep{moreno2024algorithms}.
 }
-One disadvantage to this approach, though, is that discarding old differentia requires a shift-down operation on all subsequent elements.
+One disadvantage to this approach, though, is that discarding old differentia requires an $\mathcal{O}(n)$ shift-down operation on all subsequent elements.
 
 The ``surface'' approach, in contrast, organizes differentiae directly onto a fixed-length buffer \citep{moreno2024structured}.
-Rather than appending as a ``\texttt{push\_back}'' on the array, incoming differentiae are assigned an arbitrary buffer position and directly written there.
-One advantage of this approach is that explicit garbage collection operations streamline away: new data simply overwrites that to be discarded.
-Another advantage is full use of available space: after the surface buffer is filled, it is guaranteed that stored differentiae fully utilize available capacity.
-Owing to discrepancy between projected upper bounds on retained size and actual usage, this is not the case for column-based tilted retention where size is capped.
-However, to the surface's disadvantage, dropping a level of abstraction to operate over buffer sites rather than differentia time points results in less fine-grained control over retention and, particularly in the case of steady retention, a somewhat looser adherence to idealized retention patterns.
+Rather than appending as a ``\texttt{push\_back}'' on the array, incoming differentiae are assigned an arbitrary buffer position and directly written there in $\mathcal{O}(1)$ time.
+One advantage of this approach is that explicit garbage collection operations are uneccessary; new data simply overwrites that to be discarded.
+Another advantage is full use of available space --- after the surface buffer is filled, it is guaranteed that stored differentiae fully utilize available capacity.
+Owing to discrepancy between projected upper bounds on retained size and actual usage, this guarantee does not hold for column-based tilted retention where maximum size is capped.
+However, to the surface approach's disadvantage, dropping a level of abstraction to operate over buffer sites rather than differentia time points results in less fine-grained control over retention and a somewhat looser adherence to idealized retention patterns.
 Additionally, by design, growth beyond the surface's fixed buffer size (e.g., logarithmic, linear) is not supported.
 For a more detailed description of motivation for surface-based algorithms, see \citep{moreno2024trackable}.
 
@@ -106,7 +106,7 @@ However, we anticipate most hereditary stratigraphy use cases will prefer fixed-
 \subsection{Model System}
 
 This section describes the evolution simulations used to generate reference phylogenies for empirical annotate-and-reconstruct experiments.
-To support the large, exact-tracked phylogenies needed for this purpose, we utilized a simple evolution model.
+To support the large, exact-tracked phylogenies needed for this purpose, we used a simple evolution model.
 Genomes comprised a single floating-point value, with higher magnitude corresponding to higher fitness.
 We used tournament selection with synchronous generations.
 Mutation was applied after selection, with a value drawn from a unit Gaussian distribution added to all genomes.
@@ -118,8 +118,8 @@ A major goal in our experiments is assessing reconstruction quality over a bread
 To this end, we applied strong, explicit manipulations of evolutionary conditions to explore hereditary stratigraphy methods across diverse regimes of phylogenetic structure.
 One focal variable was phylogenetic richness, the amount of distinct lineage history maintained within an extant population --- also known as phylogenetic diversity \citep{tucker2017guide}.
 For a fixed population size, phylogenetic richness is increased by coexistence of deep phylogenetic branches.
-We explored treatments that enrich phylogenetic richness by applying spatial and ecological structure \citep{moreno2024ecology,gomez2019understanding,valiente2007facilitation}.
-Spatial structure in experiments was driven by a simple island population model and ecological structure was driven by a simple niche model, respectively.
+We explored treatments that promote phylogenetic richness via spatial and ecological structure \citep{moreno2024ecology,gomez2019understanding,valiente2007facilitation}.
+Spatial structure in experiments was implemented as a simple island population model and ecological structure was implemented as a simple niche model, respectively.
 
 The island model, used to induce spatial structure, distributed individuals evenly across islands, with selection processes taking place in isolation on each island.
 Islands were arranged in a one-dimensional closed ring, and 1\% of population members migrated to a neighboring island each generation.
@@ -130,7 +130,7 @@ In the selection procedure, individuals exclusively compete with members of thei
 Every generation, individuals swapped niches with probability $3.05 \times 10^{-8}$ (chosen so one niche swap would be expected every 500 generations at the larger population size and 4,000 generations at the smaller).
 
 We also included a drift treatment, where selection was performed in a fully neutral manner.
-Drift conditions also enhance phylogenetic richness, but complements other surveyed treatments in operating through an entirely alternate mechanism.
+Drift conditions also enhance phylogenetic richness, but complement other surveyed treatments in operating through an entirely alternate mechanism.
 
 Another objective of employing a highly-abstracted model to generate reference phylogenies is generality.
 Other work with this simple model supports its generality, finding generally analogous (albeit less accentuated) effects of manipulating evolutionary conditions on phylogenetic structure \citep{moreno2024ecology}.
@@ -138,7 +138,6 @@ This model system has been established in other existing work, as well \citep{mo
 
 In addition to structural aspects of phylogeny composition, we also sought to understand the relationship between population scale and reconstruction quality.
 Population sizes of both 4,096 ($2^{12}$) and 65,536 ($2^{16}$) were used in experiments.
-Downsampling comprises an orthogonal dimension of phylogeny scale.
 We anticipate that many use cases of hereditary stratigraphy will collect and analyze only a subset of extant taxa for tractability of data collection, phylogenetic reconstruction, and phylogenetic analysis.
 As such, experiments downsampled generated annotations to 500 taxa.
 In experiments using larger population size, we also tested reconstructions over larger samples of 8,000 taxa.
@@ -171,7 +170,7 @@ For each evolutionary regime, we tested five arrangements of annotation capacity
 Differentia size controls the probability of spurious collision, which is $1/2$ for 1-bit differentia and $1/256$ for 1-byte differentiae, while capacity limitations instead affect the time points where divergence between lineages can be compared.
 
 Treatments also considered \textit{steady-versus-tilted} retention policy and \textit{column-versus-surface} implementation.
-Recall that these the former determines the overall balance of recent-versus-ancient checkpoints kept and the latter determines the implementation-level particulars of discard sequencing.
+Recall that the former determines the overall balance of recent-versus-ancient checkpoints kept and the latter determines the implementation-level particulars of discard sequencing.
 Experiments using surface implementation, in addition to steady and tilted approaches, additionally considered a steady/tilted \textit{hybrid} retention policy.
 
 Across all experiments, each treatment comprised 20 replicates.
@@ -184,16 +183,15 @@ Then, we used the agglomerative tree building implementation provided as \texttt
 Thus, each reconstruction replicate has a directly corresponding reference tree from an exactly-tracked evolution run.
 
 Reconstruction was fast, taking less than a second for the 500-leaf tree with the 256-bit annotation and, in optimized mode, about 5 seconds to build the 8,000-leaf tree.
-We then apply a postprocessing step, \texttt{hstrat.{\allowbreak}Peel{\allowbreak}Back{\allowbreak}Conjoined{\allowbreak}Leave{\allowbreak}sTrie{\allowbreak}Postprocessor} which accounts for the fact that entirely identical annotations may only arise due to spurious differentia collision because distinct leaf taxa by definition cannot have shared ancestry in their penultimate generation.
-This took about 20 seconds for the larger tree.
+We then applied a postprocessing step, which took about 20 seconds for the larger tree.
 
 \subsection{Reconstruction Quality Measures}
 
 \input{fig/hstrat-failure-modes.tex}
 
-Assessment of reconstruction quality sought --- in addition to characterizing a headline error measure across hereditary stratigraphy strategies --- to provide diagnostic insight into the nature of reconstruction error produced and the underlying mechanistic reasons it occurs.
+Assessment of reconstruction quality sought --- in addition to characterizing an overall error measure across hereditary stratigraphy strategies --- to provide diagnostic insight into the nature of reconstruction error produced and the underlying mechanistic reasons it occurs.
 Figure \ref{fig:hstrat-failure-modes} depicts two distinct failure modes of hereditary stratigraphy-based reconstruction, which we seek to distinguish.
-This example comprises three taxa: $A$, $B$, and $C$.
+This example involves three taxa: $A$, $B$, and $C$.
 In ground truth, $A$ and $B$ are most closely related and $C$ is an outgroup.
 We distinguish three classes of reconstruction outcomes:
 \begin{enumerate}
@@ -211,11 +209,11 @@ Conveniently, hereditary stratigraphy produces rooted trees, owing to differenti
 
 To discern error arising from unresolved (as opposed to incorrect) reconstruction, we included a second reconstruction quality measure: inner node loss.
 This metric quantifies the difference between the number of inner nodes present in the reference tree versus the reconstruction.
-It serves as a precision measure, designed to assess the amount of phylogenetic detail lost due to artifactual polytomization.
+It serves as a precision measure, designed to assess the amount of phylogenetic detail lost due to artifactual polytomies.
 Inner node loss ranges from 0.0 (for reconstruction with as many inner nodes as reference) to a maximum of 1.0 (reconstruction is a pathological star phylogeny with only one inner node).
 Note that a negative inner node loss might be measured if the reconstruction contains more inner nodes than the reference, owing to erroneous overresolution.
 This might occur, for instance, due to the inherent inability of bit-width differentia to represent node degrees higher than bifurcation.
-For bit-differentia configurations, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentia in common.
+For bit-differentia configurations, this inner node loss measure assumes a very specific interpretation: artifactual polytomies occur exclusively when annotation records share all differentiae in common.
 In this case, identical annotations are polytomized as leaves of a single inner node.
 % This scenario would likely be AMELIORATED under asynchronous generations on account of leaves being generationally dispersed.
 
@@ -223,7 +221,7 @@ To further discern error from unresolved versus incorrect reconstruction, we on 
 Lax triplet distance differs from strict triplet distance in that it does not penalize triplets that mismatch on account of polytomy.
 This measure is useful in isolating incorrect reconstruction from unresolved reconstruction.
 However, care should be taken in interpreting lax triplet distance, as the pathological ``star'' tree case where all leaves descend directly from the root in one large polytomy would measure zero reconstruction error under the lax triplet distance measure.
-As such, where used strict triplet distance is also reported.
+As such, where used, strict triplet distance is also reported.
 Where not specified, triplet distance refers to the strict measure.
 
 % \input{fig/examplepanel}
@@ -243,7 +241,7 @@ Where not specified, triplet distance refers to the strict measure.
 
 Comparisons of reconstruction quality considered both statistical significance (the likelihood an observed difference between treatments might have occurred by chance) and effect size (the magnitude of distinction between treatments relative to outcome variabilities).
 We used nonparametric methods for both analyses.
-By assessing effect sign, size, and significance across treatment conditions, we were able to describe the extent and consistency with which one instrumentation approach outperformed others.
+By assessing effect sign, size, and significance across treatment conditions, we described the extent and consistency with which one instrumentation approach outperformed others.
 
 We used Cliff's delta to report effect size.
 This statistic describes the proportion of distributional non-overlap between two distributions, ranging from 1 (or -1) if two distributions share no overlap to 0 if they overlap entirely \citep{cliff1993dominance}.
