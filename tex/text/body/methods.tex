@@ -114,9 +114,9 @@ Experiments used asexual reproduction, with no crossover or recombination.
 (Extensions of hereditary stratigraphy to sexual lineages are possible \citep{moreno2024methods}, but not explored in this work.)
 Evolutionary runs lasted 100,000 generations.
 
-A major goal in our experiments is assessing reconstruction quality over a breadth of evolutionary scenarios.
+A key consideration in our experiments is assessing reconstruction quality over a breadth of evolutionary scenarios.
 To this end, we applied strong, explicit manipulations of evolutionary conditions to explore hereditary stratigraphy methods across diverse regimes of phylogenetic structure.
-One focal variable was phylogenetic richness, the amount of distinct lineage history maintained within an extant population --- also known as phylogenetic diversity \citep{tucker2017guide}.
+One focal variable was phylogenetic diversity, the amount of distinct lineage history maintained within an extant population \citep{tucker2017guide}.
 For a fixed population size, phylogenetic richness is increased by coexistence of deep phylogenetic branches.
 We explored treatments that promote phylogenetic richness via spatial and ecological structure \citep{moreno2024ecology,gomez2019understanding,valiente2007facilitation}.
 Spatial structure in experiments was implemented as a simple island population model and ecological structure was implemented as a simple niche model, respectively.
@@ -133,8 +133,7 @@ We also included a drift treatment, where selection was performed in a fully neu
 Drift conditions also enhance phylogenetic richness, but complement other surveyed treatments in operating through an entirely alternate mechanism.
 
 Another objective of employing a highly-abstracted model to generate reference phylogenies is generality.
-Other work with this simple model supports its generality, finding generally analogous (albeit less accentuated) effects of manipulating evolutionary conditions on phylogenetic structure \citep{moreno2024ecology}.
-This model system has been established in other existing work, as well \citep{moreno2023toward}.
+Other work with this simple model suggests that effects on phylogenetic structure induced under treatments surveyed here generalize across model systems, albeit to a less accentuated degree \citep{moreno2024ecology}.
 
 In addition to structural aspects of phylogeny composition, we also sought to understand the relationship between population scale and reconstruction quality.
 Population sizes of both 4,096 ($2^{12}$) and 65,536 ($2^{16}$) were used in experiments.
@@ -251,7 +250,9 @@ Where appropriate, we additionally report effects directly in terms of the under
 
 We pair effect-size analysis with Mann-Whitney U testing in order to assess evidence that significant differences exist between reconstruction quality under different conditions \citep{mann1947on}.
 As our goal was to screen for possible effects, rather than establish the veracity of any one effect, we did not correct for multiple comparisons in assessing statistical significance.
-
+Because incorrectly identifying a lack of difference between conditions would be more harmful than incorrectly identifying the presence of a difference, this approach is conservative in maintaining the sensitivity of our assays.
+% TODO
+% Where we do detect a significant effect, we additionally report results after applying Holm-Bonferroni correction.
 
 When determining the best- and worst-performing among three or more hereditary stratigraphy approaches, we use a nonparametric skimming procedure provided by the \textit{pecking} Python library \citep{moreno2024pecking}.
 The procedure first applies a Kruskal-Wallis H-test to determine if there is evidence for significant variation among the sample groups.
