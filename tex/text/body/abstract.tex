@@ -1,13 +1,12 @@
 \begin{abstract}
 Computer simulations are an important tool for studying the mechanics of biological evolution.
-In particular, agent-based approaches provide an opportunity to collect high-quality records of ancestry relationships among agents.
+In particular, \textit{in silico} work with agent-based models provides an opportunity to collect high-quality records of ancestry relationships among simulated agents.
 Such phylogenies can provide insight into evolutionary dynamics within these simulations.
-Previous work generally tracks lineages directly, yielding an exact phylogenetic record of evolutionary history.
-However, challenges exist in scaling direct ancestry-tracking approaches to highly-distributed, many-processor evolution \textit{in silico}.
-An alternate approach is to estimate phylogenetic history via non-coding annotations on digital genomes, akin to how bioinformaticians build phylogenies by assessing genetic similarities between organisms.
-Recent work has extended this ``hereditary stratigraphy'' approach to support powerful hardware accelerator platforms, such as the Cerebras Wafer-Scale Engine.
-Although these second-generation ``surface''-based hereditary stratigraphy algorithms have demonstrated order-of-magnitude speedups over first-generation ``column''-based algorithms, it remains unknown how they impact the accuracy of reconstructed phylogenies.
-To address this question, we assessed reconstruction accuracy under alternate configurations across a matrix of evolutionary conditions varying in selection pressure, spatial structure, and ecological dynamics.
-%@MAM do we want to use the term surface here?
-Encouragingly, we find that the second-generation approaches provide higher reconstruction quality across most surveyed conditions.
+Existing work generally tracks lineages directly, yielding an exact phylogenetic record of evolutionary history.
+However, direct tracking can be inefficient for large-scale, many-processor evolutionary simulations.
+An alternate approach to extracting phylogenetic information from simulation that scales more favorably is \textit{post hoc} estimation, akin to how bioinformaticians build phylogenies by assessing genetic similarities between organisms.
+Recently introduced ``hereditary stratigraphy'' algorithms provide means for efficient inference of phylogenetic history from non-coding annotations on simulated organisms' genomes.
+A number of options exist in configuring hereditary stratigraphy methodology, but no work has yet tested how they impact reconstruction quality.
+To address this question, we surveyed reconstruction accuracy under alternate configurations across a matrix of evolutionary conditions varying in selection pressure, spatial structure, and ecological dynamics.
+We synthesize results from these experiments to suggest a prescriptive system of best practices for work with hereditary stratigraphy, ultimately guiding researchers in choosing appropriate instrumentation for large-scale simulation studies.
 \end{abstract}
