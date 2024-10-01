@@ -14,7 +14,7 @@ We find that surface-based implementation tends to improve reconstruction qualit
 \input{fig/col-vs-surf-summary}
 
 Recall that surface- and column-based annotation implementations differ in how differentiae are organized within a hereditary stratigraphy annotation.
-Surface-based implementation takes a lower-level approach that streamlines generation-to-generation updates ensures full use of available memory space, but sacrifices some control over the temporal distribution of retained differentiae.
+Surface-based implementation takes a lower-level approach that streamlines generation-to-generation updates and ensures full use of available memory space, but sacrifices some control over the temporal distribution of retained differentiae.
 Both implementations support tilted and steady retention policies.
 
 Figure \ref{fig:col-vs-surf-summary} compares reconstruction quality for surface algorithms against their corresponding column implementation.
@@ -27,7 +27,7 @@ In sum for tilted retention, reconstruction quality of surface-based annotations
 
 In contrast, under steady retention, surface-based implementation achieves worse triplet distance reconstruction in 11 / 48 scenarios and better triplet distance in no scenario.
 Similarly, inner node loss is worse in 23 / 48 scenarios, including 4 / 12 byte-differentiae scenarios, and better in no scenario.
-So, for steady retention reconstruction quality of surface-based annotations are equivalent or inferior to column-based implementation.
+So, for steady retention, reconstruction quality of surface-based annotations is equivalent or inferior to column-based implementation.
 
 Why does the surface-based approach benefit reconstruction under one retention policy but not the other?
 Compared to column-implementation, surface-implementation allows the tilted algorithm to retain more differentiae within available annotation space.
@@ -36,8 +36,8 @@ In contrast, column-based steady retention makes full use of available space, gi
 Although both the surface and column approaches prune differentiae through comparable strided decimation procedures, the column implementation more systematically drops decimated differentiae from back to front.
 This process ends up preserving more recent differentiae which, as we will see in the next set of experiments, tends to benefit reconstruction quality.
 
-Although surface-based implementation involves a trade-off between performance reconstruction quality in the case of steady retention, it is notable that surface-based implementation improves both runtime performance and data quality under tilted retention.
-Given this result, we next week to assess the extent to which tilted or steady retention would be preferred in practice across possible evolutionary scenarios.
+Although surface-based implementation involves a trade-off between performance and reconstruction quality in the case of steady retention, it is notable that surface-based implementation improves both runtime performance and data quality under tilted retention.
+Given this result, we next seek to assess the extent to which tilted or steady retention would be preferred in practice across possible evolutionary scenarios.
 
 % We did this by using a simple simulation to generate phylogenies under different conditions with perfect tracking, then simulating heritage of hstrat annotations down the perfect tree and subsequent reconstruction.
 % We could then compare the reconstruction that would have been obtained under approximate tracking to the underlying ground truth.
@@ -61,9 +61,9 @@ Given this result, we next week to assess the extent to which tilted or steady r
 
 \input{fig/steady-vs-tilted-summary}
 
-Be reminded that steady and tilted retention differ in the temporal composition of retained differentiae;
+Recall that steady and tilted retention differ in the temporal composition of retained differentiae;
 steady policy spaces retained differentia evenly across history, while tilted policy biases to retain more recent differentiae.
-The question of which policy gives higher quality reconstruction boils down to where precision in discerning the timing of lineage branching events is most useful to resolving evolutionary history.
+The question of which policy enables higher quality reconstruction boils down to where precision in discerning the timing of lineage branching events is most useful to resolving evolutionary history.
 To ensure even footing, we report results for each retention policy using its best-performing implementation, as established above.
 Steady policy uses column implementation and tilted policy uses surface implementation.
 We also consider a surface-based hybrid policy, which splits buffer space evenly between steady and tilted retention.
