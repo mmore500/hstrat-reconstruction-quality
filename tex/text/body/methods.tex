@@ -79,7 +79,7 @@ Requiring 32- or 64-bit pointers or time point values per differentia would caus
 As such, both approaches considered here --- ``column'' and ``surface''-based storage --- pack differentiae in an array format and rely on positional context to identify them.
 Note that for such data to be readily legible, retention policies' curated time points must be directly enumerable \textit{a priori} for any arbitrary generation.
 
-The ``column'' approach arranges differentia in chronological order, with newest differentia stored last.
+The ``column'' approach arranges differentiae in chronological order, with newest differentiae stored last.
 This approach suits use of a dynamic array data structure (e.g., Python \texttt{list}/C++ \texttt{std::vector}), as new additions can be accessioned through an append (e.g., ``\texttt{push\_back}'') operation.
 Accordingly, the ``column'' approach supports arbitrary growth in curated collection size.
 This property allows for retention policies that provide hard guarantees on inference precision.
@@ -94,7 +94,7 @@ One advantage of this approach is that explicit garbage collection operations ar
 Another advantage is full use of available space --- after the surface buffer is filled, it is guaranteed that stored differentiae fully utilize available capacity.
 Owing to discrepancy between projected upper bounds on retained size and actual usage, this guarantee does not hold for column-based tilted retention where maximum size is capped.
 However, to the surface approach's disadvantage, dropping a level of abstraction to operate over buffer sites rather than differentia time points results in less fine-grained control over retention and a somewhat looser adherence to idealized retention patterns.
-Additionally, by design, growth beyond the surface's fixed buffer size (e.g., logarithmic, linear) is not supported.
+Additionally, by design, growth beyond the surface's fixed buffer size is not supported.
 For a more detailed description of motivation for surface-based algorithms, see \citep{moreno2024trackable}.
 
 In sum, the question of column- versus surface-based algorithms can be characterized as a trade-off between efficiency and exactitude.
