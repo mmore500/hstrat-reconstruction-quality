@@ -1,4 +1,4 @@
-\section{A Practicioner's Guide to Hereditary Stratigraphy} \label{sec:synthesis}
+\section{A Practitioner's Guide to Hereditary Stratigraphy} \label{sec:synthesis}
 
 This section shifts focus from an analytical, hypothesis-driven framing, as applied in the previous section, to discussion that is instead prescriptive and summative.
 The goal here is to synthesize results from reported annotation-and-reconstruct experiments, as well as other work testing and applying hereditary stratigraphy, to provide concrete, action-oriented advice to guide the reader in effectively applying hereditary stratigraphy in their own digital evolution work.
@@ -26,7 +26,7 @@ However, for serial or centralized simulations, there are a few scenarios where 
 In simulations employing decentralized parallel and distributed computation, a reconstruction-based approach such as hereditary stratigraphy is more likely to be appropriate.
 Compared to perfect tracking in this setting, hereditary stratigraphy provides simpler implementation, lower runtime communication overhead, and greater robustness to data loss.
 Note that if annotation size is not a concern or a low generation count is anticipated, essentially perfect-quality reconstruction can be achieved with hereditary stratigraphy methods.
-In this case, one could simply use a retention policy that discards no differentia and a wide enough differentia width to effectively guarantee collisions will not occur (e.g., 32 or 64 bits).
+In this case, one could simply use a retention policy that discards no differentiae and a sufficient differentia width to effectively guarantee collisions will not occur (e.g., 32 or 64 bits).
 However, in most cases, a compromise between phylogeny approximation and per-genome annotation size will be necessary.
 We cover this in the next section.
 
@@ -49,25 +49,25 @@ Discussion then turns to a handful of special-case topics.
 
 In most scenarios, a constant-size annotation will give better runtime performance and ensure fuller use of available memory resources.
 However, if you need hard guarantees on absolute or recency-proportional inference quality, an annotation size that scales $\mathcal{O}(n)$ or $\mathcal{O}(log(n))$, respectively, with generational depth will be necessary.
-The \textit{hstrat} Python packge provides \texttt{fixed\_resolution\_algo} and  \texttt{recency\_proportional\_resolution\_algo} policies for such cases \citep{moreno2022hstrat}.
+The \textit{hstrat} Python package provides \texttt{fixed\_resolution\_algo} and  \texttt{recency\_proportional\_resolution\_algo} policies for such cases \citep{moreno2022hstrat}.
 
 \subsubsection{Annotation Size}
 \textit{Suggested default choice: 256-bit differentia buffer with 64-bit generation counter.}
 
 Annotation size must compromise between memory-use and communication-bandwidth overhead and quality of reconstructed phylogenies.
-In cases where annotation size is not a limiting factor, using 256-bit annotation buffers with single-bit differentia will discern phylogenetic events with about 13\% recency-relative precision (tilted) or 1\% depth-relative precision (steady) through 1 billion generations.
-For full-byte differentia, discussed below, an annotation size on the order of kilobits would be very robust.
-Where memory use is a limiting factor, however, A 64-bit annotation buffer with single-bit differentia can give good results.
+In cases where annotation size is not a limiting factor, using 256-bit annotation buffers with single-bit differentiae will discern phylogenetic events with about 13\% recency-relative precision (tilted) or 1\% depth-relative precision (steady) through 1 billion generations.
+For full-byte differentiae, discussed below, an annotation size on the order of kilobits would be very robust.
+Where memory use is a limiting factor, however, a 64-bit annotation buffer with single-bit differentiae can give good results.
 
 In picking annotation size, some consideration should be given to the phylogenetic scale of experimental use cases.
 Triplet distance (accuracy) appears to be largely stable under surveyed increases in population size and number of taxa sampled for reconstruction
-However, loss of inner node loss can increase when increasing reconstruction sample size.
+However, inner node loss can increase when increasing reconstruction sample size.
 Where this is a concern, annotation size may need to be increased commensurate to intended phylogeny tip count.
 
 Current implementations of surface algorithms are limited to buffer sizes that are even powers of two (i.e., 32, 64, 128, etc.).
 Where finer gradations are desired, one possibility would be to consider intermediate differentia sizes.
-For instance, storing 3-bit differentia over 32 surface sites would occupy 96 bits.
-Alternately, alternating depositions across a collection of surfaces might be considered (e.g., a 32-bit tilted surface and a 16-bit steady surface).
+For instance, storing 3-bit differentiae over 32 surface sites would occupy 96 bits.
+Alternatively, alternating depositions across a collection of surfaces might be considered (e.g., a 32-bit tilted surface and a 16-bit steady surface).
 Note, though, that the latter option would require implementation customizations akin to those used to create the hybrid surface retention policy \citep{moreno2024hsurf}.
 Column algorithms are more flexible in buffer sizing, but in the case of tilted retention, they make less full use of available buffer space.
 
@@ -80,18 +80,18 @@ For most use cases, a 32- or 64-bit counter value will be appropriate.
 \textit{Suggested default choice: hybrid retention policy.}
 
 Hybrid retention policy is a good choice where phylodiversity-enhancing factors (ecology, spatial structure, relaxed selection pressure) are expected or expectation is unclear.
-Across use cases, hybrid retention often obtains competitive reconstruction quality to the better of steady and tilted policy.
+Across use cases, hybrid retention often achieves reconstruction quality competitive with the better of steady and tilted policies.
 Even where it is outperformed by steady or tilted retention, hybrid retention avoids catastrophic failure modes characteristic, in particular, of steady retention.
 On platforms where steady policy implementation (necessary as a component of hybrid policy) is not readily available, tilted policy should typically suffice.
 If you do not expect strong phylodiversity-enhancing factors (i.e., no ecology, no spatial structure, high selection pressure), tilted policy can reliably outperform hybrid policy.
 In rare cases where phylodiversity-enhancing factors are very strong (e.g., pure drift conditions), a steady policy may be appropriate.
 
 \subsubsection{Differentia Width}
-\textit{Suggested default choice: use bit-size differentia.}
+\textit{Suggested default choice: use bit-size differentiae.}
 
-Bit-size differentia maximize the fraction of correct reconstruction outcomes but can also introduce incorrect reconstruction outcomes.
-Byte-size differentia have very low incorrect reconstruction outcome rates and can reconstruct true polytomies but have a larger incidence of unresolved reconstruction outcomes (artifactual polytomies).
-This trade-off results in bit-size differentia giving more informative reconstructions, as measured by strict triplet distance error.
+Bit-size differentiae maximize the fraction of correct reconstruction outcomes, but can also introduce incorrect reconstruction outcomes.
+Byte-size differentiae have very low incorrect reconstruction outcome rates and can reconstruct true polytomies, but have a larger incidence of unresolved reconstruction outcomes (artifactual polytomies).
+This trade-off results in bit-size differentiae giving more informative reconstructions, as measured by strict triplet distance error.
 If you need very strong guarantees against incorrect reconstruction outcomes, an even larger differentia size (32 or even 64 bits) may be appropriate.
 
 \subsubsection{Column vs. Surface Implementation}
@@ -103,20 +103,20 @@ In the case of tilted retention policy, they also give higher-quality reconstruc
 If using steady policy, column implementation gives higher-quality reconstructions, but surface implementation would be reasonable to gain enhanced runtime performance.
 Finally, hybrid policy is currently only provided for surface-based implementation.
 
-Another factor that might influence this decision is the software platform being designed for.
+Another factor that might influence this decision is the software platform targeted.
 Where packages providing hereditary stratigraphy are not available, surface algorithms are easier to implement owing to only needing to implement one update operation: site selection on the fixed-size surface buffer.
 
 \subsubsection{Special-case topic: lineage tags}
 \textit{Suggested default choice: not needed in most cases.}
 
 In scenarios where explicitly differentiating between founding clades is paramount, consider adding a systematically assigned founder ID or randomly generated fixed tag.
-This tag would then be used as a first pass to divvy end-state annotations into independent sets before feeding them into separate reconstruction processes.
-If several founding lineages persist, when using single-bit differentia, spurious collisions can make completely independent clades falsely appear to share an amount of common history.
+This tag would then be used as a first pass to divvy up end-state annotations into independent sets before feeding them into separate reconstruction processes.
+When using single-bit differentiae, if several founding lineages persist, spurious collisions can make completely independent clades falsely appear to share some common history.
 
 \subsubsection{Special-case topic: incorporating trait data}
 \textit{Suggested default choice: collect ``fossil'' phenotypes instead.}
 
-It is possible to ``annotate'' differentia with information about genetic or phenotypic traits associated with corresponding ancestors.
+It is possible to ``annotate'' differentiae with information about genetic or phenotypic traits associated with corresponding ancestors.
 Conveniently, because every internal node in a hereditary stratigraphy reconstruction corresponds to a retained differentia, this approach ensures all internal nodes in a reconstructed phylogeny can be associated with a trait value.
 However, a similar result can be had by saving out sample ``fossil'' specimens (with corresponding trait information) over the course of a simulation.
 Because, like extant taxa, these fossils have hereditary stratigraphy annotations, they can readily be incorporated into phylogenetic reconstruction and provide information on ancestral trait states.
@@ -129,14 +129,14 @@ Two major steps are necessary to integrate hereditary stratigraphy into evolutio
 Software implementing column-based approaches is available for Python \citep{moreno2022hstrat} and surface-based approaches are available for Python \citep{moreno2024hsurf} and Zig/Cerebras Software Language \citep{moreno2024wse}.
 Based on community feedback, C/C++ and Rust are priority targets for surface-based implementation ports.
 However, porting core surface algorithms to another software language should be doable with moderate effort.
-Surface algorithms are implemented via small, pure functions ($\approx<30$ LOC) with accompanying tests, making them amenable to stepping-stone transliteration.
+Surface algorithms are succinct (fewer than 30 lines of code) and accompanying unit tests are provided, making translation to new programming languages straightforward \citep{moreno2024algorithms}.
 We found LLM assistance to be highly effective in translating the surface algorithms from Python to Zig.
-That said, we encourage interested researchers to reach out if hereditary stratigraphy implementation is not available in their chosen programming language --- we would be happy to furnish these algorithms in other languages if you have a use case.
+That said, we encourage interested researchers to reach out if hereditary stratigraphy implementation is not available in their chosen programming language --- we would be happy to collaborate in providing implementations in additional languages where there is a use case.
 
 \subsubsection{Annotation Data: Asexual}
 
-For surface-based annotations, two data components are required: a fixed-buffer differentia store and a generation counter.
-The differentia store can be implemented as an array of integer data types (e.g., \texttt{uint8}), but for bit differentia you will likely want to use a raw memory array or an abstraction around it if available (e.g., \texttt{std::bitset}).
+For surface-based annotations, two data components are required: a fixed-size differentia buffer and a generation counter.
+The differentia store can be implemented as an array of integer data types (e.g., \texttt{uint8}), but for bit differentiae you will likely want to use a raw memory array or an abstraction around it if available (e.g., \texttt{std::bitset}).
 Differentia store memory should be randomized upon initialization.
 
 For column-based annotations, the \textit{hstrat} Python library furnishes a prepackaged \texttt{HereditaryStratigraphicColumn} class, which encapsulates all necessary state.
@@ -158,7 +158,7 @@ Refer to \citet{moreno2024methods} for more detailed discussion of this topic.
 \subsubsection{Annotation Update}
 \textit{Suggested default choice: update hereditary stratigraphy annotations every generation.}
 
-When annotations are inherited, they should be updated to add a new differentia and elapse the annotation-associated generation counter.
+When annotations are inherited, they should be updated to add a new differentia and increment the annotation-associated generation counter.
 Usually, this should be accomplished by adding logic into an existing create offspring routine.
 For genotype-level tracking (as opposed to individual-level tracking), annotation updates could instead be conducted as a part of an apply mutation routine.
 
@@ -168,13 +168,13 @@ For surface-based annotations, call the chosen retention policy's \texttt{pick\_
 Then, the associated generation counter should be incremented.
 
 For most applications, annotation updates (i.e., appending a new differentia) should correspond directly to generations elapsed.
-However, in cases where fine-resolution visibility below a certain level is not useful, annotations may be updated only that often.
+However, in cases where fine-resolution visibility below a certain level is not useful, annotations may be updated less frequently.
 For tilted policy, in particular, this approach can help preserve ancient differentia coverage for longer.
 
-In circumstances requiring time-indexed resolution or ultrametricity (tips sharing equal branch lengths from root) is necessary, annotations can be updated on the basis of logical simulation time or even real-time rather than generations elapsed.
-In this case, annotation updates would be elapsed, as necessary, on parents' annotations to bring them up-to-date with the current simulation time whenever a reproduction event occurs.
+In circumstances where time-indexed resolution or ultrametricity (tips sharing equal branch lengths from root) is necessary, annotations can be updated on the basis of logical simulation time or even real-time rather than generations elapsed.
+In this case, annotation updates would be applied, as necessary, on parents' annotations to bring them up-to-date with the current simulation time whenever a reproduction event occurs.
 Such an approach may require multiple back-to-back updates if several simulation time clock cycles have elapsed.
-An alternate approach to achieve a time-calibrated tree would be to attach simulation timestamps with annotation differentia or to record time-stamped ``fossil'' taxa --- as discussed above.
+An alternate approach to achieve a time-calibrated tree would be to attach simulation timestamps to differentiae or to record time-stamped ``fossil'' taxa, as discussed above.
 
 \subsection{Postprocessing and Analysis}
 
@@ -190,8 +190,8 @@ For more advanced analyses, it may be desirable to associate sampled specimens w
 \subsubsection{Annotation Serialization}
 
 To export annotation data for analysis, you will need to save it to file.
-Workflows that save annotations separate from other genome components using a conventional plain text format (e.g., JSON, CSV) are typically most convenient.
-The \textit{hstrat} library provides a number of plug-and-play utilities for serialization of \texttt{HereditaryStratigraphicColumnObjects}.
+Workflows that save annotations separately from other genome components using a conventional plain text format (e.g., JSON, CSV) are typically most convenient.
+The \textit{hstrat} library provides a number of plug-and-play utilities for serialization of \texttt{HereditaryStratigraphicColumn} objects.
 Functionality to provide direct support for serializing surface data is a priority item on the \textit{hstrat} road map.
 In the meantime, this must be done manually.
 For each annotation, you will need to store the generation counter and the differentia data.
