@@ -20,11 +20,11 @@ Principal results are,
 As tilted policy is likely to be preferred in practice, it is promising to see surface-based implementation improve reconstruction quality in this case.
 Because surface-based approaches were designed foremost to optimize performance and be easier to code for new platforms (particularly in low-level environments) \citep{moreno2024trackable}, additionally achieving enhanced reconstruction quality makes their adoption a win-win situation.
 
-Owing to its inspiration from inference-based phylogenetics work in biology, hereditary stratigraphy is designed to operate in an entirely decentralized manner that is by nature efficient to scale and robust to disruptions or data loss.
+Owing to its inspiration from inference-based phylogenetics work in biology, hereditary stratigraphy is designed to operate in an entirely decentralized manner that is, by nature, efficient to scale and robust to disruptions or data loss.
 It is therefore promising to see that reconstruction accuracy of hereditary stratigraphy is also generally robust to scale-up.
 On the other hand, we found inner node loss --- a precision measure --- to be sensitive to increases in the number of taxa sampled for reconstruction.
 This issue, with bit-width differentiae, arises due to increased probability for exactly identical annotations through differentia collision, resulting in clumping of tip nodes into polytomies.
-It is possible that this problem would be abated in systems with nonsynchronous generations, where tips would be spread apart by generational depth.
+This problem may be abated in systems with nonsynchronous generations, where tips are spread apart by generational depth.
 That said, we did find inner node loss to be largely robust to scale-up of the actual population size of a simulation, with the number of taxa sampled for reconstruction held constant.
 
 Our goal in developing hereditary stratigraphy is to provide methodology that is sufficiently lightweight, modular, and flexible for general-purpose use across digital evolution systems.

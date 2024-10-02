@@ -28,14 +28,14 @@ Outcomes differ notably between tilted and steady retention.
 
 \subsubsection{Surface vs. Column for Tilted Retention}
 
-Under tilted retention, triplet distance (a measure of reconstruction accuracy) is significantly improved in $14 / 48$ scenarios under surface-based implementation, before correction for multiple comparisons.
+Under tilted retention, triplet distance (a measure of reconstruction accuracy) significantly improves in $14 / 48$ scenarios under surface-based implementation, before correction for multiple comparisons.
 Column-based implementation significantly improves reconstruction accuracy in no scenarios when applying the Mann-Whitney U test.
-Looking at effect sizes via Cliff's delta, surface-based approaches improve reconstruction quality with at least small effect size in $33 / 48$ scenarios.
-Column-based approaches improve reconstruction quality with small effect size in 1 /48 scenarios.
+Looking at effect sizes via Cliff's delta, surface-based approaches improve reconstruction quality with at least a small effect size in $33 / 48$ scenarios.
+Column-based approaches improve reconstruction quality with a small effect size in 1 /48 scenarios.
 Although no Mann-Whitney U tests from any individual scenario are significant after Bonferroni correction, a strong trend exists \textit{across} scenarios of better reconstruction quality from surface-based implementation for tilted retention (exact Binomial test; $p < 0.0001$).
 
 Inner node loss (a measure of reconstruction precision) significantly improves with surface-based implementation in some scenarios ($24 / 48$), and significantly worsens in others ($13 / 48$).
-All results remain significant with correction for multiple comparisons.
+All results remain significant after correction for multiple comparisons.
 Notably, shown in Supplementary Figure \ref{fig:col-vs-surf}, inner node loss improvement under surface-based implementation is seen in all treatments with byte-width differentiae, which are more prone to create artifactual unresolved polytomies that drive inner node loss.
 In sum for tilted retention, reconstruction quality of surface-based annotations can be considered equivalent or superior across the board to column-based implementation.
 
@@ -104,7 +104,7 @@ In low phylogenetic richness plain and mild-structure scenarios, hybrid triplet 
 Across the inner node loss and triplet error quality measures, tilted retention frequently performs best and steady retention frequently performs worst.
 However, tilted retention has worse triplet error in some scenarios with high phylogenetic richness.
 Hybrid retention performs more consistently across evolutionary scenarios.
-It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend not to be far off from tilted retention.
+It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend to be comparable to tilted retention.
 Triplet error for hybrid retention is often comparable to the better-performing of steady and tilted retention, or at least intermediate between them.
 For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:col-vs-surf}.
 
@@ -125,14 +125,14 @@ Example reconstructions exhibiting catastrophic comb polytomies characteristic o
 
 \input{fig/bit-vs-byte-summary}
 
-We now turn to consider the role of differentia size in hereditary stratigraphy reconstruction quality.
+We now consider the role of differentia size in hereditary stratigraphy reconstruction quality.
 Intuitively, tuning differentia size would seem to trade-off between accuracy and precision.
 Larger differentiae reduce the probability of spurious collision, which falsely makes lineages appear more closely related than they actually are.
 Note, in particular, that reconstructions from bit-sized differentia estimate all history as bifurcating, because each checkpoint can only discern two distinct lineages.
 On the other hand, for fixed annotation size, widening differentia necessarily reduces differentia count.
 Thus, differentia size diminishes the granularity at which branching events can be dated.
 
-To ascertain the actual effects of differentia width on reconstruction quality, we performed annotate-and-reconstruct experiments across a variety of use case scenarios.
+To test the effects of differentia width on reconstruction quality, we performed annotate-and-reconstruct experiments across a variety of use case scenarios.
 These experiments used 256-bit-sized annotations, comprised of either 256-bit-sized differentiae or 32-byte-sized differentiae.
 Figure \ref{fig:bit-vs-byte-summary-quality} overviews the relative performance of bit- and byte-width differentiae on triplet distance and inner node loss quality measures.
 (Supplementary Figure \ref{fig:bit-vs-byte} presents these results in greater detail, showing reconstruction outcomes for each treatment condition surveyed.)
@@ -159,7 +159,7 @@ Results under the steady policy are more variable, with triplet distance worseni
 
 Inner node loss, under hybrid and tilted retention, is generally also robust to population scaling.
 For these policies, inner node loss worsens only in use cases with byte-width differentiae (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-tilted}).
-In other cases, inner node loss actually often improves with population scale.
+In other cases, inner node loss improves with population scale.
 Sample size scaling, however, tends to aggravate inner node loss --- whether in isolation or in concert with population size scaling.
 As an exception, we do not see inner node loss worsen with larger sample size in some cases with byte-width differentia under tilted and hybrid policies (Supplementary Figures \labelcref{fig:dsamp-popsize-scale-hybrid,fig:dsamp-popsize-scale-tilted}).
 Likewise, inner node loss remains stable for tilted retention under drift conditions (Supplementary Figure \labelcref{fig:dsamp-popsize-scale-tilted}).

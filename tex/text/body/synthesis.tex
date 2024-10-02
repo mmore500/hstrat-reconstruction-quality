@@ -79,7 +79,7 @@ For most use cases, a 32- or 64-bit counter value will be appropriate.
 \subsubsection{Differentia Retention Policy}
 \textit{Suggested default choice: hybrid retention policy.}
 
-Hybrid retention policy is a good choice where phylodiversity-enhancing factors (ecology, spatial structure, relaxed selection pressure) are expected or expectation is unclear.
+Hybrid retention policy is a good choice where mild phylodiversity-enhancing factors (ecology, spatial structure, relaxed selection pressure) are expected, or expectations are unclear.
 Across use cases, hybrid retention often achieves reconstruction quality competitive with the better of steady and tilted policies.
 Even where it is outperformed by steady or tilted retention, hybrid retention avoids catastrophic failure modes characteristic, in particular, of steady retention.
 On platforms where steady policy implementation (necessary as a component of hybrid policy) is not readily available, tilted policy should typically suffice.
@@ -160,7 +160,7 @@ Refer to \citet{moreno2024methods} for more detailed discussion of this topic.
 
 When annotations are inherited, they should be updated to add a new differentia and increment the annotation-associated generation counter.
 Usually, this should be accomplished by adding logic into an existing create offspring routine.
-For genotype-level tracking (as opposed to individual-level tracking), annotation updates could instead be conducted as a part of an apply mutation routine.
+For genotype-level tracking (as opposed to individual-level tracking), annotation updates could instead be conducted as a part of an ``apply mutation'' routine.
 
 When using the \textit{hstrat} \texttt{HereditaryStratigraphicColumn} object, update logic is bundled into the \texttt{DepositStratum} method.
 
@@ -183,7 +183,7 @@ An alternate approach to achieve a time-calibrated tree would be to attach simul
 A typical approach will sample end-state extant agents as taxa for phylogenetic reconstruction.
 Note that it is not necessary to exhaustively collect the entire end-state population; for many analysis use cases, a representative sample of population members will suffice.
 Such an approach, however, will not provide information on extinct lineages.
-Because hereditary stratigraphy reconstruction can stitch together taxa from across widely varying time points, specimens can be sampled during the course of an evolutionary run and be integrated directly into phylogenetic reconstruction with end-state extant genomes.
+Because hereditary stratigraphy reconstruction can stitch together taxa from across widely varying time points, specimens can be sampled during an evolutionary run and be integrated directly into phylogenetic reconstruction with end-state extant genomes.
 Such intermediate taxa from earlier time points can serve a role akin to ``fossils'' in natural history.
 For more advanced analyses, it may be desirable to associate sampled specimens with genetic and/or phenotypic trait data \citep{dolson2019modes,khabbazian2016fast}.
 
