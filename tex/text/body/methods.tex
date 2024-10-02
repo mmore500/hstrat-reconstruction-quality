@@ -77,7 +77,7 @@ A suitable annotation data structure for differentiae curation should:
 The last point, minimizing representational overhead, is particularly critical given that typical use calls for single-bit and single-byte differentiae.
 Requiring 32- or 64-bit pointers or time point values per differentia would cause bookkeeping overhead to greatly outweigh --- and potentially crowd out --- useful lineage history information.
 As such, both approaches considered here --- ``column'' and ``surface''-based storage --- pack differentiae in an array format and rely on positional context to identify them.
-Note that for such data to be readily legible, retention policies' curated time points must be directly enumerable \textit{a priori} for any arbitrary generation.
+For such data to be readily legible, retention policies' curated time points must be directly enumerable \textit{a priori} for any arbitrary generation.
 
 The ``column'' approach arranges differentiae in chronological order, with newest differentiae stored last.
 This approach suits use of a dynamic array data structure (e.g., Python \texttt{list}/C++ \texttt{std::vector}), as new additions can be accessioned through an append (e.g., ``\texttt{push\_back}'') operation.
@@ -102,6 +102,7 @@ Indeed, surface-based algorithms provide order-of-magnitude speedups, as well as
 To assess how, if at all, this trade-off impacts reconstruction quality, we include trials using both approaches in empirical annotate-and-reconstruct experiments, described below.
 Note that, in these experiments, we consider only fixed-size annotations.
 However, we anticipate most hereditary stratigraphy use cases will prefer fixed-size annotation due to practical considerations.
+
 
 \subsection{Model System}
 
@@ -132,7 +133,7 @@ Every generation, individuals swapped niches with probability $3.05 \times 10^{-
 We also included a drift treatment, where selection was performed in a fully neutral manner.
 Drift conditions also enhance phylogenetic richness, but complement other surveyed treatments in operating through a separate mechanism.
 
-Another objective of employing a highly-abstracted model to generate reference phylogenies is generality.
+Another objective of employing a highly abstracted model to generate reference phylogenies is generality.
 Other work with this simple model suggests that effects on phylogenetic structure induced under treatments surveyed here generalize across model systems, albeit to a less accentuated degree \citep{moreno2024ecology}.
 
 In addition to structural aspects of phylogeny composition, we also sought to understand the relationship between population scale and reconstruction quality.
@@ -216,7 +217,7 @@ For bit-differentia configurations, this inner node loss measure assumes a very 
 In this case, identical annotations are polytomized as leaves of a single inner node.
 % This scenario would likely be AMELIORATED under asynchronous generations on account of leaves being generationally dispersed.
 
-To further discern error from unresolved versus incorrect reconstruction, we on occasion distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
+To further discern error from unresolved versus incorrect reconstruction, we occasionally distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
 Lax triplet distance differs from strict triplet distance in that it does not penalize triplets that mismatch on account of polytomy.
 This measure is useful in isolating incorrect reconstruction from unresolved reconstruction.
 However, care should be taken in interpreting lax triplet distance, as the pathological ``star'' tree case where all leaves descend directly from the root in one large polytomy would measure zero reconstruction error under the lax triplet distance measure.

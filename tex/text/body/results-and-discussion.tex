@@ -22,14 +22,14 @@ Outcomes differ notably between tilted and steady retention.
 
 \subsubsection{Surface vs. Column for Tilted Retention}
 
-Under tilted retention, triplet distance (a measure of reconstruction accuracy) is significantly improved in $14 / 48$ scenarios under surface-based implementation, before correction for multiple comparisons.
+Under tilted retention, triplet distance (a measure of reconstruction accuracy) significantly improves in $14 / 48$ scenarios under surface-based implementation, before correction for multiple comparisons.
 Column-based implementation significantly improves reconstruction accuracy in no scenarios when applying the Mann-Whitney U test.
-Looking at effect sizes via Cliff's delta, surface-based approaches improve reconstruction quality with at least small effect size in $33 / 48$ scenarios.
-Column-based approaches improve reconstruction quality with small effect size in 1 /48 scenarios.
+Looking at effect sizes via Cliff's delta, surface-based approaches improve reconstruction quality with at least a small effect size in $33 / 48$ scenarios.
+Column-based approaches improve reconstruction quality with a small effect size in 1 /48 scenarios.
 Although no Mann-Whitney U tests from any individual scenario are significant after Bonferroni correction, a strong trend exists \textit{across} scenarios of better reconstruction quality from surface-based implementation for tilted retention (exact Binomial test; $p < 0.0001$).
 
 Inner node loss (a measure of reconstruction precision) significantly improves with surface-based implementation in some scenarios ($24 / 48$), and significantly worsens in others ($13 / 48$).
-All results remain significant with correction for multiple comparisons.
+All results remain significant after correction for multiple comparisons.
 Notably, shown in Supplementary Figure \ref{fig:col-vs-surf}, inner node loss improvement under surface-based implementation is seen in all treatments with byte-width differentiae, which are more prone to create artifactual unresolved polytomies that drive inner node loss \citep{moreno2024supplemental}.
 In sum for tilted retention, reconstruction quality of surface-based annotations can be considered equivalent or superior across the board to column-based implementation.
 
@@ -98,7 +98,7 @@ In low phylogenetic richness plain and mild-structure scenarios, hybrid triplet 
 Across the inner node loss and triplet error quality measures, tilted retention frequently performs best and steady retention frequently performs worst.
 However, tilted retention has worse triplet error in some scenarios with high phylogenetic richness.
 Hybrid retention performs more consistently across evolutionary scenarios.
-It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend not to be far off from tilted retention.
+It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend to be comparable to tilted retention.
 Triplet error for hybrid retention is often comparable to the better-performing of steady and tilted retention, or at least intermediate between them.
 For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:steady-vs-tilted} \citep{moreno2024supplemental}.
 
