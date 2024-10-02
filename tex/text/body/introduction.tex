@@ -1,9 +1,9 @@
 \section{Introduction} \label{sec:introduction}
 
-Recent advances in computing hardware harbor significant untapped potential to unleash transformative, orders-of-magnitude growth in the scale and sophistication of agent-based evolution modeling and application-oriented evolutionary computation.
-For instance, emerging AI/ML accelerator hardware platforms (e.g., Cerebras Wafer-Scale Engine, Graphcore Intelligence Processing Unit) currently afford up to hundreds of thousands of processing cores within a single device \citep{lauterbach2021path,jia2019dissecting}.
-While these hardware platforms bear limitations characteristic of highly distributed, many-processor computation, their architecture is well-suited for work with agent-based models (ABM); physical constraints in the layout of processor cores mirror the locally structured interactions typical in ABM.
-Nevertheless, significant challenges must be solved to effectively harness highly distributed, many-processor computation for ABM workloads.
+Ongoing advances in computing hardware have potential to unleash transformative, orders-of-magnitude growth in the scale and sophistication of agent-based evolutionary modeling and application-oriented evolutionary computation.
+For instance, emerging AI/ML accelerator hardware platforms (e.g., Cerebras Wafer-Scale Engine, Graphcore Intelligence Processing Unit, etc.) currently afford up to hundreds of thousands of processing cores within a single device \citep{lauterbach2021path,jia2019dissecting}.
+While these hardware platforms bear limitations characteristic of highly distributed, many-processor computation, their architecture is well-suited for work with agent-based models (ABM), as physical constraints in the layout of processor cores mirror the locally structured interactions typical in ABM.
+Nevertheless, significant challenges must be addressed to effectively harness highly distributed, many-processor computation for ABM workloads.
 
 To advance on this front, we propose a fundamental re-frame of simulation that shifts from a paradigm of ``complete,'' deterministic observability of simulation state to instead collect data through dynamic, partial, and potentially best-effort sampling akin to approaches traditionally used to study real-world systems (e.g., ice core samples, paleontological fossils).
 The aim of this strategy is to resolve scaling bottlenecks by economizing use of interconnect bandwidth, memory, and disk storage storage and better tolerate intermittent disruption.
@@ -22,9 +22,9 @@ In addition to tracing the history of notable evolutionary events such as extinc
 One notable application is in evolutionary epidemiology, where phylogenetic structure of pathogens has been used to characterize infection and transmission dynamics within the host population \citep{giardina2017inference,voznica2022deep}.
 For application-oriented evolutionary computation, phylogenetic information can even be used to guide evolution toward desired outcomes \citep{lalejini2024phylogeny,lalejini2024runtime,murphy2008simple,burke2003increased}.
 
-Recently-developed hereditary stratigraphy methodology aims to bridge this gap by providing means for extracting phylogenetic information from distributed simulations that are efficient, robust, and straightforward to use \citep{moreno2022hereditary}.
-As is often the case in digital evolution, natural systems provide inspiration for the core strategy applied in hereditary stratigraphy: inference-based reconstruction.
-Natural history of biological life operates under no extrinsic provision for interpretable record-keeping, yet phylogenetic analysis of biological organisms has proved immensely fruitful.
+Recently developed ``hereditary stratigraphy'' methodology aims to bridge this gap by providing means for extracting phylogenetic information from distributed simulations that are efficient, robust, and straightforward to use \citep{moreno2022hereditary}.
+% As is often the case in digital evolution, natural systems provide inspiration for the core strategy applied in hereditary stratigraphy: inference-based reconstruction.
+Natural history of biological life operates with no extrinsic provision for interpretable record-keeping, yet phylogenetic analysis of biological organisms has proved immensely fruitful.
 Such phylogenetic analyses are possible in biology because mutational drift encodes ancestry information in DNA genomes.
 Hereditary stratigraphy methods for decentralized work operate analogously, with ancestry information captured within agent genomes rather than through external tracking.
 The idea is to bundle agent genomes with special hereditary stratigraphic annotations in a manner akin to non-coding DNA (entirely neutral with respect to agent traits and fitness) and then use these annotations to perform phylogenetic reconstruction.
