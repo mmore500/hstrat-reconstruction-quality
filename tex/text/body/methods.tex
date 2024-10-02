@@ -80,7 +80,7 @@ A suitable annotation data structure for differentiae curation should:
 The last point, minimizing representational overhead, is particularly critical given that typical use calls for single-bit and single-byte differentiae.
 Requiring 32- or 64-bit pointers or time point values per differentia would cause bookkeeping overhead to greatly outweigh --- and potentially crowd out --- useful lineage history information.
 As such, both approaches considered here --- ``column'' and ``surface''-based storage --- pack differentiae in an array format and rely on positional context to identify them.
-Note that for such data to be readily legible, retention policies' curated time points must be directly enumerable \textit{a priori} for any arbitrary generation.
+For such data to be readily legible, retention policies' curated time points must be directly enumerable \textit{a priori} for any arbitrary generation.
 
 The ``column'' approach arranges differentiae in chronological order, with newest differentiae stored last.
 This approach suits use of a dynamic array data structure (e.g., Python \texttt{list}/C++ \texttt{std::vector}), as new additions can be accessioned through an append (e.g., ``\texttt{push\_back}'') operation.
@@ -104,7 +104,7 @@ In sum, the question of column- versus surface-based algorithms can be character
 Indeed, surface-based algorithms provide order-of-magnitude speedups, as well as better compatibility with low-level, resource-constrained programming environments \citep{moreno2024trackable}.
 To assess how, if at all, this trade-off impacts reconstruction quality, we include trials using both approaches in empirical annotate-and-reconstruct experiments, described below.
 Note that, in these experiments, we consider only fixed-size annotations.
-However, we anticipate nearly all hereditary stratigraphy use cases will apply fixed-size annotation, due to benefits from avoiding dynamic memory allocation and variable-length inter-process messaging at runtime.
+However, we anticipate nearly all hereditary stratigraphy use cases will apply fixed-size annotation due to benefits of avoiding dynamic memory allocation and variable-length inter-process messaging at runtime.
 
 \subsection{Model System}
 
@@ -135,7 +135,7 @@ Every generation, individuals swapped niches with probability $3.05 \times 10^{-
 We also included a drift treatment, where selection was performed in a fully neutral manner.
 Drift conditions also enhance phylogenetic richness, but complement other surveyed treatments in operating through a separate mechanism.
 
-Another objective of employing a highly-abstracted model to generate reference phylogenies is generality.
+Another objective of employing a highly abstracted model to generate reference phylogenies is generality.
 Other work with this simple model suggests that effects on phylogenetic structure induced under treatments surveyed here generalize across model systems, albeit to a less accentuated degree \citep{moreno2024ecology}.
 This model system has been established in other existing work, as well \citep{moreno2023toward}.
 
@@ -228,7 +228,7 @@ For bit-differentia configurations, as remarked above, this inner node loss meas
 In this case, identical annotations are polytomized as leaves of a single inner node.
 % This scenario would likely be AMELIORATED under asynchronous generations on account of leaves being generationally dispersed.
 
-To further discern error from unresolved versus incorrect reconstruction, we on occasion distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
+To further discern error from unresolved versus incorrect reconstruction, we occasionally distinguish an alternate ``lax'' triplet distance from the ``strict'' triplet distance measure described above.
 Lax triplet distance differs from strict triplet distance in that it does not penalize triplets that mismatch on account of polytomy.
 This measure is useful in isolating incorrect reconstruction from unresolved reconstruction.
 However, care should be taken in interpreting lax triplet distance, as the pathological ``star'' tree case where all leaves descend directly from the root in one large polytomy would measure zero reconstruction error under the lax triplet distance measure.
@@ -241,9 +241,9 @@ Figure \ref{fig:examplepanel} shows example reference phylogenies, corresponding
 The top panel shows trials from the drift treatment, which exhibits high phylogenetic richness, and the bottom panel shows trials from the plain treatment, which exhibits low phylogenetic richness.
 (Note that, for legibility, time axes of phylogenies are log-scaled, which somewhat reduces the apparent visual distinction of high-versus-low phylogenetic richness.)
 Each panel compares reconstruction results under steady (left) and recency-proportional (right) instrumentation.
-Particularly high incidence of node loss (green triangle) can be seen under steady retention.
+Particularly high node loss (green triangle) can be seen under steady retention.
 Correspondingly, many large polytomies can be seen in the example steady-retention reconstructions (blue overlaid dendrogram) compared to the corresponding reference phylogeny (orange underlaid dendrogram).
-Under the plain treatment, steady retention leads to particularly high (almost complete) inner node loss, and --- correspondingly --- triplet distance similarity (purple dots) is very poor.
+Under the plain treatment, steady retention leads to very high (almost complete) inner node loss, and --- correspondingly --- triplet distance similarity (purple dots) is very poor.
 Despite high inner node loss under the drift treatment, triplet distance remains low under steady retention.
 Across example cases shown, tilted retention enjoys triplet distance and inner node loss comparable to or better than steady retention.
 The main discussion will return to explore this question of steady-versus-tilted retention in greater rigor and depth.
