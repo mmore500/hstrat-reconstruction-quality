@@ -9,7 +9,7 @@ We delve into two primary aspects of hereditary stratigraphy methodology:
 
 We find that surface-based implementation tends to improve reconstruction quality under tilted retention, with tilted retention matching or outperforming steady retention across evolutionary scenarios --- except under drift conditions, where phylogenetic richness is very high.
 
-\subsection{Surface vs. Column Implementaiton} \label{sec:surface-vs-column}
+\subsection{Surface vs. Column Implementation} \label{sec:surface-vs-column}
 
 \input{fig/col-vs-surf-summary}
 
@@ -22,34 +22,34 @@ Outcomes differ notably between tilted and steady retention.
 
 \subsubsection{Surface vs. Column for Tilted Retention}
 
-Under tilted retention, triplet distance (a measure of reconstruction accuracy) is significantly improved in 14 / 48 scenarios under surface-based implementation, before correction for multiple comparisons.
-Column-based implementation significantly improves reconstruction accuracy in no scenario when applying the Mann-Whitney U test.
-Looking at effect sizes via Cliff's delta, surface-based approaches improve reconstruction quality with at least small effect size in 33 / 48 scenarios.
+Under tilted retention, triplet distance (a measure of reconstruction accuracy) is significantly improved in $14 / 48$ scenarios under surface-based implementation, before correction for multiple comparisons.
+Column-based implementation significantly improves reconstruction accuracy in no scenarios when applying the Mann-Whitney U test.
+Looking at effect sizes via Cliff's delta, surface-based approaches improve reconstruction quality with at least small effect size in $33 / 48$ scenarios.
 Column-based approaches improve reconstruction quality with small effect size in 1 /48 scenarios.
-Although no Mann-Whitney U tests from any individual scenario are significant after Bonferroni correction, a strong trend exists \textit{across} scenarios for better reconstruction quality under steady implementation (exact Binomial test; $p < 0.0001$).
+Although no Mann-Whitney U tests from any individual scenario are significant after Bonferroni correction, a strong trend exists \textit{across} scenarios of better reconstruction quality from surface-based implementation for tilted retention (exact Binomial test; $p < 0.0001$).
 
-Inner node loss (a measure of reconstruction precision) improves with surface-based implementation in some scenarios (24 / 48), and worsens in others (23 / 48).
+Inner node loss (a measure of reconstruction precision) significantly improves with surface-based implementation in some scenarios ($24 / 48$), and significantly worsens in others ($13 / 48$).
 All results remain significant with correction for multiple comparisons.
 Notably, shown in Supplementary Figure \ref{fig:col-vs-surf}, inner node loss improvement under surface-based implementation is seen in all treatments with byte-width differentiae, which are more prone to create artifactual unresolved polytomies that drive inner node loss \citep{moreno2024supplemental}.
 In sum for tilted retention, reconstruction quality of surface-based annotations can be considered equivalent or superior across the board to column-based implementation.
 
 \subsubsection{Surface vs. Column for Steady Retention}
 
-In contrast, under steady retention, surface-based implementation achieves worse triplet distance in 11 / 48 scenarios and better triplet distance in no scenario.
+In contrast, under steady retention, surface-based implementation achieves worse triplet distance in $11 / 48$ scenarios and better triplet distance in no scenarios.
 Only one Mann-Whitney U test remains significant after Bonferroni correction.
-However, a significant trend again exists across scenarios, with 25 / 48 scenarios where surface implementation degrades triplet distance by at least a small effect size under Cliff's delta (exact Binomial test; $p < 0.0001$).
+However, a significant trend again exists across scenarios, with $25 / 48$ scenarios where surface-based implementation degrades triplet distance by at least a small effect size under Cliff's delta (exact Binomial test; $p < 0.0001$).
 
-Additionally, for steady retention, inner node loss is significantly worse under surface-based in 23 / 48 scenarios and better in no scenario.
-So, across the board, reconstruction quality of surface-based annotations under steady retention is equivalent or inferior to column-based implementation.
+Additionally, for steady retention, inner node loss is significantly worse under surface-based in $23 / 48$ scenarios and better in no scenarios.
+So, across the board, reconstruction quality of surface-based annotations under steady retention is equivalent or inferior to that of column-based implementation.
 
 \subsubsection{Surface vs. Column --- Synthesis}
 
 Why does the surface-based approach benefit reconstruction under one retention policy but not the other?
-Compared to column-implementation, surface-implementation allows the tilted algorithm to retain more differentiae within available annotation space.
+Compared to column-based implementation, surface-based implementation allows the tilted algorithm to retain more differentiae within available annotation space.
 Whereas the write-only design of the surface-based approach guarantees full use of buffer space, column-based tilted retention wastes some space held in reserve due to algorithmic limitations.
 In contrast, column-based steady retention makes full use of available space, giving the surface-based approach no advantage in this regard.
 Although both the surface and column approaches prune differentiae through comparable strided decimation procedures, the column implementation more systematically drops decimated differentiae from back to front.
-This process ends up preserving more recent differentiae which, as we will see in the next set of experiments, tends to benefit reconstruction quality.
+This process ends up preserving more recent differentiae, which --- as we will see in the next set of experiments --- tends to benefit reconstruction quality.
 
 Although surface-based implementation involves a trade-off between performance and reconstruction quality in the case of steady retention, it is notable that surface-based implementation improves both runtime performance and data quality under tilted retention.
 Given this result, we next assess the extent to which tilted or steady retention would be preferred in practice across possible evolutionary scenarios.
@@ -77,10 +77,10 @@ Given this result, we next assess the extent to which tilted or steady retention
 \input{fig/steady-vs-tilted-summary}
 
 Recall that steady and tilted retention differ in the temporal composition of retained differentiae;
-steady policy spaces retained differentia evenly across history, while tilted policy biases to retain more recent differentiae.
-The question of which policy enables higher quality reconstruction boils down to where precision in discerning the timing of lineage branching events is most useful to resolving evolutionary history.
+steady policy spaces retained differentia evenly across history, while tilted policy biases toward retaining more recent differentiae.
+The question of which policy enables higher quality reconstruction boils down to where precision in discerning the timing of lineage branching events is most useful in resolving evolutionary history.
 To ensure even footing, we report results for each retention policy using its best-performing implementation, as established above.
-Steady policy uses column implementation and tilted policy uses surface implementation.
+Steady policy uses column implementation and tilted policy uses surface-based implementation.
 We also consider a surface-based hybrid policy, which splits buffer space evenly between steady and tilted retention.
 
 Figure \ref{fig:steady-vs-tilted-summary} overviews reconstruction quality by retention policy across use case scenarios.
@@ -88,29 +88,29 @@ Across the board, steady policy yields phylogenetic reconstruction with heaviest
 In contrast, tilted policy exhibits among the lowest inner node loss in all but six surveyed scenarios --- including all byte-differentia trials (Supplementary Figure \ref{fig:steady-vs-tilted}; \citep{moreno2024supplemental}).
 The hybrid policy has lower inner node loss in those six scenarios, which all involve evolutionary conditions with high phylogenetic richness.
 
-Steady policy also consistently produces the highest triplet distance error in lower-phylogenetic-richness plain and mild structure evolutionary scenarios.
+Steady policy also consistently produces the highest triplet distance error in lower-phylogenetic-richness plain and mild-structure evolutionary scenarios.
 However, in scenarios with high phylogenetic richness, triplet distance error under steady retention fares better.
 With rich ecological/spatial structure, triplet distance reconstruction error is largely indistinguishable among retention policies.
 Further, steady policy triplet error significantly outperforms tilted policy in several instances under drift conditions.
 In nearly all of these instances, though, hybrid policy triplet error performs comparably to steady retention.
-In low phylogenetic richness plain and mild-structure scenarios, hybrid triplet error is comparable to tilted error in 9 / 24 scenarios and outperformed by tilted policy in 15 / 24 scenarios.
+In low phylogenetic richness plain and mild-structure scenarios, hybrid triplet error is comparable to tilted error in $9 / 24$ scenarios and outperformed by tilted policy in $15 / 24$ scenarios.
 
 Across the inner node loss and triplet error quality measures, tilted retention frequently performs best and steady retention frequently performs worst.
 However, tilted retention has worse triplet error in some scenarios with high phylogenetic richness.
 Hybrid retention performs more consistently across evolutionary scenarios.
 It exhibits consistently intermediate levels of inner node loss that, in absolute terms, tend not to be far off from tilted retention.
 Triplet error for hybrid retention is often comparable to the better-performing of steady and tilted retention, or at least intermediate between them.
-For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:col-vs-surf} \citep{moreno2024supplemental}.
+For greater detail of steady vs. tilted reconstruction quality outcomes broken down by treatment condition, see Supplementary Figure \ref{fig:steady-vs-tilted} \citep{moreno2024supplemental}.
 
 \input{fig/recency-structure}
 
-Differences in retention of recent differentia explain the substantial advantage of tilted policy in evolutinary scenarios with low phylogenetic richness.
+Differences in retention of recent differentia explain the substantial advantage of tilted policy in evolutionary scenarios with low phylogenetic richness.
 In such scenarios, frequent selective sweeps concentrate phylogenetic history over very recent history, meaning that lineage-branching events giving rise to a contemporary extant population occur over a relatively short period of time.
 Discerning these events, therefore, requires densely packed differentia checkpoints over recent history.
 Otherwise, in the worst case, taxa would jump from all sharing the same lineage marker at one checkpoint to all having distinct checkpoint markers --- resulting in a catastrophic unresolved polytomy.
-Steady retention maintains a uniform gap size between retained differentiae that grows linearly with generations elapsed, meaning that very recent history is sparsely covered, if at all.
+Steady retention maintains a uniform gap size between retained differentiae that grows linearly with generations elapsed, meaning that very recent history is thinly covered, if at all.
 The consequences of this deficiency can be seen in Figure \ref{fig:recency-structure}, which compares the density of reconstructed nodes to ground truth.
-Reconstructions from steady policy are entirely missing branching events over the most recent generations.
+Reconstructions from steady policy are entirely missing branching events over the most recent generations, consistent with steady policy's relative sparsity of recent timepoints.
 % Figures \labelcref{fig:bit-vs-byte-summary-byte-outcomes,fig:bit-vs-byte-summary-bit-outcomes} show reconstruction outcomes resulting under this inner node loss.
 % Under steady policy, very high levels of unresolved reconstruction occur in scenarios with low phylogenetic richness, particularly for recent branching events.
 % Example reconstructions exhibiting catastrophic comb polytomies characteristic of steady reconstruction of low-richness phylogenies can be seen in \ref{fig:examplepanel}.

@@ -4,7 +4,7 @@ Ongoing advances in computing hardware have potential to unleash transformative,
 For instance, emerging AI/ML accelerator hardware platforms (e.g., Cerebras Wafer-Scale Engine, Graphcore Intelligence Processing Unit, etc.) currently afford up to hundreds of thousands of processing cores within a single device \citep{lauterbach2021path,jia2019dissecting}.
 While these hardware platforms bear limitations characteristic of highly distributed, many-processor computation, their architecture is well-suited for work with agent-based models (ABM), as physical constraints in the layout of processor cores mirror the locally structured interactions typical in ABM.
 
-Nevertheless, significant challenges must be solved to effectively harness highly distributed, many-processor computation for ABM workloads.
+Nevertheless, significant challenges must be addressed to effectively harness highly distributed, many-processor computation for ABM workloads.
 In particular, AI/ML hardware accelerators impose strict limitations on per-processor memory.
 Bandwidth for retrieving data (accelerator-to-host) can also bottleneck performance.
 One possible strategy to economize resource use within these constraints is to collect data through dynamic, partial, and potentially best-effort sampling akin to approaches traditionally used to study real-world systems (e.g., ice core samples, paleontological fossils, etc.).
@@ -19,17 +19,17 @@ Additionally, as most phylogenetic analyses of natural systems are by nature rec
 %the existing approach to collecting phylogenetic history is emblematic of this existing complete-observability paradigm.
 However, typical practice to record lineage histories in digital evolution records every parent-child relationship as it occurs to build up a comprehensive phylogenetic record \citep{moreno2024algorithms}.
 This approach produces an exact record and can be highly performant --- particularly when extinct lineages are pruned away \citep{dolson2024phylotrackpy}.
-In a distributed computing context, however, communication overhead of detecting lineage extinctions and possibilies for data loss aggravate the bandwidth and memory cost of collecting complete phylogenetic data \citep{moreno2024algorithms}.
-Entirely forfeiting capability to collect phylogenetic information on account of these challenges, though, would substantially inhibit distributed simulations' interpretability.
+In a distributed computing context, however, communication overhead of detecting lineage extinctions and possibilities for data loss aggravate the bandwidth and memory cost of collecting complete phylogenetic data \citep{moreno2024algorithms}.
+Entirely forfeiting capability to collect phylogenetic information on account of these challenges, though, would substantially inhibit the interpretability of distributed simulations.
 %significantly reduce the utility of simulation-based evolution experiments and reduce insight into the nuts and bolts of application-oriented evolutionary optimization.
 % TODO fixme
-In addition to tracing the history of notable evolutionary events such as extinctions or evolutionary innovations, phylogenetic analysis can also characterize more general questions about the underlying mode and tempo of evolution \citep{moreno2023toward,hernandez2022can,lewinsohnStatedependentEvolutionaryModels2023a}.
+In addition to tracing the history of notable evolutionary events, such as extinctions or evolutionary innovations, phylogenetic analysis can also characterize more general questions about the underlying mode and tempo of evolution \citep{moreno2023toward,hernandez2022can,lewinsohnStatedependentEvolutionaryModels2023a}.
 % One notable application is in evolutionary epidemiology, where phylogenetic structure of pathogens has been used to characterize infection and transmission dynamics within the host population \citep{giardina2017inference,voznica2022deep}.
 For application-oriented evolutionary computation, phylogenetic information can even be used to guide evolution toward desired outcomes \citep{lalejini2024phylogeny,lalejini2024runtime,shahbandegan2022untangling,murphy2008simple,burke2003increased}.
 
-Recently-developed ``hereditary stratigraphy'' methodology aims to bridge this gap by providing means for extracting phylogenetic information from distributed simulations that are efficient, robust, and straightforward to use \citep{moreno2022hereditary}.
+Recently developed ``hereditary stratigraphy'' methodology aims to bridge this gap by providing means for extracting phylogenetic information from distributed simulations that are efficient, robust, and straightforward to use \citep{moreno2022hereditary}.
 % As is often the case in digital evolution, natural systems provide inspiration for the core strategy applied in hereditary stratigraphy: inference-based reconstruction.
-Natural history of biological life operates under no extrinsic provision for interpretable record-keeping, yet phylogenetic analysis of biological organisms has proved immensely fruitful.
+Natural history of biological life operates with no extrinsic provision for interpretable record-keeping, yet phylogenetic analysis of biological organisms has proved immensely fruitful.
 Such phylogenetic analyses are possible in biology because mutational drift encodes ancestry information in DNA genomes.
 Hereditary stratigraphy methods for decentralized work operate analogously, with ancestry information captured within agent genomes rather than through external tracking.
 The idea is to bundle agent genomes with special hereditary stratigraphic annotations in a manner akin to non-coding DNA (entirely neutral with respect to agent traits and fitness) and then use these annotations to perform phylogenetic reconstruction.
@@ -39,7 +39,7 @@ The crux of hereditary stratigraphy algorithms, introduced in detail further on,
 
 Recent work has explored how this ``hereditary stratigraphy'' approach might be applied in large-scale evolution simulations employing hardware accelerator platforms, such as the Cerebras Wafer-Scale Engine \citep{moreno2024trackable}.
 One challenge encountered, however, was in adapting hereditary stratigraphy algorithms to a lower-level, more resource-constrained programming environment.
-The existing ``column'''-based algorithms assumed a variable-size underlying data structure, allowing for growth in annotation size over time to provide hard guarantees on inference quality.
+The existing ``column''-based algorithms assumed a variable-size underlying data structure, allowing for growth in annotation size over time to provide hard guarantees on inference quality.
 However, dynamic memory use under this approach entails substantial implementation-level complications and performance trade-offs.
 To overcome these challenges, a second-generation ``surface''-based approach was developed, which assumes annotations reside in an underlying fixed-length buffer \citep{moreno2024algorithms}.
 Greater detail on the technical distinctions between the ``column'' and ``surface''-based approaches is covered in Section \ref{sec:methods-column-vs-surface-algorithms}.
