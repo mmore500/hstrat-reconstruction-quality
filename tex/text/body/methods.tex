@@ -251,8 +251,7 @@ Where appropriate, we additionally report effects directly in terms of the under
 We pair effect-size analysis with Mann-Whitney U testing in order to assess evidence that significant differences exist between reconstruction quality under different conditions \citep{mann1947on}.
 As our goal was to screen for possible effects, rather than establish the veracity of any one effect, we did not correct for multiple comparisons in assessing statistical significance.
 Because incorrectly identifying a lack of difference between conditions would be more harmful than incorrectly identifying the presence of a difference, this approach is conservative in maintaining the sensitivity of our assays.
-% TODO
-% Where we do detect a significant effect, we additionally report results after applying Holm-Bonferroni correction.
+Where we do detect a significant effect, we additionally report results after applying Bonferroni correction.
 
 When determining the best- and worst-performing among three or more hereditary stratigraphy approaches, we use a nonparametric skimming procedure provided by the \textit{pecking} Python library \citep{moreno2024pecking}.
 The procedure first applies a Kruskal-Wallis H-test to determine if there is evidence for significant variation among the sample groups.
