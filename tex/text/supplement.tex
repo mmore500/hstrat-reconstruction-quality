@@ -1,4 +1,24 @@
-\section*{Supplemental Material for ``Testing the Inference Accuracy of Accelerator-friendly Approximate Phylogeny Tracking''}
+\section*{Data \& Materials for ``Testing the Inference Accuracy of Accelerator-friendly Approximate Phylogeny Tracking''}
+
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+
+% https://tex.stackexchange.com/a/708552/316176
+\makeatletter
+\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+   {\csname the#1\endcsname\space}%    default
+   {\csname #1@cntformat\endcsname}}%  enable individual control
+\newcommand\section@cntformat{\thesection\space} % section-level
+\makeatother
+\renewcommand{\thesection}{A}
+\counterwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+% \counterwithin{theorem}{section}
+% \counterwithin{algorithm}{section}
+% \counterwithin{lstlisting}{section}
 
 \input{fig/col-vs-surf}
 
