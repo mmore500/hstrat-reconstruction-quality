@@ -1,13 +1,16 @@
 \section{Introduction} \label{sec:introduction}
 
 Ongoing advances in computing hardware have potential to unleash transformative, orders-of-magnitude growth in the scale and sophistication of agent-based evolutionary modeling and application-oriented evolutionary computation.
-For instance, emerging AI/ML accelerator hardware platforms (e.g., Cerebras Wafer-Scale Engine, Graphcore Intelligence Processing Unit, etc.) currently afford up to hundreds of thousands of processing cores within a single device \citep{lauterbach2021path,jia2019dissecting}.
-While these hardware platforms bear limitations characteristic of highly distributed, many-processor computation, their architecture is well-suited for work with agent-based models (ABM), as physical constraints in the layout of processor cores mirror the locally structured interactions typical in ABM.
+For instance, an emerging class of peripheral hardware devices specialized to AI/ML workloads afford up to hundreds of thousands of processing cores within a single device.
+Notable examples of these ``hardware accelerator'' platforms include the Cerebras Wafer-Scale Engine, Graphcore Intelligence Processing Unit, and SambaNova Reconfigurable Dataflow Unit \citep{lauterbach2021path,jia2019dissecting,emani2021accelerating}.
+While promising, these platforms impose limitations characteristic of their extreme, swarm-like architectures.
+Notably, physical constraints in the layout and connectivity of processor cores can complicate arbitrary, point-to-point communication.
+Given their high processor counts, hardware accelerators are also often highly memory-constrained relative to compute capacity.
+For instance, the current generation of Cerebras CS-3 Wafer-Scale Engine hardware equips each processing element with only 48kb of on-device memory \citep{fenner2024news}.
+Finally, bandwidth and latency for retrieving data (accelerator-to-host) can also bottleneck performance.
 
-Nevertheless, significant challenges must be addressed to effectively harness highly distributed, many-processor computation for ABM workloads.
-In particular, AI/ML hardware accelerators impose strict limitations on per-processor memory.
-Bandwidth for retrieving data (accelerator-to-host) can also bottleneck performance.
-One possible strategy to economize resource use within these constraints is to collect data through dynamic, partial, and potentially best-effort sampling akin to approaches traditionally used to study real-world systems (e.g., ice core samples, paleontological fossils, etc.).
+Nonetheless, despite these challenges, work with agent-based models (ABM) may be well-suited to hardware accelerators, as these devices' physical layouts broadly mirror the locally structured interactions typical in ABM.
+One possible strategy to economize ABM exeriments for hardware accelerators is by applying dynamic and potentially best-effort sampling approaches to collect data tracking simulation dynamics --- akin to strategies commonly used to study real-world systems (e.g., ice core samples, paleontological fossils, etc.).
 Trading a controlled amount of data detail for increased scalability and hardware accelerator compatibility would be highly worthwhile in many modeling scenarios.
 
 \subsection{Phylogenetic Tracking in Digital Evolution}
