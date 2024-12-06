@@ -51,10 +51,11 @@ In that earlier work trialing AI/ML hardware accelerator use for large-scale evo
 However, potential trade-offs in the accuracy of phylogenies reconstructed using ``surface''-based approaches have yet to be explored.
 It is this question that we set out to address here.
 
-Through annotate-and-reconstruct experiments testing reconstruction quality against ground truth, we find that surface-based annotation in fact \textit{increases} reconstruction quality across a variety of underlying evolutionary regimes.
-Given the lightweight nature of surface-based approaches (on the order of 128 bits per annotation with fast $\mathcal{O}(1)$ update procedures), these results open the door to additional use cases, such as using gene-level annotations to record phylogenies in systems with sexual recombination.
-Indeed, we anticipate that surface-based approaches will be preferred even in mainstream CPU-based applications.
-
+In this work, we report experiments testing reconstruction quality against ground truth across a suite of evolutionary conditions and annotation configurations.
+Across a variety of surveyed regimes, we find that surface-based annotation can in fact \textit{improve} reconstruction quality over column-based approaches.
+Given the lightweight nature of the surface-based methods (on the order of 128 bits per annotation with fast $\mathcal{O}(1)$ update procedures), these results open the door to additional use cases, such as using gene-level annotations to record phylogenies in systems with sexual recombination.
+Indeed, we anticipate that surface-based approaches will be preferred even in CPU-based experiments.
+More generally, reported experiments allow us to characterize the nature of reconstruction error introduced by hereditary stratigraphy, enabling best practices to apply the methodology most effectively.
 
 % Since it was proposed, experimental work using hereditary stratigraphy has demonstrated viability in extracting information about underlying evolutionary conditions \citep{moreno2024ecology}, even at population scales reaching millions of agents/millions of generations using the 850,000 core Cerebras Wafer-Scale Engine hardware accelerator .
 % A number of options exist in configuring hereditary stratigraphy algorithms, but no work has yet systematically investigated how they relate to quality of phylogenetic reconstruction.
