@@ -478,7 +478,7 @@ stack-data==0.6.3
     # via ipython
 statsmodels==0.14.1
     # via hstrat
-teeplot==1.0.1
+teeplot==1.4.2
     # via
     #   -r requirements.in
     #   hsurf

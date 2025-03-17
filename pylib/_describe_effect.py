@@ -18,6 +18,12 @@ def describe_effect(
             False: "",
         }[p < 0.05],
     )
+    description.append(
+        {
+            True: "^",
+            False: "",
+        }[p < 0.05 / 48],
+    )
 
     d, res = cliffs_delta(x, y)
     description.append(
